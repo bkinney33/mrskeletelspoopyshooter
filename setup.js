@@ -21,9 +21,6 @@ manifest = [
         src: "scripts/buildButtons" + jsEnd
     },
     {
-        src: "scripts/sprites" + jsEnd
-    },
-    {
         src: "scripts/gameLoop" + jsEnd
     },
     {

@@ -1,0 +1,19 @@
+#game-container {
+    width: 100%;
+    text-align: center;
+}
+
+#game {
+    border-bottom: 1px solid #aaa;
+    border-left: 5px solid #4a4;
+    margin: 0 auto;
+}
+
+html {
+    height: 99vh;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+}

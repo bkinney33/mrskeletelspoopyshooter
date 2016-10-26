@@ -4,7 +4,7 @@ var roundness = 15,
 
 function addMainMenuButton() {
     /**********REPLACE THIS WITH A GROUP INSTEAD OF A RECT**********/
-    stage.enableMouseOver(); //this is needed for mouseover and mouseout to work
+
     var padding = 25;
     var wid = 150,
         hei = 60;
@@ -59,11 +59,11 @@ function addMainMenuButton() {
 
 function addPlayButton() {
     /**********REPLACE THIS WITH A GROUP INSTEAD OF A RECT**********/
-    stage.enableMouseOver(); //this is needed for mouseover and mouseout to work
+
     var padding = 25;
     var wid = 150,
         hei = 60;
-    btnPlay = new createjs.Shape();
+    var btnPlay = new createjs.Shape();
     btnPlay.graphics.beginFill('#000').drawRoundRect(0, 0, wid, hei, roundness);
 
     var playText = new createjs.Text("PLAY", "30px Arial", "#FFF");
@@ -111,7 +111,7 @@ function addPlayButton() {
 }
 
 function addRulesButton() {
-    stage.enableMouseOver(); //this is needed for mouseover and mouseout to work
+
     var padding = 5;
     var wid = 100,
         hei = 40;
@@ -158,7 +158,7 @@ function addRulesButton() {
 }
 
 function addBackButton() {
-    stage.enableMouseOver(); //this is needed for mouseover and mouseout to work
+
     var padding = 35;
     var wid = 100,
         hei = 40;
@@ -205,7 +205,6 @@ function addBackButton() {
 }
 
 function addRetryButton() {
-    stage.enableMouseOver(); //this is needed for mouseover and mouseout to work
     var padding = 25;
     var wid = 150,
         hei = 60;
@@ -259,7 +258,7 @@ function addRetryButton() {
 
 function addTutorialButton() {
     /**********REPLACE THIS WITH A GROUP INSTEAD OF A RECT**********/
-    stage.enableMouseOver(); //this is needed for mouseover and mouseout to work
+
     var padding = 35;
     var wid = 100,
         hei = 40;
@@ -324,6 +323,8 @@ function addMuteSprite() {
 }
 
 function addButtons() {
+    //this is needed for mouseover and mouseout to work
+    stage.enableMouseOver();
     addPlayButton();
     addRetryButton();
     addRulesButton();
@@ -332,4 +333,5 @@ function addButtons() {
     addMainMenuButton();
     addTutorialButton();
     addMuteSprite();
+    stage.enableMouseOver();
 }

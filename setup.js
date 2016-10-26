@@ -83,7 +83,6 @@ function handleComplete() {
 }
 
 function loadComplete(evt) {
-    console.log("loadcomplete");
     //once the files are loaded, put them into usable objects
     titleScreen = new createjs.Bitmap(queue.getResult("title"));
     backgroundScreen = new createjs.Bitmap(queue.getResult("background"));
@@ -96,10 +95,6 @@ function loadComplete(evt) {
     stage.addChild(gameoverScreen);
     instructionScreen.visible = false;
     gameoverScreen.visible = false;
-
-
-    console.log(levels[0].walls);
-
 
     addButtons();
     mouseInit();

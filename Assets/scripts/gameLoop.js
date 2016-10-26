@@ -34,6 +34,11 @@ function setup() {
     p = 0;
     forward = true;
     var i;
+    //draw paths first, so all ghosts will overlap any path
+    for (i = 0; i < levels[current_level].ghosts.length; i++) {
+        stage.addChild(levels[current_level].ghosts[i].path);
+    }
+
     for (i = 0; i < levels[current_level].ghosts.length; i++) {
         levels[current_level].ghosts[i].alive = true;
         levels[current_level].ghosts[i].obj.alpha = 1;
@@ -66,6 +71,7 @@ function teardown() {
     var i = 0;
     for (i = 0; i < levels[current_level].ghosts.length; i++) {
         stage.removeChild(levels[current_level].ghosts[i].obj);
+        stage.removeChild(levels[current_level].ghosts[i].path);
     }
     for (i = 0; i < levels[current_level].walls.length; i++) {
         stage.removeChild(levels[current_level].walls[i].obj);
@@ -84,7 +90,7 @@ function gameLoop() {
         stage.addChild(bulletLabel);
         stage.addChild(levelLabel);
         stage.addChild(livesLabel);
-        console.error("INIT");
+        //console.error("INIT");
         current_level = 0;
         player.lives = 3;
         gamestate = HOLD;
@@ -271,7 +277,7 @@ function gameLoop() {
         gamestate = RUN;
         break;
     case GAMEOVER:
-        console.error("GAMEOVER");
+        //console.error("GAMEOVER");
         frameCount = 0;
         running = false;
         gameoverScreen.visible = true;
@@ -283,6 +289,8 @@ function gameLoop() {
         gamestate = HOLD;
         break;
     case WIN:
+        //console.error("YOU WIN!");
+        alert("Congrats, you've won!");
         //        timer.text = "";
         //        gameTimer = 0;
         frameCount = 0;

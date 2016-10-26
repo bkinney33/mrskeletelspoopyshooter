@@ -8,6 +8,7 @@ var INIT = 100,
     WIN = 1000;
 
 var FPS = 30,
+    /*DEPRECATED FOR THIS PROJECT*/
     frameCount = 0,
     gameTimer = 0,
     MAX_RUNTIME = 2 * 60; //runtime in seconds
@@ -97,30 +98,39 @@ function Point(x, y) {
 
 function Wall(x, y, width, height) {
     this.obj = new createjs.Shape();
-    //    this.obj.graphics.beginFill("#aaa").drawRect(0, 0, width, height);
     var thickness = 3;
-    this.obj.graphics.beginStroke("#eee").setStrokeStyle(thickness, "round").drawRoundRect(0, 0, width - (2 * thickness), height - (2 * thickness), 5);
+    this.obj.graphics.beginStroke("#eee").beginFill("#000").setStrokeStyle(thickness, "round").drawRoundRect(0, 0, width - (2 * thickness), height - (2 * thickness), 5);
     this.obj.x = x + thickness;
     this.obj.y = y + thickness;
 }
 
-function Ghost(size, points) {
-    this.size = size;
+function Ghost(type, points) {
+    this.type = type;
     this.points = points;
     this.obj = new createjs.Shape();
-    switch (size) {
+    switch (type) {
     case -1:
         break;
     default:
-        this.obj.graphics.beginFill("#FFF").drawRect(0, 0, 50, 50);
-        this.obj.y = this.points[0].y - 25;
-        this.obj.x = this.points[0].x - 25;
+        this.obj.graphics.beginFill("#FFF").drawRect(-25, -25, 50, 50);
+        this.obj.y = this.points[0].y;
+        this.obj.x = this.points[0].x;
         break;
     }
     this.alive = true;
     this.forward = true;
+    if (this.points.length > 1) {
+        this.path = new createjs.Container();
+        var i;
+        for (i = 0; i < this.points.length - 1; i++) {
+            var segment = new createjs.Shape();
+            segment.graphics.beginStroke("#868686").setStrokeStyle(5, "round").moveTo(this.points[i].x, this.points[i].y).lineTo(this.points[i + 1].x, this.points[i + 1].y).endStroke();
+            this.path.addChild(segment);
+        }
+    }
 }
 
+/*Deprecated?*/
 function Level(bullets, ghosts, walls) {
     this.firstHit = true;
     //how many bullets are allocated for this level, will be 'inserted' into the player on level start, so the cheat only affects the player's variables

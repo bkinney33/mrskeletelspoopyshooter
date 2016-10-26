@@ -122,7 +122,7 @@ function gameLoop() {
         stage.addChild(levelLabel);
         stage.addChild(livesLabel);
 
-        current_level = 0;
+        current_level = 5;
         player.lives = 3;
         locker = true;
         gamestate = HOLD;
@@ -286,15 +286,33 @@ function gameLoop() {
                         if (ghost.obj.hitTest(pt.x, pt.y)) {
                             stage.removeChild(blt);
                             bullets.splice(b, 1);
-                            ghost.alive = false;
-                            ghost.obj.alpha = 0.5;
-                            if (firstHit) {
-                                firstHit = false;
-                                if (Math.floor(ghost.type / 10) === 1) {
-                                    player.lives++;
-                                    livesLabel.text = "Lives Left: " + player.lives;
+                            if (ghost.type < 20 || ghost.type > 40) {
+                                ghost.alive = false;
+                                ghost.obj.alpha = 0.5;
+                                if (firstHit) {
+                                    firstHit = false;
+                                    if (Math.floor(ghost.type / 10) === 1) {
+                                        player.lives++;
+                                        livesLabel.text = "Lives Left: " + player.lives;
+                                    }
+                                    //do something special for the health bonus
                                 }
-                                //do something special for the health bonus
+                            } else {
+                                var replacement = null;
+                                switch (Math.floor(ghost.type / 10)) {
+                                case 2:
+                                    replacement = new Ghost(ghost.type - 20, ghost.loop, ghost.points);
+                                    levels[current_level].ghosts[g] = replacement;
+                                    break;
+                                case 3:
+                                    replacement = new Ghost(ghost.type - 10, ghost.loop, ghost.points);
+                                    levels[current_level].ghosts[g] = replacement;
+                                    break;
+                                }
+                                replacement.obj.x = ghost.obj.x;
+                                replacement.obj.y = ghost.obj.y;
+                                stage.addChild(replacement.obj);
+                                stage.removeChild(ghost.obj);
                             }
                         }
                     }

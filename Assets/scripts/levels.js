@@ -18,26 +18,45 @@ function Ghost(type, loop, points) {
     this.scalar = 0;
     this.obj = new createjs.Shape();
     var size;
+    var color = "#FFF";
+    switch (Math.floor(type / 10)) {
+    case 0:
+        color = "#FFF";
+        break;
+    case 1:
+        color = "#9fd3ff";
+        break;
+    case 2:
+        color = "#fffa82";
+        break;
+    case 3:
+        color = "#ffaa6d";
+        break;
+    default:
+        color = "#FFF";
+        break;
+    }
+
     switch (type % 10) {
     case -1:
         break;
     case 1:
-        this.obj.graphics.beginFill((Math.floor(type / 10) == 1) ? "#9fd3ff" : "#FFF").drawRect(-12, -12, 24, 24);
+        this.obj.graphics.beginFill(color).drawRect(-12, -12, 24, 24);
         this.obj.y = this.points[0].y;
         this.obj.x = this.points[0].x;
         break;
     case 2:
-        this.obj.graphics.beginFill((Math.floor(type / 10) == 1) ? "#9fd3ff" : "#FFF").drawRect(-25, -25, 50, 50);
+        this.obj.graphics.beginFill(color).drawRect(-25, -25, 50, 50);
         this.obj.y = this.points[0].y;
         this.obj.x = this.points[0].x;
         break;
     case 3:
-        this.obj.graphics.beginFill((Math.floor(type / 10) == 1) ? "#9fd3ff" : "#FFF").drawRect(-40, -25, 80, 50);
+        this.obj.graphics.beginFill(color).drawRect(-40, -25, 80, 50);
         this.obj.y = this.points[0].y;
         this.obj.x = this.points[0].x;
         break;
     default:
-        this.obj.graphics.beginFill((Math.floor(type / 10) == 1) ? "#9fd3ff" : "#FFF").drawRect(-25, -25, 50, 50);
+        this.obj.graphics.beginFill(color).drawRect(-25, -25, 50, 50);
         this.obj.y = this.points[0].y;
         this.obj.x = this.points[0].x;
         break;
@@ -287,6 +306,20 @@ var demo_levels = [
                 obj: new createjs.Text("Some ghosts grant 1UP when shot first!", "32px Arial", "#fff"),
                 x: .5,
                 y: .20
+            }]
+    },
+    {
+        bullets: 5,
+        ghosts: [
+            new Ghost(32, false, [new Point(WIDTH * .33, HEIGHT * .66), new Point(WIDTH * .66, HEIGHT * .66)]),
+            new Ghost(23, false, [new Point(WIDTH * .5, HEIGHT * .5)])
+        ],
+        walls: [],
+        labels: [
+            {
+                obj: new createjs.Text("Some ghosts take multiple shots to kill", "32px Arial", "#fff"),
+                x: .5,
+                y: .15
             }]
     }
 ]

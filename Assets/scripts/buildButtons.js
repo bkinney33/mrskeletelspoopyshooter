@@ -1,6 +1,7 @@
 var roundness = 15,
     b1y = 400,
-    b2y = 550;
+    b2y = 475,
+    b3y = 530;
 
 function addMainMenuButton() {
     /**********REPLACE THIS WITH A GROUP INSTEAD OF A RECT**********/
@@ -89,6 +90,8 @@ function addPlayButton() {
         rules.visible = false;
         instructionScreen.visible = false;
         back.visible = false;
+        levels = secret_levels;
+        //        levels = main_levels;
         gamestate = RUN;
         createjs.Sound.stop();
     });
@@ -127,7 +130,7 @@ function addRulesButton() {
     rules.setBounds(0, 0, wid, hei);
     var bnd = rules.getBounds();
     rules.x = (WIDTH - bnd.width) / 2;
-    rules.y = 500;
+    rules.y = b3y;
     rules.addChild(btnRules, rulesText);
 
     rules.on("click", function (evt) {
@@ -137,6 +140,7 @@ function addRulesButton() {
         back.visible = true;
         play.visible = false;
         rules.visible = false;
+        tutorial.visible = false;
         instructionScreen.visible = true;
     });
     rules.on("mouseover", function (evt) {
@@ -159,7 +163,6 @@ function addRulesButton() {
 }
 
 function addBackButton() {
-
     var padding = 35;
     var wid = 100,
         hei = 40;
@@ -174,7 +177,7 @@ function addBackButton() {
     back.setBounds(0, 0, wid, hei);
     var bnd = back.getBounds();
     back.x = (WIDTH - bnd.width) / 2;
-    back.y = 500;
+    back.y = b3y;
     back.addChild(btnBack, BackText);
 
     back.on("click", function (evt) {
@@ -184,6 +187,7 @@ function addBackButton() {
         back.visible = false;
         play.visible = true;
         rules.visible = true;
+        tutorial.visible = true;
         instructionScreen.visible = false;
     });
     back.on("mouseover", function (evt) {
@@ -265,12 +269,43 @@ function addTutorialButton() {
         hei = 40;
     var btnTutorial = new createjs.Shape();
     btnTutorial.graphics.beginFill('#000').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
-    btnTutorial.x = (wid / 2) + padding;
-    btnTutorial.y = (HEIGHT - hei / 2) - padding;
+
+    var demoText = new createjs.Text("Tutorial", "24px Arial", "#FFF");
+    var b = demoText.getBounds();
+    demoText.x = (wid - b.width) / 2;
+    demoText.y = (hei - b.height) / 2;
+
+    //    btnTutorial.x = (wid / 2) + padding;
+    //    btnTutorial.y = (HEIGHT - hei / 2) - padding;
+
+    tutorial = new createjs.Container();
+    tutorial.addChild(btnTutorial);
+    tutorial.addChild(demoText);
+
+    tutorial.setBounds(0, 0, wid, hei);
+    var b = tutorial.getBounds();
+    tutorial.x = (WIDTH - b.width) / 2;
+    tutorial.y = b2y;
+
+    stage.addChild(tutorial);
+
 
     btnTutorial.on("click", function (evt) {
         btnTutorial.graphics.beginFill('#444').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
+
         //console.log("Clicked");
+        levels = demo_levels;
+        titleScreen.visible = false;
+        play.visible = false;
+        tutorial.visible = false;
+        rules.visible = false;
+        instructionScreen.visible = false;
+        back.visible = false;
+        gamestate = RUN;
+        createjs.Sound.stop();
+
+        //console.log("Clicked");
+
     });
     btnTutorial.on("mouseover", function (evt) {
         btnTutorial.graphics.beginFill('#444').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
@@ -284,12 +319,6 @@ function addTutorialButton() {
         btnTutorial.graphics.beginFill('#777').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
         //console.log("Mouse Down");
     });
-
-    tutorial = new createjs.Container();
-    tutorial.addChild(btnTutorial);
-
-    stage.addChild(tutorial);
-    tutorial.visible = false;
 
     //    tutorial.visible = false;
 }

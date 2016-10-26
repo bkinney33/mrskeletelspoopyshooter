@@ -11,9 +11,19 @@
 
 html {
     height: 99vh;
+    background-color: #222;
 }
 
 footer {
     position: absolute;
     bottom: 0;
+}
+
+#stuff {
+    width: 50%;
+    margin: 0 auto;
+}
+
+#stuff > h3 {
+    text-align: center;
 }

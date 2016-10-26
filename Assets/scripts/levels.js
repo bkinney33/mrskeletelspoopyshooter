@@ -41,16 +41,19 @@ function Ghost(type, loop, points) {
     case -1:
         break;
     case 1:
+    case 4:
         this.obj.graphics.beginFill(color).drawRect(-12, -12, 24, 24);
         this.obj.y = this.points[0].y;
         this.obj.x = this.points[0].x;
         break;
     case 2:
+    case 5:
         this.obj.graphics.beginFill(color).drawRect(-25, -25, 50, 50);
         this.obj.y = this.points[0].y;
         this.obj.x = this.points[0].x;
         break;
     case 3:
+    case 6:
         this.obj.graphics.beginFill(color).drawRect(-40, -25, 80, 50);
         this.obj.y = this.points[0].y;
         this.obj.x = this.points[0].x;
@@ -309,7 +312,7 @@ var demo_levels = [
             }]
     },
     {
-        bullets: 5,
+        bullets: 7,
         ghosts: [
             new Ghost(32, false, [new Point(WIDTH * .33, HEIGHT * .66), new Point(WIDTH * .66, HEIGHT * .66)]),
             new Ghost(23, false, [new Point(WIDTH * .5, HEIGHT * .5)])
@@ -318,6 +321,21 @@ var demo_levels = [
         labels: [
             {
                 obj: new createjs.Text("Some ghosts take multiple shots to kill", "32px Arial", "#fff"),
+                x: .5,
+                y: .15
+            }]
+    },
+    {
+        bullets: 5,
+        ghosts: [
+            new Ghost(15, false, [new Point(10, HEIGHT * .6), new Point(WIDTH - 10, HEIGHT * .6)])
+        ],
+        walls: [
+            new Wall((WIDTH * .2), (HEIGHT * .7), (WIDTH * .6), 20)
+        ],
+        labels: [
+            {
+                obj: new createjs.Text("Others will move with you", "32px Arial", "#fff"),
                 x: .5,
                 y: .15
             }]

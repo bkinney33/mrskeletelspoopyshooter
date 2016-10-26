@@ -29,7 +29,7 @@ function addMainMenuButton() {
         //console.log("Clicked");
         titleScreen.visible = true;
         play.visible = true;
-        tutorial.visible = false;
+        tutorial.visible = true;
         rules.visible = true;
         instructionScreen.visible = false;
         retry.visible = false;

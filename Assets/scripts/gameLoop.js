@@ -13,10 +13,6 @@ function lerp(p1, p2, scalar) {
 }
 
 function setup() {
-    //    if (current_level === 0) {
-    //        
-    //    }
-
     player.obj.visible = true;
     ground.visible = true;
 
@@ -24,17 +20,24 @@ function setup() {
     firstHit = true;
     forward = true;
 
+    //    ghosts = levels[current_level].ghosts
+
     p = 0;
     var i;
-    //draw paths first, so all ghosts will overlap any path
+    ghosts = [];
     for (i = 0; i < levels[current_level].ghosts.length; i++) {
-        stage.addChild(levels[current_level].ghosts[i].path);
+        ghosts.push(levels[current_level].ghosts[i]);
     }
 
-    for (i = 0; i < levels[current_level].ghosts.length; i++) {
-        levels[current_level].ghosts[i].alive = true;
-        levels[current_level].ghosts[i].obj.alpha = 1;
-        stage.addChild(levels[current_level].ghosts[i].obj);
+    //draw paths first, so all ghosts will overlap any path
+    for (i = 0; i < ghosts.length; i++) {
+        stage.addChild(ghosts[i].path);
+    }
+
+    for (i = 0; i < ghosts.length; i++) {
+        ghosts[i].alive = true;
+        ghosts[i].obj.alpha = 1;
+        stage.addChild(ghosts[i].obj);
     }
     for (i = 0; i < levels[current_level].walls.length; i++) {
         stage.addChild(levels[current_level].walls[i].obj);
@@ -70,10 +73,11 @@ function teardown() {
     player.obj.visible = false;
     ground.visible = false;
     var i = 0;
-    for (i = 0; i < levels[current_level].ghosts.length; i++) {
-        stage.removeChild(levels[current_level].ghosts[i].obj);
-        stage.removeChild(levels[current_level].ghosts[i].path);
+    for (i = 0; i < ghosts.length; i++) {
+        stage.removeChild(ghosts[i].obj);
+        stage.removeChild(ghosts[i].path);
     }
+    ghosts = null;
     for (i = 0; i < levels[current_level].walls.length; i++) {
         stage.removeChild(levels[current_level].walls[i].obj);
     }
@@ -122,7 +126,7 @@ function gameLoop() {
         stage.addChild(levelLabel);
         stage.addChild(livesLabel);
 
-        current_level = 5;
+        current_level = 0;
         player.lives = 3;
         locker = true;
         gamestate = HOLD;
@@ -166,52 +170,66 @@ function gameLoop() {
         p = (Math.round(p * 100) / 100);
 
         var g;
-        for (g = 0; g < levels[current_level].ghosts.length; g++) {
-            var ghost = levels[current_level].ghosts[g];
-
-
-            if (ghost.points.length > 1) {
-                var scaledP,
-                    r = {
-                        x: ghost.obj.x,
-                        y: ghost.obj.y
-                    };
-                if (ghost.loop) {
-                    if (forward) {
-                        scaledP = p * (ghost.points.length);
+        for (g = 0; g < ghosts.length; g++) {
+            var ghost = ghosts[g];
+            if (ghost.type % 10 <= 3) {
+                if (ghost.points.length > 1) {
+                    var scaledP,
+                        r = {
+                            x: ghost.obj.x,
+                            y: ghost.obj.y
+                        };
+                    if (ghost.loop) {
+                        if (forward) {
+                            scaledP = p * (ghost.points.length);
+                        } else {
+                            scaledP = (1 - p) * (ghost.points.length);
+                        }
+                        if (scaledP < (ghost.points.length - 1)) {
+                            //                        console.log({
+                            //                            i: Math.floor(scaledP),
+                            //                            p: (scaledP - Math.floor(scaledP))
+                            //                        });
+                            r = lerp(ghost.points[Math.floor(scaledP)], ghost.points[Math.floor(scaledP + 1)], scaledP - Math.floor(scaledP));
+                        } else if (scaledP < ghost.points.length) {
+                            //                        console.log({
+                            //                            i: Math.floor(scaledP),
+                            //                            p: (scaledP - Math.floor(scaledP)),
+                            //                            z: true
+                            //                        });
+                            r = lerp(ghost.points[Math.floor(scaledP)], ghost.points[0], scaledP - Math.floor(scaledP));
+                        }
                     } else {
-                        scaledP = (1 - p) * (ghost.points.length);
-                    }
-                    if (scaledP < (ghost.points.length - 1)) {
-                        //                        console.log({
-                        //                            i: Math.floor(scaledP),
-                        //                            p: (scaledP - Math.floor(scaledP))
-                        //                        });
-                        r = lerp(ghost.points[Math.floor(scaledP)], ghost.points[Math.floor(scaledP + 1)], scaledP - Math.floor(scaledP));
-                    } else if (scaledP < ghost.points.length) {
-                        //                        console.log({
-                        //                            i: Math.floor(scaledP),
-                        //                            p: (scaledP - Math.floor(scaledP)),
-                        //                            z: true
-                        //                        });
-                        r = lerp(ghost.points[Math.floor(scaledP)], ghost.points[0], scaledP - Math.floor(scaledP));
-                    }
-                } else {
-                    var scaledP = p * (ghost.points.length - 1);
-                    var a = ghost.points[Math.floor(scaledP)],
-                        b = ghost.points[Math.floor(scaledP) + 1];
-                    var scalar = scaledP - Math.floor(scaledP);
+                        var scaledP = p * (ghost.points.length - 1);
+                        var a = ghost.points[Math.floor(scaledP)],
+                            b = ghost.points[Math.floor(scaledP) + 1];
+                        var scalar = scaledP - Math.floor(scaledP);
 
-                    r = lerp(a, b, scalar);
+                        r = lerp(a, b, scalar);
+                    }
+                    p = (Math.round(p * 100) / 100);
+
+
+                    if (ghost.alive) {
+                        ghost.obj.x = r.x;
+                        ghost.obj.y = r.y;
+                    }
                 }
-                p = (Math.round(p * 100) / 100);
-
+            } else {
+                var scaledP = (player.obj.x / WIDTH) * (ghost.points.length - 1);
+                var a = ghost.points[Math.floor(scaledP)],
+                    b = ghost.points[Math.floor(scaledP) + 1];
+                var scalar = scaledP - Math.floor(scaledP);
+                var r = lerp(a, b, scalar);
 
                 if (ghost.alive) {
                     ghost.obj.x = r.x;
                     ghost.obj.y = r.y;
                 }
+
             }
+
+
         }
 
         if (J_DOWN && !cheated) {
@@ -280,8 +298,8 @@ function gameLoop() {
                 //ensure the bullet still exists after wall test
                 if (bullets.indexOf(blt) != -1) {
                     var g;
-                    for (g = 0; g < levels[current_level].ghosts.length; g++) {
-                        var ghost = levels[current_level].ghosts[g];
+                    for (g = 0; g < ghosts.length; g++) {
+                        var ghost = ghosts[g];
                         var pt = blt.localToLocal(3, 2, ghost.obj);
                         if (ghost.obj.hitTest(pt.x, pt.y)) {
                             stage.removeChild(blt);
@@ -302,17 +320,19 @@ function gameLoop() {
                                 switch (Math.floor(ghost.type / 10)) {
                                 case 2:
                                     replacement = new Ghost(ghost.type - 20, ghost.loop, ghost.points);
-                                    levels[current_level].ghosts[g] = replacement;
+                                    ghosts[g] = replacement;
                                     break;
                                 case 3:
                                     replacement = new Ghost(ghost.type - 10, ghost.loop, ghost.points);
-                                    levels[current_level].ghosts[g] = replacement;
+                                    ghosts[g] = replacement;
                                     break;
                                 }
                                 replacement.obj.x = ghost.obj.x;
                                 replacement.obj.y = ghost.obj.y;
+                                stage.addChild(replacement.path);
                                 stage.addChild(replacement.obj);
                                 stage.removeChild(ghost.obj);
+                                stage.removeChild(ghost.path);
                             }
                         }
                     }
@@ -321,10 +341,10 @@ function gameLoop() {
         }
 
         var g, levelComplete = true;
-        for (g = 0; g < levels[current_level].ghosts.length; g++) {
+        for (g = 0; g < ghosts.length; g++) {
             if (levelComplete) {
                 //if even one ghost is alive, this will trigger levelcomplete to be false
-                levelComplete = !levels[current_level].ghosts[g].alive;
+                levelComplete = !ghosts[g].alive;
             }
         }
         if (levelComplete) {
@@ -372,7 +392,8 @@ function gameLoop() {
         mainMenu.visible = false;
         retry.visible = false;
         player.lives--;
-        locker = true;
+        //        locker = true;
+        setup();
         gamestate = RUN;
         break;
     case GAMEOVER:
@@ -396,6 +417,7 @@ function gameLoop() {
         running = false;
         gameoverScreen.visible = true;
         mainMenu.visible = true;
+        //        tutorial.visible = true;
         //        createjs.Sound.stop();
         //        if (!muted) {
         //            createjs.Sound.play("loser");

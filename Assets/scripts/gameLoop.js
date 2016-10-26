@@ -13,22 +13,12 @@ function lerp(p1, p2, scalar) {
 }
 
 function setup() {
-    if (current_level === 0) {
-        ground = new createjs.Shape();
-        var gWidth = WIDTH + 2;
-        ground.graphics.beginFill("#573c00").beginStroke("#060").setStrokeStyle(2).drawRect(0, 0, gWidth, 50);
-        ground.y = HEIGHT - 25;
-        ground.x = (WIDTH - (gWidth)) / 2;
-        stage.addChild(ground);
+    //    if (current_level === 0) {
+    //        
+    //    }
 
-        var size = 25;
-        player.obj = new createjs.Shape();
-        player.obj.graphics.beginFill("#FFF").drawRect(0, 0, size, size);
-        stage.addChild(player.obj);
-        player.obj.x = (WIDTH - size) / 2;
-        player.obj.y = (HEIGHT - 27) - (size);
-        player.obj.setBounds(0, 0, size, size);
-    }
+    player.obj.visible = true;
+    ground.visible = true;
 
     cheated = false;
     firstHit = true;
@@ -50,7 +40,7 @@ function setup() {
         stage.addChild(levels[current_level].walls[i].obj);
     }
     player.bullets = levels[current_level].bullets;
-    levelLabel.text = "Level " + current_level + 1;
+    levelLabel.text = "Level " + (current_level + 1);
     var b = levelLabel.getBounds();
     levelLabel.x = (WIDTH - b.width) / 2;
 
@@ -66,10 +56,8 @@ function setup() {
 }
 
 function teardown() {
-    if (current_level === levels.length - 1) {
-        stage.removeChild(player.obj);
-        stage.removeChild(ground);
-    }
+    player.obj.visible = false;
+    ground.visible = false;
     var i = 0;
     for (i = 0; i < levels[current_level].ghosts.length; i++) {
         stage.removeChild(levels[current_level].ghosts[i].obj);
@@ -77,6 +65,9 @@ function teardown() {
     }
     for (i = 0; i < levels[current_level].walls.length; i++) {
         stage.removeChild(levels[current_level].walls[i].obj);
+    }
+    for (i = 0; i < bullets.length; i++) {
+        stage.removeChild(bullets[i]);
     }
     bulletLabel.text = "";
     levelLabel.text = "";
@@ -86,17 +77,36 @@ function teardown() {
 function gameLoop() {
     switch (gamestate) {
     case INIT:
+        console.error("INIT");
+
         bulletLabel = new createjs.Text("", "24px Arial", "#FFF");
         levelLabel = new createjs.Text("", "32px Arial", "#FFF");
         livesLabel = new createjs.Text("", "24px Arial", "#FFF");
         stage.addChild(bulletLabel);
         stage.addChild(levelLabel);
         stage.addChild(livesLabel);
-        //console.error("INIT");
+
+        ground = new createjs.Shape();
+        var gWidth = WIDTH + 2;
+        ground.graphics.beginFill("#573c00").beginStroke("#060").setStrokeStyle(2).drawRect(0, 0, gWidth, 50);
+        ground.y = HEIGHT - 25;
+        ground.x = (WIDTH - (gWidth)) / 2;
+        stage.addChild(ground);
+        ground.visible = false;
+
+        var size = 25;
+        player.obj = new createjs.Shape();
+        player.obj.graphics.beginFill("#FFF").drawRect(0, 0, size, size);
+        stage.addChild(player.obj);
+        player.obj.x = (WIDTH - size) / 2;
+        player.obj.y = (HEIGHT - 27) - (size);
+        player.obj.setBounds(0, 0, size, size);
+        player.obj.visible = false;
+
         current_level = 0;
         player.lives = 3;
-        gamestate = HOLD;
         locker = true;
+        gamestate = HOLD;
         break;
     case HOLD:
         //        if (muted) {
@@ -140,10 +150,12 @@ function gameLoop() {
             var ghost = levels[current_level].ghosts[g];
             if (ghost.points.length > 1) {
                 p = (Math.round(p * 100) / 100);
+
                 var scaledP = p * (ghost.points.length - 1);
                 var a = ghost.points[Math.floor(scaledP)],
                     b = ghost.points[Math.floor(scaledP) + 1];
                 var scalar = scaledP - Math.floor(scaledP);
+
                 var r = lerp(a, b, scalar);
                 if (ghost.alive) {
                     ghost.obj.x = r.x;
@@ -228,6 +240,10 @@ function gameLoop() {
                             ghost.obj.alpha = 0.5;
                             if (firstHit) {
                                 firstHit = false;
+                                if (Math.floor(ghost.type / 10) === 1) {
+                                    player.lives++;
+                                    livesLabel.text = "Lives Left: " + player.lives;
+                                }
                                 //do something special for the health bonus
                             }
                         }
@@ -269,6 +285,7 @@ function gameLoop() {
         break;
     case LEVELFAILED:
         if (levelup_timer === levelup_delay) {
+            levelup_timer = 0;
             teardown();
             frameCount = 0;
             running = false;
@@ -304,7 +321,6 @@ function gameLoop() {
         break;
     case WIN:
         //console.error("YOU WIN!");
-        alert("Congrats, you've won!");
         //        timer.text = "";
         //        gameTimer = 0;
         frameCount = 0;

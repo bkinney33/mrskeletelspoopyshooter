@@ -12,6 +12,9 @@ manifest = [
         src: "scripts/vars" + jsEnd
     },
     {
+        src: "scripts/levels" + jsEnd
+    },
+    {
         src: "scripts/keybinding" + jsEnd
     },
     {

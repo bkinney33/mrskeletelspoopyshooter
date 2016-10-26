@@ -31,6 +31,7 @@ function addMainMenuButton() {
         tutorial.visible = false;
         rules.visible = true;
         instructionScreen.visible = false;
+        retry.visible = false;
         back.visible = false;
         gamestate = INIT;
         gameoverScreen.visible = false;

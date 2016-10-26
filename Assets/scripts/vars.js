@@ -36,7 +36,7 @@ var levelup_timer = 0,
 var bullets = [];
 
 var DELAY_SHOT = .5 * FPS,
-    BULLET_VELOCITY = 10;
+    BULLET_VELOCITY = 15;
 
 var current_level = 0;
 
@@ -92,78 +92,3 @@ var locker = true,
 
 //var menuMusic = createjs.Sound.createInstance("menu");
 //    chase = createjs.Sound.createInstance("chase");
-
-function Point(x, y) {
-    this.x = x;
-    this.y = y;
-}
-
-function Wall(x, y, width, height) {
-    this.obj = new createjs.Shape();
-    var thickness = 3;
-    this.obj.graphics.beginStroke("#eee").beginFill("#000").setStrokeStyle(thickness, "round").drawRoundRect(0, 0, width - (2 * thickness), height - (2 * thickness), 5);
-    this.obj.x = x + thickness;
-    this.obj.y = y + thickness;
-}
-
-function Ghost(type, points) {
-    this.type = type;
-    this.points = points;
-    this.obj = new createjs.Shape();
-    switch (type) {
-    case -1:
-        break;
-    default:
-        this.obj.graphics.beginFill("#FFF").drawRect(-25, -25, 50, 50);
-        this.obj.y = this.points[0].y;
-        this.obj.x = this.points[0].x;
-        break;
-    }
-    this.alive = true;
-    this.forward = true;
-    if (this.points.length > 1) {
-        this.path = new createjs.Container();
-        var i;
-        for (i = 0; i < this.points.length - 1; i++) {
-            var segment = new createjs.Shape();
-            segment.graphics.beginStroke("#868686").setStrokeStyle(5, "round").moveTo(this.points[i].x, this.points[i].y).lineTo(this.points[i + 1].x, this.points[i + 1].y).endStroke();
-            this.path.addChild(segment);
-        }
-    }
-}
-
-/*Deprecated?*/
-function Level(bullets, ghosts, walls) {
-    this.firstHit = true;
-    //how many bullets are allocated for this level, will be 'inserted' into the player on level start, so the cheat only affects the player's variables
-    this.bullets = bullets;
-    //ghosts is the array containing all the ghosts for this level
-    this.ghosts = ghosts;
-    //walls is the array containing all the walls for this level
-    this.walls = walls;
-}
-
-//putting the level into an array makes it easier to go from one to the next, and storing all the level information in an object makes rendering the level easier
-var levels = [
-//    new Level(3, [
-//        new Ghost(3, [
-//            new Point(100, 250),
-//            new Point(700, 250)
-//        ])
-//    ], [
-//        new Wall(0, 350, 350, 50),
-//        new Wall(450, 350, 350, 50)
-//    ])
-    {
-        bullets: 3,
-        ghosts: [
-            new Ghost(3, [new Point(400, 100)]),
-            new Ghost(3, [new Point(100, 250), new Point(700, 250)])
-//            new Ghost(3, [new Point(50, 100), new Point(50, 250), new Point(750, 250), new Point(750, 100)])
-        ],
-        walls: [
-            new Wall(0, 350, 350, 50),
-            new Wall(450, 350, 350, 50)
-        ]
-    }
-]

@@ -22,6 +22,8 @@ var player = {
     bullets: -1
 };
 
+var cheated;
+
 var ground,
     bulletLabel,
     levelLabel,
@@ -33,7 +35,7 @@ var levelup_timer = 0,
 
 var bullets = [];
 
-var DELAY_SHOT = 1 * FPS,
+var DELAY_SHOT = .5 * FPS,
     BULLET_VELOCITY = 10;
 
 var current_level = 0;

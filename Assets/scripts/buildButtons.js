@@ -9,7 +9,7 @@ function addMainMenuButton() {
     var wid = 150,
         hei = 60;
     btnMM = new createjs.Shape();
-    btnMM.graphics.beginFill('#000').drawRoundRect(0, 0, wid, hei, roundness);
+    btnMM.graphics.beginFill('#000').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
     var MMText = new createjs.Text("MENU", "30px Arial", "#FFF");
     var b = MMText.getBounds();
     MMText.x = (wid - b.width) / 2;
@@ -23,7 +23,7 @@ function addMainMenuButton() {
     mainMenu.addChild(btnMM, MMText);
 
     mainMenu.on("click", function (evt) {
-        btnMM.graphics.beginFill('#444').drawRoundRect(0, 0, wid, hei, roundness);
+        btnMM.graphics.beginFill('#444').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
         MMText.color = "#FFF";
         //console.log("Clicked");
         titleScreen.visible = true;
@@ -38,17 +38,17 @@ function addMainMenuButton() {
         createjs.Sound.stop();
     });
     mainMenu.on("mouseover", function (evt) {
-        btnMM.graphics.beginFill('#444').drawRoundRect(0, 0, wid, hei, roundness);
+        btnMM.graphics.beginFill('#444').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
         MMText.color = "#FFF";
         //console.log("Mouse Over");
     });
     mainMenu.on("mouseout", function (evt) {
-        btnMM.graphics.beginFill('#000').drawRoundRect(0, 0, wid, hei, roundness);
+        btnMM.graphics.beginFill('#000').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
         MMText.color = "#FFF";
         //console.log("Mouse Out");
     });
     mainMenu.on("mousedown", function (evt) {
-        btnMM.graphics.beginFill('#777').drawRoundRect(0, 0, wid, hei, roundness);
+        btnMM.graphics.beginFill('#777').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
         MMText.color = "#000";
         //console.log("Mouse Down");
     });
@@ -64,7 +64,7 @@ function addPlayButton() {
     var wid = 150,
         hei = 60;
     var btnPlay = new createjs.Shape();
-    btnPlay.graphics.beginFill('#000').drawRoundRect(0, 0, wid, hei, roundness);
+    btnPlay.graphics.beginFill('#000').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
 
     var playText = new createjs.Text("PLAY", "30px Arial", "#FFF");
     var b = playText.getBounds();
@@ -79,7 +79,7 @@ function addPlayButton() {
     play.addChild(btnPlay, playText);
 
     play.on("click", function (evt) {
-        btnPlay.graphics.beginFill('#444').drawRoundRect(0, 0, wid, hei, roundness);
+        btnPlay.graphics.beginFill('#444').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
         playText.color = "#FFF";
         //console.log("Clicked");
         titleScreen.visible = false;
@@ -92,17 +92,17 @@ function addPlayButton() {
         createjs.Sound.stop();
     });
     play.on("mouseover", function (evt) {
-        btnPlay.graphics.beginFill('#444').drawRoundRect(0, 0, wid, hei, roundness);
+        btnPlay.graphics.beginFill('#444').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
         playText.color = "#FFF";
         //console.log("Mouse Over");
     });
     play.on("mouseout", function (evt) {
-        btnPlay.graphics.beginFill('#000').drawRoundRect(0, 0, wid, hei, roundness);
+        btnPlay.graphics.beginFill('#000').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
         playText.color = "#FFF";
         //console.log("Mouse Out");
     });
     play.on("mousedown", function (evt) {
-        btnPlay.graphics.beginFill('#777').drawRoundRect(0, 0, wid, hei, roundness);
+        btnPlay.graphics.beginFill('#777').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
         playText.color = "#000";
         //console.log("Mouse Down");
     });
@@ -116,7 +116,7 @@ function addRulesButton() {
     var wid = 100,
         hei = 40;
     var btnRules = new createjs.Shape();
-    btnRules.graphics.beginFill('#000').drawRoundRect(0, 0, wid, hei, roundness);
+    btnRules.graphics.beginFill('#000').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
     var rulesText = new createjs.Text("Rules", "24px Arial", "#FFF");
     var b = rulesText.getBounds();
     rulesText.x = (wid - b.width) / 2;
@@ -130,7 +130,7 @@ function addRulesButton() {
     rules.addChild(btnRules, rulesText);
 
     rules.on("click", function (evt) {
-        btnRules.graphics.beginFill('#444').drawRoundRect(0, 0, wid, hei, roundness);
+        btnRules.graphics.beginFill('#444').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
         rulesText.color = "#FFF";
         //console.log("Clicked");
         back.visible = true;
@@ -139,17 +139,17 @@ function addRulesButton() {
         instructionScreen.visible = true;
     });
     rules.on("mouseover", function (evt) {
-        btnRules.graphics.beginFill('#444').drawRoundRect(0, 0, wid, hei, roundness);
+        btnRules.graphics.beginFill('#444').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
         rulesText.color = "#FFF";
         //console.log("Mouse Over");
     });
     rules.on("mouseout", function (evt) {
-        btnRules.graphics.beginFill('#000').drawRoundRect(0, 0, wid, hei, roundness);
+        btnRules.graphics.beginFill('#000').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
         rulesText.color = "#FFF";
         //console.log("Mouse Out");
     });
     rules.on("mousedown", function (evt) {
-        btnRules.graphics.beginFill('#ccc').drawRoundRect(0, 0, wid, hei, roundness);
+        btnRules.graphics.beginFill('#ccc').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
         rulesText.color = "#000";
         //console.log("Mouse Down");
     });
@@ -163,7 +163,7 @@ function addBackButton() {
     var wid = 100,
         hei = 40;
     var btnBack = new createjs.Shape();
-    btnBack.graphics.beginFill('#000').drawRoundRect(0, 0, wid, hei, roundness);
+    btnBack.graphics.beginFill('#000').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
     var BackText = new createjs.Text("Back", "24px Arial", "#FFF");
     var b = BackText.getBounds();
     BackText.x = (wid - b.width) / 2;
@@ -177,7 +177,7 @@ function addBackButton() {
     back.addChild(btnBack, BackText);
 
     back.on("click", function (evt) {
-        btnBack.graphics.beginFill('#444').drawRoundRect(0, 0, wid, hei, roundness);
+        btnBack.graphics.beginFill('#444').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
         BackText.color = "#FFF";
         //console.log("Clicked");
         back.visible = false;
@@ -186,17 +186,17 @@ function addBackButton() {
         instructionScreen.visible = false;
     });
     back.on("mouseover", function (evt) {
-        btnBack.graphics.beginFill('#444').drawRoundRect(0, 0, wid, hei, roundness);
+        btnBack.graphics.beginFill('#444').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
         BackText.color = "#FFF";
         //console.log("Mouse Over");
     });
     back.on("mouseout", function (evt) {
-        btnBack.graphics.beginFill('#000').drawRoundRect(0, 0, wid, hei, roundness);
+        btnBack.graphics.beginFill('#000').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
         BackText.color = "#FFF";
         //console.log("Mouse Out");
     });
     back.on("mousedown", function (evt) {
-        btnBack.graphics.beginFill('#ccc').drawRoundRect(0, 0, wid, hei, roundness);
+        btnBack.graphics.beginFill('#ccc').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
         BackText.color = "#000";
         //console.log("Mouse Down");
     });
@@ -209,7 +209,7 @@ function addRetryButton() {
     var wid = 150,
         hei = 60;
     btnPlay = new createjs.Shape();
-    btnPlay.graphics.beginFill('#000').drawRoundRect(0, 0, wid, hei, roundness);
+    btnPlay.graphics.beginFill('#000').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
 
     var retryText = new createjs.Text("RETRY", "30px Arial", "#FFF");
     var b = retryText.getBounds();
@@ -224,7 +224,7 @@ function addRetryButton() {
     retry.addChild(btnPlay, retryText);
 
     retry.on("click", function (evt) {
-        btnPlay.graphics.beginFill('#444').drawRoundRect(0, 0, wid, hei, roundness);
+        btnPlay.graphics.beginFill('#444').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
         retryText.color = "#FFF";
         //console.log("Clicked");
         titleScreen.visible = false;
@@ -237,17 +237,17 @@ function addRetryButton() {
         createjs.Sound.stop();
     });
     retry.on("mouseover", function (evt) {
-        btnPlay.graphics.beginFill('#444').drawRoundRect(0, 0, wid, hei, roundness);
+        btnPlay.graphics.beginFill('#444').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
         retryText.color = "#FFF";
         //console.log("Mouse Over");
     });
     retry.on("mouseout", function (evt) {
-        btnPlay.graphics.beginFill('#000').drawRoundRect(0, 0, wid, hei, roundness);
+        btnPlay.graphics.beginFill('#000').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
         retryText.color = "#FFF";
         //console.log("Mouse Out");
     });
     retry.on("mousedown", function (evt) {
-        btnPlay.graphics.beginFill('#777').drawRoundRect(0, 0, wid, hei, roundness);
+        btnPlay.graphics.beginFill('#777').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
         retryText.color = "#000";
         //console.log("Mouse Down");
     });
@@ -263,24 +263,24 @@ function addTutorialButton() {
     var wid = 100,
         hei = 40;
     var btnTutorial = new createjs.Shape();
-    btnTutorial.graphics.beginFill('#000').drawRoundRect(0, 0, wid, hei, roundness);
+    btnTutorial.graphics.beginFill('#000').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
     btnTutorial.x = (wid / 2) + padding;
     btnTutorial.y = (HEIGHT - hei / 2) - padding;
 
     btnTutorial.on("click", function (evt) {
-        btnTutorial.graphics.beginFill('#444').drawRoundRect(0, 0, wid, hei, roundness);
+        btnTutorial.graphics.beginFill('#444').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
         //console.log("Clicked");
     });
     btnTutorial.on("mouseover", function (evt) {
-        btnTutorial.graphics.beginFill('#444').drawRoundRect(0, 0, wid, hei, roundness);
+        btnTutorial.graphics.beginFill('#444').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
         //console.log("Mouse Over");
     });
     btnTutorial.on("mouseout", function (evt) {
-        btnTutorial.graphics.beginFill('#000').drawRoundRect(0, 0, wid, hei, roundness);
+        btnTutorial.graphics.beginFill('#000').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
         //console.log("Mouse Out");
     });
     btnTutorial.on("mousedown", function (evt) {
-        btnTutorial.graphics.beginFill('#777').drawRoundRect(0, 0, wid, hei, roundness);
+        btnTutorial.graphics.beginFill('#777').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
         //console.log("Mouse Down");
     });
 

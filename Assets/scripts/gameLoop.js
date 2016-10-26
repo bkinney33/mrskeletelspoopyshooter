@@ -29,10 +29,12 @@ function setup() {
         player.obj.y = (HEIGHT - 27) - (size);
         player.obj.setBounds(0, 0, size, size);
     }
+
+    cheated = false;
     firstHit = true;
+    forward = true;
 
     p = 0;
-    forward = true;
     var i;
     //draw paths first, so all ghosts will overlap any path
     for (i = 0; i < levels[current_level].ghosts.length; i++) {
@@ -150,6 +152,12 @@ function gameLoop() {
             }
         }
 
+        if (J_DOWN && !cheated) {
+            cheated = true;
+            player.bullets = 100;
+            bulletLabel.text = "Bullets Left: " + player.bullets;
+        }
+
         if (L_SHIFT_DOWN) {
             player.movementSpeed = 30;
         } else {
@@ -175,7 +183,9 @@ function gameLoop() {
         if (SPACE_DOWN && player.shootDelay === 0 && player.bullets > 0) {
             var blt = new createjs.Shape();
             blt.graphics.beginFill('#a00').drawRect(0, 0, 6, 10);
-            blt.x = player.obj.x + (player.obj.getBounds().width / 2);
+            blt.setBounds(0, 0, 6, 10); //replaced when sprites and images implemented
+            var bb = blt.getBounds();
+            blt.x = (player.obj.x + (player.obj.getBounds().width / 2) - (bb.width / 2));
             blt.y = player.obj.y - 5;
             stage.addChild(blt);
             bullets.push(blt);
@@ -258,15 +268,19 @@ function gameLoop() {
         }
         break;
     case LEVELFAILED:
-        teardown();
-        frameCount = 0;
-        running = false;
-        gameoverScreen.visible = true;
-        mainMenu.visible = true;
-        if (player.lives > 1) {
-            retry.visible = true;
+        if (levelup_timer === levelup_delay) {
+            teardown();
+            frameCount = 0;
+            running = false;
+            gameoverScreen.visible = true;
+            mainMenu.visible = true;
+            if (player.lives > 1) {
+                retry.visible = true;
+            }
+            gamestate = HOLD;
+        } else {
+            levelup_timer++;
         }
-        gamestate = HOLD;
         break;
     case RETRYLEVEL:
         gameoverScreen.visible = false;

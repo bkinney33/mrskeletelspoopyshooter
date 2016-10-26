@@ -46,11 +46,12 @@ manifest = [
     {
         src: "sounds/loser.mp3",
         id: "loser"
-    },
-    {
-        src: "images/audiosprite.png",
-        id: "audiosprite"
     }
+//    ,
+//    {
+//        src: "images/audiosprite.png",
+//        id: "audiosprite"
+//    }
 ];
 
 function setupCanvas() {
@@ -95,6 +96,10 @@ function loadComplete(evt) {
     stage.addChild(gameoverScreen);
     instructionScreen.visible = false;
     gameoverScreen.visible = false;
+
+
+    console.log(levels[0].walls);
+
 
     addButtons();
     mouseInit();

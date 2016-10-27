@@ -1,9 +1,4 @@
-function runGameTimer() {
-    frameCount += 1;
-    if (frameCount % (FPS / 10) === 0) {
-        gameTimer = frameCount / (FPS);
-    }
-}
+var tempScore = 0;
 
 function lerp(p1, p2, scalar) {
     var x = (1 - scalar) * p1.x + scalar * p2.x,
@@ -13,27 +8,22 @@ function lerp(p1, p2, scalar) {
 }
 
 function setup() {
+    tempScore = player.score;
     player.obj.visible = true;
     ground.visible = true;
-
     cheated = false;
     firstHit = true;
     forward = true;
-
-    //    ghosts = levels[current_level].ghosts
-
     p = 0;
     var i;
     ghosts = [];
     for (i = 0; i < levels[current_level].ghosts.length; i++) {
         ghosts.push(levels[current_level].ghosts[i]);
     }
-
     //draw paths first, so all ghosts will overlap any path
     for (i = 0; i < ghosts.length; i++) {
         stage.addChild(ghosts[i].path);
     }
-
     for (i = 0; i < ghosts.length; i++) {
         ghosts[i].alive = true;
         ghosts[i].obj.alpha = 1;
@@ -42,7 +32,6 @@ function setup() {
     for (i = 0; i < levels[current_level].walls.length; i++) {
         stage.addChild(levels[current_level].walls[i].obj);
     }
-
     if (levels[current_level].labels.length > 0) {
         for (i = 0; i < levels[current_level].labels.length; i++) {
             var lab = levels[current_level].labels[i];
@@ -60,13 +49,18 @@ function setup() {
 
     bulletLabel.text = "Bullets Left: " + player.bullets;
     var bb = bulletLabel.getBounds();
-    bulletLabel.x = 10;
-    bulletLabel.y = HEIGHT - bb.height;
+    bulletLabel.x = (WIDTH - bb.width) * .2;
+    bulletLabel.y = (HEIGHT - (groundHeight / 2)) - (bb.height / 2);
+
+    scoreLabel.text = "Score: " + tempScore;
+    bb = scoreLabel.getBounds();
+    scoreLabel.x = (WIDTH - bb.width) * .5;
+    scoreLabel.y = (HEIGHT - (groundHeight / 2)) - (bb.height / 2);
 
     livesLabel.text = "Lives Left: " + player.lives;
     bb = livesLabel.getBounds();
-    livesLabel.x = (WIDTH - bb.width) - 10;
-    livesLabel.y = (b.height - bb.height);
+    livesLabel.x = (WIDTH - bb.width) * .8;
+    livesLabel.y = (HEIGHT - (groundHeight / 2)) - (bb.height / 2);
 }
 
 function teardown() {
@@ -101,11 +95,13 @@ function gameLoop() {
     switch (gamestate) {
     case INIT:
         console.error("INIT");
-
+        player.score = 0;
         ground = new createjs.Shape();
-        var gWidth = WIDTH + 2;
-        ground.graphics.beginFill("#573c00").beginStroke("#060").setStrokeStyle(2).drawRect(0, 0, gWidth, 50);
-        ground.y = HEIGHT - 25;
+        //turned off "grass"
+        var gWidth = (WIDTH * 1.5);
+        //.beginStroke("#060").setStrokeStyle(2)
+        ground.graphics.beginFill("#573c00").drawRect(0, 0, gWidth, (500));
+        ground.y = HEIGHT - groundHeight;
         ground.x = (WIDTH - (gWidth)) / 2;
         stage.addChild(ground);
         ground.visible = false;
@@ -115,18 +111,24 @@ function gameLoop() {
         player.obj.graphics.beginFill("#FFF").drawRect(0, 0, size, size);
         stage.addChild(player.obj);
         player.obj.x = (WIDTH - size) / 2;
-        player.obj.y = (HEIGHT - 27) - (size);
+        player.obj.y = (HEIGHT - groundHeight) - (size);
         player.obj.setBounds(0, 0, size, size);
         player.obj.visible = false;
 
-        bulletLabel = new createjs.Text("", "24px Arial", "#FFF");
         levelLabel = new createjs.Text("", "32px Arial", "#FFF");
+        bulletLabel = new createjs.Text("", "24px Arial", "#FFF");
+        scoreLabel = new createjs.Text("", "24px Arial", "#FFF");
         livesLabel = new createjs.Text("", "24px Arial", "#FFF");
-        stage.addChild(bulletLabel);
         stage.addChild(levelLabel);
+        stage.addChild(bulletLabel);
+        stage.addChild(scoreLabel);
         stage.addChild(livesLabel);
 
         current_level = 0;
+        //current_level = 0;
+
+
+
         player.lives = 3;
         locker = true;
         gamestate = HOLD;
@@ -303,6 +305,12 @@ function gameLoop() {
                         var pt = blt.localToLocal(3, 2, ghost.obj);
                         if (ghost.obj.hitTest(pt.x, pt.y)) {
                             stage.removeChild(blt);
+
+                            if (ghost.alive) {
+                                tempScore += 10;
+                                scoreLabel.text = "Score: " + tempScore;
+                            }
+
                             bullets.splice(b, 1);
                             if (ghost.type < 20 || ghost.type > 40) {
                                 ghost.alive = false;
@@ -348,6 +356,8 @@ function gameLoop() {
             }
         }
         if (levelComplete) {
+            player.score = tempScore + 100 + ((!cheated) ? (player.bullets * 10) : 0);
+            scoreLabel.text = "Score: " + tempScore;
             gamestate = LEVELUP;
         } else if (bullets.length === 0 && player.bullets === 0) {
             gamestate = LEVELFAILED;
@@ -409,10 +419,16 @@ function gameLoop() {
         gamestate = HOLD;
         break;
     case WIN:
-        alert("YOU WIN!");
+        //alert("YOU WIN!");
         //console.error("YOU WIN!");
         //        timer.text = "";
         //        gameTimer = 0;
+        stage.removeChild(scoreLabel);
+        scoreLabel = new createjs.Text("WINNER! Your Score was " + player.score + "!", "40px Arial", "#FFF");
+        var b = scoreLabel.getBounds();
+        scoreLabel.x = (WIDTH - b.width) / 2;
+        scoreLabel.y = (HEIGHT - b.height) / 2;
+        stage.addChild(scoreLabel);
         frameCount = 0;
         running = false;
         gameoverScreen.visible = true;

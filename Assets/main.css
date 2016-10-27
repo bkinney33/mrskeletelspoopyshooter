@@ -1,19 +1,40 @@
+@font-face {
+    font-family: bonehead;
+    src: url(fonts/Bonehead.ttf);
+}
+
+*{
+    font-family: bonehead;
+    color: #F80;
+    text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+}
+
+h1{
+    font-size: 72px;
+    text-align: center;
+}
+
 #game-container {
     width: 100%;
     text-align: center;
 }
 
+#output {
+    visibility: collapse;
+}
+
 #game {
-    /*
-    border-bottom: 1px solid #aaa;
-    border-left: 5px solid #4a4;
-*/
+    border: 2px solid black;
     margin: 0 auto;
 }
 
 html {
-    height: 99vh;
+    height: 100vh;
     background-color: #222;
+    background: url(images/jack.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto 100vh;
     color: white;
     min-width: 900px;
 }

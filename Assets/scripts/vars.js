@@ -14,6 +14,8 @@ var FPS = 30,
     gameTimer = 0,
     MAX_RUNTIME = 2 * 60; //runtime in seconds
 
+var secret = false;
+
 var player = {
     score: 0,
     lives: 3,

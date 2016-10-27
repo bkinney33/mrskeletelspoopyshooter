@@ -11,7 +11,7 @@ function addMainMenuButton() {
         hei = 60;
     btnMM = new createjs.Shape();
     btnMM.graphics.beginFill('#000').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
-    var MMText = new createjs.Text("MENU", "30px Arial", "#FFF");
+    var MMText = new createjs.Text("MENU", "30px bonehead", "#F80");
     var b = MMText.getBounds();
     MMText.x = (wid - b.width) / 2;
     MMText.y = (hei - b.height) / 2;
@@ -48,7 +48,7 @@ function addMainMenuButton() {
     });
     mainMenu.on("mouseout", function (evt) {
         btnMM.graphics.beginFill('#000').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
-        MMText.color = "#FFF";
+        MMText.color = "#F80";
         //console.log("Mouse Out");
     });
     mainMenu.on("mousedown", function (evt) {
@@ -70,10 +70,10 @@ function addPlayButton() {
     var btnPlay = new createjs.Shape();
     btnPlay.graphics.beginFill('#000').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
 
-    var playText = new createjs.Text("PLAY", "30px Arial", "#FFF");
+    var playText = new createjs.Text("PLAY", "30px bonehead", "#F80");
     var b = playText.getBounds();
-    playText.x = (b.width / 2);
-    playText.y = (b.height / 2);
+    playText.x = (wid - b.width) / 2;
+    playText.y = (hei - b.height) / 2;
 
     play = new createjs.Container();
     play.setBounds(0, 0, wid, hei);
@@ -92,8 +92,10 @@ function addPlayButton() {
         rules.visible = false;
         instructionScreen.visible = false;
         back.visible = false;
-        //levels = secret_levels;
-        levels = main_levels;
+        levels = (secret) ? secret_levels : main_levels;
+        secret = false;
+        //        //levels = secret_levels;
+        //        levels = main_levels;
         gamestate = RUN;
         createjs.Sound.stop();
     });
@@ -104,7 +106,7 @@ function addPlayButton() {
     });
     play.on("mouseout", function (evt) {
         btnPlay.graphics.beginFill('#000').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
-        playText.color = "#FFF";
+        playText.color = "#F80";
         //console.log("Mouse Out");
     });
     play.on("mousedown", function (evt) {
@@ -123,7 +125,7 @@ function addRulesButton() {
         hei = 40;
     var btnRules = new createjs.Shape();
     btnRules.graphics.beginFill('#000').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
-    var rulesText = new createjs.Text("Rules", "24px Arial", "#FFF");
+    var rulesText = new createjs.Text("Rules", "24px bonehead", "#F80");
     var b = rulesText.getBounds();
     rulesText.x = (wid - b.width) / 2;
     rulesText.y = (hei - b.height) / 2;
@@ -152,7 +154,7 @@ function addRulesButton() {
     });
     rules.on("mouseout", function (evt) {
         btnRules.graphics.beginFill('#000').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
-        rulesText.color = "#FFF";
+        rulesText.color = "#F80";
         //console.log("Mouse Out");
     });
     rules.on("mousedown", function (evt) {
@@ -170,7 +172,7 @@ function addBackButton() {
         hei = 40;
     var btnBack = new createjs.Shape();
     btnBack.graphics.beginFill('#000').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
-    var BackText = new createjs.Text("Back", "24px Arial", "#FFF");
+    var BackText = new createjs.Text("Back", "24px bonehead", "#F80");
     var b = BackText.getBounds();
     BackText.x = (wid - b.width) / 2;
     BackText.y = (hei - b.height) / 2;
@@ -199,7 +201,7 @@ function addBackButton() {
     });
     back.on("mouseout", function (evt) {
         btnBack.graphics.beginFill('#000').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
-        BackText.color = "#FFF";
+        BackText.color = "#F80";
         //console.log("Mouse Out");
     });
     back.on("mousedown", function (evt) {
@@ -218,7 +220,7 @@ function addRetryButton() {
     btnPlay = new createjs.Shape();
     btnPlay.graphics.beginFill('#000').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
 
-    var retryText = new createjs.Text("RETRY", "30px Arial", "#FFF");
+    var retryText = new createjs.Text("RETRY", "30px bonehead", "#F80");
     var b = retryText.getBounds();
     retryText.x = (wid - b.width) / 2;
     retryText.y = (b.height / 2);
@@ -250,7 +252,7 @@ function addRetryButton() {
     });
     retry.on("mouseout", function (evt) {
         btnPlay.graphics.beginFill('#000').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
-        retryText.color = "#FFF";
+        retryText.color = "#F80";
         //console.log("Mouse Out");
     });
     retry.on("mousedown", function (evt) {
@@ -272,7 +274,7 @@ function addTutorialButton() {
     var btnTutorial = new createjs.Shape();
     btnTutorial.graphics.beginFill('#000').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
 
-    var demoText = new createjs.Text("Tutorial", "24px Arial", "#FFF");
+    var demoText = new createjs.Text("Demo", "24px bonehead", "#F80");
     var b = demoText.getBounds();
     demoText.x = (wid - b.width) / 2;
     demoText.y = (hei - b.height) / 2;
@@ -289,7 +291,7 @@ function addTutorialButton() {
     tutorial.x = (WIDTH - b.width) / 2;
     tutorial.y = b2y;
 
-    //    stage.addChild(tutorial);
+    stage.addChild(tutorial);
 
 
     btnTutorial.on("click", function (evt) {

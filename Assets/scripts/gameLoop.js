@@ -115,10 +115,10 @@ function gameLoop() {
         player.obj.setBounds(0, 0, size, size);
         player.obj.visible = false;
 
-        levelLabel = new createjs.Text("", "32px Arial", "#FFF");
-        bulletLabel = new createjs.Text("", "24px Arial", "#FFF");
-        scoreLabel = new createjs.Text("", "24px Arial", "#FFF");
-        livesLabel = new createjs.Text("", "24px Arial", "#FFF");
+        levelLabel = new createjs.Text("", "32px bonehead", "#F80");
+        bulletLabel = new createjs.Text("", "24px bonehead", "#F80");
+        scoreLabel = new createjs.Text("", "24px bonehead", "#F80");
+        livesLabel = new createjs.Text("", "24px bonehead", "#F80");
         stage.addChild(levelLabel);
         stage.addChild(bulletLabel);
         stage.addChild(scoreLabel);
@@ -218,7 +218,7 @@ function gameLoop() {
                     }
                 }
             } else {
-                var scaledP = (player.obj.x / WIDTH) * (ghost.points.length - 1);
+                var scaledP = (((player.obj.x > 0) ? player.obj.x : 1) / WIDTH) * (ghost.points.length - 1);
                 var a = ghost.points[Math.floor(scaledP)],
                     b = ghost.points[Math.floor(scaledP) + 1];
                 var scalar = scaledP - Math.floor(scaledP);
@@ -424,7 +424,7 @@ function gameLoop() {
         //        timer.text = "";
         //        gameTimer = 0;
         stage.removeChild(scoreLabel);
-        scoreLabel = new createjs.Text("WINNER! Your Score was " + player.score + "!", "40px Arial", "#FFF");
+        scoreLabel = new createjs.Text("WINNER! Your Score was " + player.score + "!", "40px bonehead", "#F80");
         var b = scoreLabel.getBounds();
         scoreLabel.x = (WIDTH - b.width) / 2;
         scoreLabel.y = (HEIGHT - b.height) / 2;

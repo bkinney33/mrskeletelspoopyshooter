@@ -1,7 +1,7 @@
 var roundness = 15,
     b1y = 400,
-    b2y = 475,
-    b3y = 530;
+    b3y = 475,
+    b2y = 530;
 
 function addMainMenuButton() {
     /**********REPLACE THIS WITH A GROUP INSTEAD OF A RECT**********/
@@ -34,6 +34,8 @@ function addMainMenuButton() {
         instructionScreen.visible = false;
         retry.visible = false;
         back.visible = false;
+        stage.removeChild(scoreLabel);
+        scoreLabel.visible = false;
         gamestate = INIT;
         gameoverScreen.visible = false;
         mainMenu.visible = false;
@@ -90,8 +92,8 @@ function addPlayButton() {
         rules.visible = false;
         instructionScreen.visible = false;
         back.visible = false;
-        levels = secret_levels;
-        //        levels = main_levels;
+        //levels = secret_levels;
+        levels = main_levels;
         gamestate = RUN;
         createjs.Sound.stop();
     });
@@ -287,7 +289,7 @@ function addTutorialButton() {
     tutorial.x = (WIDTH - b.width) / 2;
     tutorial.y = b2y;
 
-    stage.addChild(tutorial);
+    //    stage.addChild(tutorial);
 
 
     btnTutorial.on("click", function (evt) {

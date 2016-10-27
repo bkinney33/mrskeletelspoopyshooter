@@ -3,6 +3,9 @@ function handleKeyDown(evt) {
         var evt = window.event;
     } //browser compatibility
     switch (evt.keyCode) {
+    case 192:
+        secret = true;
+        break;
     case KEYCODE_LEFT:
         if (!LEFT_DOWN) {
             LEFT_DOWN = true;

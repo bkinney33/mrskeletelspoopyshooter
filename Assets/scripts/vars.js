@@ -8,12 +8,16 @@ var INIT = 100,
     WIN = 1000;
 
 var FPS = 30,
+    groundHeight = 45,
     /*DEPRECATED FOR THIS PROJECT*/
     frameCount = 0,
     gameTimer = 0,
     MAX_RUNTIME = 2 * 60; //runtime in seconds
 
+var secret = false;
+
 var player = {
+    score: 0,
     lives: 3,
     movementSpeed: 10,
     obj: null,
@@ -25,8 +29,9 @@ var player = {
 var cheated;
 
 var ground,
-    bulletLabel,
     levelLabel,
+    bulletLabel,
+    scoreLabel,
     livesLabel,
     firstHit;
 
@@ -34,7 +39,8 @@ var levelup_timer = 0,
     levelup_delay = 2 * FPS;
 
 var bullets = [];
-var levels = [];
+var levels = [],
+    ghosts = [];
 
 var DELAY_SHOT = .5 * FPS,
     BULLET_VELOCITY = 15;

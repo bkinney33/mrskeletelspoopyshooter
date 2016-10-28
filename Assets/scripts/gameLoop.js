@@ -13,22 +13,6 @@ function setup() {
     labels = new createjs.Container();
     p = 0;
     var i;
-    ghosts = [];
-    for (i = 0; i < levels[current_level].ghosts.length; i++) {
-        ghosts.push(levels[current_level].ghosts[i]);
-    }
-    //draw paths first, so all ghosts will overlap any path
-    for (i = 0; i < ghosts.length; i++) {
-        stage.addChild(ghosts[i].path);
-    }
-    for (i = 0; i < ghosts.length; i++) {
-        ghosts[i].alive = true;
-        ghosts[i].obj.alpha = 1;
-        stage.addChild(ghosts[i].obj);
-    }
-    for (i = 0; i < levels[current_level].walls.length; i++) {
-        stage.addChild(levels[current_level].walls[i].obj);
-    }
     if (levels[current_level].labels.length > 0) {
         for (i = 0; i < levels[current_level].labels.length; i++) {
             var lab = levels[current_level].labels[i];
@@ -47,6 +31,22 @@ function setup() {
             labels.addChild(lab.obj);
         }
         stage.addChild(labels);
+    }
+    ghosts = [];
+    for (i = 0; i < levels[current_level].ghosts.length; i++) {
+        ghosts.push(levels[current_level].ghosts[i]);
+    }
+    //draw paths first, so all ghosts will overlap any path
+    for (i = 0; i < ghosts.length; i++) {
+        stage.addChild(ghosts[i].path);
+    }
+    for (i = 0; i < ghosts.length; i++) {
+        ghosts[i].alive = true;
+        ghosts[i].obj.alpha = 1;
+        stage.addChild(ghosts[i].obj);
+    }
+    for (i = 0; i < levels[current_level].walls.length; i++) {
+        stage.addChild(levels[current_level].walls[i].obj);
     }
 
     player.bullets = levels[current_level].bullets;
@@ -77,9 +77,9 @@ function teardown() {
     labels = null;
     var i = 0;
 
-    for (i = 0; i < stage.getNumChildren(); i++) {
-        console.log(stage.getChildAt(i));
-    }
+    //    for (i = 0; i < stage.getNumChildren(); i++) {
+    //        console.log(stage.getChildAt(i));
+    //    }
 
     if (ghosts) {
         for (i = 0; i < ghosts.length; i++) {
@@ -273,9 +273,9 @@ function gameLoop() {
 
         if ((SPACE_DOWN || W_DOWN || UP_DOWN) && player.shootDelay === 0 && player.bullets > 0) {
             player.obj.gotoAndPlay("shoot");
-            var blt = new createjs.Shape();
-            blt.graphics.beginFill('#a00').drawRect(0, 0, 6, 10);
-            blt.setBounds(0, 0, 6, 10); //replaced when sprites and images implemented
+            var blt = doot.clone();
+            //            blt.graphics.beginFill('#a00').drawRect(0, 0, 6, 10);
+            //            blt.setBounds(0, 0, 6, 10); //replaced when sprites and images implemented
             var bb = blt.getBounds();
             // blt.x = (player.obj.x + (player.obj.getBounds().width / 2) - (bb.width / 2));
             blt.x = player.obj.x - (bb.width / 2);
@@ -312,17 +312,19 @@ function gameLoop() {
                     for (g = 0; g < ghosts.length; g++) {
                         var ghost = ghosts[g];
                         var pt = blt.localToLocal(3, 2, ghost.obj);
+
+                        //console.log(ndgmr.checkPixelCollision(blt, ghost, .5, true));
+
                         if (ghost.obj.hitTest(pt.x, pt.y)) {
                             stage.removeChild(blt);
-
                             if (ghost.alive) {
                                 tempScore += 10;
                                 scoreLabel.text = "Score: " + tempScore;
                             }
-
                             bullets.splice(b, 1);
                             if (ghost.type < 20 || ghost.type > 40) {
                                 ghost.alive = false;
+                                ghost.obj.gotoAndPlay("dead");
                                 ghost.obj.alpha = 0.5;
                                 if (firstHit) {
                                     firstHit = false;
@@ -330,7 +332,6 @@ function gameLoop() {
                                         player.lives++;
                                         livesLabel.text = "Lives Left: " + player.lives;
                                     }
-                                    //do something special for the health bonus
                                 }
                             } else {
                                 var replacement = null;
@@ -348,6 +349,7 @@ function gameLoop() {
                                 replacement.obj.y = ghost.obj.y;
                                 stage.addChild(replacement.path);
                                 stage.addChild(replacement.obj);
+                                replacement.obj.currentFrame = ghost.obj.currentFrame;
                                 stage.removeChild(ghost.obj);
                                 stage.removeChild(ghost.path);
                             }

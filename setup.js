@@ -12,6 +12,9 @@ manifest = [
         src: "scripts/vars" + jsEnd
     },
     {
+        src: "scripts/ndgmr.Collision" + jsEnd
+    },
+    {
         src: "images/h_bone.png",
         id: "h_bone"
     },
@@ -22,6 +25,22 @@ manifest = [
     {
         src: "images/s_bone.png",
         id: "s_bone"
+    },
+    {
+        src: "images/boo1.png",
+        id: "white_ghost"
+    },
+    {
+        src: "images/boo2.png",
+        id: "blue_ghost"
+    },
+    {
+        src: "images/boo3.png",
+        id: "yellow_ghost"
+    },
+    {
+        src: "images/boo4.png",
+        id: "orange_ghost"
     },
     {
         src: "scripts/levels" + jsEnd
@@ -74,6 +93,10 @@ manifest = [
     {
         src: "images/skeltal.png",
         id: "skeltal_sheet"
+    },
+    {
+        src: "images/doot.png",
+        id: "doot"
     }
 ];
 
@@ -96,10 +119,7 @@ function handleProgress() {
 }
 
 function handleComplete() {
-
-    backgroundImage = queue.getResult("background");
-    //    treesImage = queue.getResult("trees");
-    //    groundImage = queue.getResult("ground");
+    //    backgroundImage = queue.getResult("background");
     loadProgressLabel.text = "Loading complete click to start";
     stage.update();
 }
@@ -112,7 +132,7 @@ function loadComplete(evt) {
     gameoverScreen = new createjs.Bitmap(queue.getResult("gameover"));
     levelupimg = new createjs.Bitmap(queue.getResult("levelupimg"));
     pauseScreen = new createjs.Bitmap(queue.getResult("paused"));
-    //    bone = new createjs.Bitmap(queue.getResult("bone"));
+    doot = new createjs.Bitmap(queue.getResult("doot"));
 
     player._SpriteSheet = new createjs.SpriteSheet({
         images: [queue.getResult("skeltal_sheet")],

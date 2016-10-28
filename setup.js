@@ -40,7 +40,7 @@ manifest = [
     },
     {
         src: "images/levelup.jpg",
-        id: "levelupsign"
+        id: "levelupimg"
     },
     {
         src: "images/rules.jpg",
@@ -84,7 +84,6 @@ function handleComplete() {
     backgroundImage = queue.getResult("background");
     //    treesImage = queue.getResult("trees");
     //    groundImage = queue.getResult("ground");
-
     loadProgressLabel.text = "Loading complete click to start";
     stage.update();
 }
@@ -95,7 +94,7 @@ function loadComplete(evt) {
     backgroundScreen = new createjs.Bitmap(queue.getResult("background"));
     instructionScreen = new createjs.Bitmap(queue.getResult("instructions"));
     gameoverScreen = new createjs.Bitmap(queue.getResult("gameover"));
-    levelupsign = new createjs.Bitmap(queue.getResult("levelupsign"));
+    levelupimg = new createjs.Bitmap(queue.getResult("levelupimg"));
 
     stage.addChild(backgroundScreen);
     stage.addChild(titleScreen);
@@ -108,6 +107,8 @@ function loadComplete(evt) {
     mouseInit();
     bindKeys();
     gamestate = HOLD;
+    stage.addChild(levelupimg);
+    levelupimg.visible = false;
     startLoop();
 }
 

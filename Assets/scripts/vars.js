@@ -30,6 +30,7 @@ var cheated;
 
 var ground,
     levelLabel,
+    levelsign,
     bulletLabel,
     scoreLabel,
     livesLabel,

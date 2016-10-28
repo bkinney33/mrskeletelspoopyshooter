@@ -8,6 +8,8 @@ function lerp(p1, p2, scalar) {
 }
 
 function setup() {
+    stage.removeChild(levelsign);
+    levelupimg.visible = false;
     tempScore = player.score;
     player.obj.visible = true;
     ground.visible = true;
@@ -356,6 +358,14 @@ function gameLoop() {
             }
         }
         if (levelComplete) {
+            teardown();
+            levelupimg.visible = true;
+            levelsign = new createjs.Text("Level " + (current_level+1) + " complete!", "64px bonehead", "#F80");
+            var bnds = levelsign.getBounds();
+            levelsign.x = (WIDTH - bnds.width)/2;
+            levelsign.y = (HEIGHT - bnds.height)/2;
+            stage.addChild(levelsign);
+
             player.score = tempScore + 100 + ((!cheated) ? (player.bullets * 10) : 0);
             scoreLabel.text = "Score: " + tempScore;
             gamestate = LEVELUP;
@@ -369,10 +379,9 @@ function gameLoop() {
         if (levelup_timer === levelup_delay) {
             levelup_timer = 0;
             if (current_level + 1 === levels.length) {
-                teardown();
                 gamestate = WIN;
             } else {
-                teardown();
+                // teardown();
                 current_level++;
                 setup();
                 gamestate = RUN;
@@ -423,6 +432,8 @@ function gameLoop() {
         //console.error("YOU WIN!");
         //        timer.text = "";
         //        gameTimer = 0;
+        stage.removeChild(levelsign);
+        levelupimg.visible = false;
         stage.removeChild(scoreLabel);
         scoreLabel = new createjs.Text("WINNER! Your Score was " + player.score + "!", "40px bonehead", "#F80");
         var b = scoreLabel.getBounds();

@@ -2,6 +2,7 @@
     "jscodehints.detectedExclusions": [
         "D:/Dropbox/Neumont/Web Game Development/mrskeletelspoopyshooter/createjs/PreloadJS-0.6.2/build/tasks/updatebower.js",
         "D:/Dropbox/Neumont/Web Game Development/mrskeletelspoopyshooter/Assets/scripts/gameLoop.js",
-        "D:/Dropbox/Neumont/Web Game Development/mrskeletelspoopyshooter/Assets/scripts/levels.js"
+        "D:/Dropbox/Neumont/Web Game Development/mrskeletelspoopyshooter/Assets/scripts/levels.js",
+        "D:/Dropbox/Neumont/Web Game Development/mrskeletelspoopyshooter/createjs/PreloadJS-0.6.2/tests/tasks/listips.js"
     ]
 }

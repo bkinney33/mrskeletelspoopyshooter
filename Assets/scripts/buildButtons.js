@@ -163,7 +163,7 @@ function addRulesButton() {
         //console.log("Mouse Down");
     });
 
-    stage.addChild(rules);
+    //stage.addChild(rules);
 }
 
 function addBackButton() {
@@ -223,7 +223,7 @@ function addRetryButton() {
     var retryText = new createjs.Text("RETRY", "30px bonehead", "#F80");
     var b = retryText.getBounds();
     retryText.x = (wid - b.width) / 2;
-    retryText.y = (b.height / 2);
+    retryText.y = (hei - b.height) / 2;
 
     retry = new createjs.Container();
     retry.setBounds(0, 0, wid, hei);

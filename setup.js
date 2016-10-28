@@ -39,6 +39,10 @@ manifest = [
         id: "background"
     },
     {
+        src: "images/levelup.jpg",
+        id: "levelupsign"
+    },
+    {
         src: "images/rules.jpg",
         id: "instructions"
     },
@@ -91,6 +95,7 @@ function loadComplete(evt) {
     backgroundScreen = new createjs.Bitmap(queue.getResult("background"));
     instructionScreen = new createjs.Bitmap(queue.getResult("instructions"));
     gameoverScreen = new createjs.Bitmap(queue.getResult("gameover"));
+    levelupsign = new createjs.Bitmap(queue.getResult("levelupsign"));
 
     stage.addChild(backgroundScreen);
     stage.addChild(titleScreen);

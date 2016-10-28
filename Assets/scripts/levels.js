@@ -85,7 +85,9 @@ var main_levels = [
     {
         bullets: 3,
         ghosts: [
-            new Ghost(2, false, [new Point(100, (HEIGHT * .5)), new Point(700, (HEIGHT * .5))])
+            new Ghost(2, false, [
+                new Point(100, (HEIGHT * .5)), new Point(700, (HEIGHT * .5))
+            ])
         ],
         walls: [
 //            new Wall(0, 450, 350, 50),
@@ -165,15 +167,15 @@ var main_levels = [
         bullets: 5,
         ghosts: [
             new Ghost(3, true, [
-                new Point((WIDTH * .5), 100),
-                new Point((WIDTH * .75), 100),
-                new Point((WIDTH * .5), 100),
-                new Point((WIDTH * .25), 100)
+                new Point((WIDTH * .5), 200),
+                new Point((WIDTH * .75), 200),
+                new Point((WIDTH * .5), 200),
+                new Point((WIDTH * .25), 200)
             ]),
             new Ghost(2, true, [
                 /*line is .5 the WIDTH*/
-                new Point((WIDTH * .25), 300),
-                new Point((WIDTH * .75), 300)
+                new Point((WIDTH * .25), 350),
+                new Point((WIDTH * .75), 350)
 //                new Point((WIDTH * .25) + ((1 / 3) * (WIDTH * .5)), 300),
 //                new Point((WIDTH * .25) + ((2 / 3) * (WIDTH * .5)), 300),
 //                new Point((WIDTH * .25) + ((3 / 3) * (WIDTH * .5)), 300),
@@ -183,8 +185,8 @@ var main_levels = [
                 ]),
             new Ghost(1, true, [
                 /*line is .5 the WIDTH*/
-                new Point((WIDTH * .75), 400),
-                new Point((WIDTH * .25), 400)
+                new Point((WIDTH * .75), 450),
+                new Point((WIDTH * .25), 450)
 //                new Point((WIDTH * .25) + ((2 / 3) * (WIDTH * .5)), 400),
 //                new Point((WIDTH * .25) + ((3 / 3) * (WIDTH * .5)), 400),
 //                new Point((WIDTH * .25) + ((2 / 3) * (WIDTH * .5)), 400),

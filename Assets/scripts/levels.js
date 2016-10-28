@@ -326,6 +326,20 @@ var main_levels = [
                 x: .5,
                 y: .15
             }]
+    },
+    {
+        bullets: 7,
+        ghosts: [
+            new Ghost(22, false, [new Point(WIDTH * .33, HEIGHT * .5)]),
+            new Ghost(32, false, [new Point(WIDTH * .66, HEIGHT * .5)])
+        ],
+        walls: [],
+        labels: [
+            {
+                obj: new createjs.Text("Some ghosts take multiple shots to kill", "32px bonehead", "#ae00ff"),
+                x: .5,
+                y: .15
+            }]
     }
 ];
 

@@ -30,7 +30,7 @@ function setup() {
     if (levels[current_level].labels.length > 0) {
         for (i = 0; i < levels[current_level].labels.length; i++) {
             var lab = levels[current_level].labels[i];
-            lab.obj.shadow = new createjs.Shadow("#000000", 0, 0, 3);
+            lab.obj.shadow = new createjs.Shadow("#000000", 0, 0, 5);
             stage.addChild(lab.obj);
             var bnd = lab.obj.getBounds();
             lab.obj.x = (WIDTH - bnd.width) * lab.x;
@@ -106,9 +106,10 @@ function gameLoop() {
 
         var size = 25;
         player.obj = new createjs.Shape();
-        player.obj.graphics.beginFill("#FFF").drawRect(0, 0, size, size);
+        player.obj.graphics.beginFill("#FFF").drawRect(-(size/2), 0, size, size);
+        player.obj.setBounds(0, 0, size, size);
         stage.addChild(player.obj);
-        player.obj.x = (WIDTH - size) / 2;
+        player.obj.x = WIDTH / 2;
         player.obj.y = (HEIGHT - groundHeight) - (size);
         player.obj.setBounds(0, 0, size, size);
         player.obj.visible = false;
@@ -239,20 +240,19 @@ function gameLoop() {
         } else {
             player.movementSpeed = 10;
         }
-
+        var p_bnd = player.obj.getBounds();
         if ((A_DOWN || LEFT_DOWN) && !(D_DOWN || RIGHT_DOWN)) {
-            if (player.obj.x >= 0) {
+            if (player.obj.x >= (p_bnd.width/2)) {
                 player.obj.x -= player.movementSpeed;
             } else {
                 player.x = 0;
                 player.obj.x = 0;
             }
         } else if (!(A_DOWN || LEFT_DOWN) && (D_DOWN || RIGHT_DOWN)) {
-            if (player.obj.x < (WIDTH - 50)) {
+            if (player.obj.x < (WIDTH-(p_bnd.width/2 ))) {
                 player.obj.x += player.movementSpeed;
             } else {
-                player.x = (WIDTH - 50);
-                player.obj.x = (WIDTH - 50);
+                player.obj.x = (WIDTH-1);
             }
         }
 
@@ -261,7 +261,8 @@ function gameLoop() {
             blt.graphics.beginFill('#a00').drawRect(0, 0, 6, 10);
             blt.setBounds(0, 0, 6, 10); //replaced when sprites and images implemented
             var bb = blt.getBounds();
-            blt.x = (player.obj.x + (player.obj.getBounds().width / 2) - (bb.width / 2));
+            // blt.x = (player.obj.x + (player.obj.getBounds().width / 2) - (bb.width / 2));
+            blt.x = player.obj.x - (bb.width / 2);
             blt.y = player.obj.y - 5;
             stage.addChild(blt);
             bullets.push(blt);

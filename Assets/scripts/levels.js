@@ -282,6 +282,36 @@ var main_levels = [
             new Wall((WIDTH * .09), (HEIGHT * .6), (WIDTH * .33), 50)
         ],
         labels: []
+    },
+    {
+        bullets: 5,
+        ghosts: [
+            /*3 tracking ghosts, medium -> large -> small*/
+            new Ghost(5, false, [
+                new Point(1,           HEIGHT * .25),
+                new Point(WIDTH-1,   HEIGHT * .25)
+                ]),
+            new Ghost(6, false, [
+                new Point(1,           HEIGHT * .475),
+                new Point(WIDTH-1,   HEIGHT * .475)
+                ]),
+            new Ghost(14, false, [
+                new Point(1,           HEIGHT * .7),
+                new Point(WIDTH-1,   HEIGHT * .7)
+                ])
+        ],
+        walls: [
+            new Wall(0,                     (HEIGHT * .3625) - (25), (WIDTH * .45), 50),
+            new Wall(WIDTH - (WIDTH*.45),   (HEIGHT * .3625) - (25), (WIDTH * .45), 50),
+            new Wall(0,                     (HEIGHT * .5875) - (25), (WIDTH * .45), 50),
+            new Wall(WIDTH - (WIDTH*.45),   (HEIGHT * .5875) - (25), (WIDTH * .45), 50)
+        ],
+        labels: [
+            {
+                obj: new createjs.Text("Some Ghosts only move with you", "32px Arial", "#fff"),
+                x: .5,
+                y: .15
+            }]
     }
 ];
 
@@ -373,7 +403,6 @@ var demo_levels = [
         ghosts: [
             new Ghost(1, false, [new Point(400, (HEIGHT * .3))]),
             new Ghost(3, false, [new Point(100, 350), new Point(700, 350)])
-//            new Ghost(3, false, [new Point(50, 100), new Point(50, 250), new Point(750, 250), new Point(750, 100)])
         ],
         walls: [
             new Wall(0, 450, 350, 50),
@@ -426,7 +455,7 @@ var demo_levels = [
             }]
     },
     {
-        bullets: 5,
+        bullets: 2,
         ghosts: [
             new Ghost(15, false, [new Point(10, HEIGHT * .6), new Point(WIDTH - 10, HEIGHT * .6)])
         ],

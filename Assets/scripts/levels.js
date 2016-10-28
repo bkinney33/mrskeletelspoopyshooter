@@ -212,13 +212,18 @@ var main_levels = [
                 y: .15
             },
             {
-                obj: new createjs.Text("Some ghosts grant 1UP when shot before any other ghosts!", "32px Arial", "#fff"),
+                obj: new createjs.Text("Some ghosts grant 1UP when shot", "32px Arial", "#fff"),
                 x: .5,
                 y: .20
+            },
+            {
+                obj: new createjs.Text("before any other ghosts!", "32px Arial", "#fff"),
+                x: .5,
+                y: .25
             }]
     },
     {
-        bullets: 2,
+        bullets: 3,
         ghosts: [
             new Ghost(2, false, [
                 new Point((WIDTH * .15), (HEIGHT * .5)), 

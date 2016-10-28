@@ -279,7 +279,7 @@ function gameLoop() {
             var bb = blt.getBounds();
             // blt.x = (player.obj.x + (player.obj.getBounds().width / 2) - (bb.width / 2));
             blt.x = player.obj.x - (bb.width / 2);
-            blt.y = player.obj.y - 5;
+            blt.y = (player.obj.y - player.obj.getBounds().height) - 5;
             stage.addChild(blt);
             bullets.push(blt);
             player.shootDelay = DELAY_SHOT;

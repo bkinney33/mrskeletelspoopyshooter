@@ -35,6 +35,7 @@ var player = {
 var cheated;
 
 var ground,
+    bone,
     levelLabel,
     levelsign,
     bulletLabel,

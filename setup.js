@@ -12,6 +12,18 @@ manifest = [
         src: "scripts/vars" + jsEnd
     },
     {
+        src: "images/h_bone.png",
+        id: "h_bone"
+    },
+    {
+        src: "images/v_bone.png",
+        id: "v_bone"
+    },
+    {
+        src: "images/s_bone.png",
+        id: "s_bone"
+    },
+    {
         src: "scripts/levels" + jsEnd
     },
     {
@@ -100,6 +112,7 @@ function loadComplete(evt) {
     gameoverScreen = new createjs.Bitmap(queue.getResult("gameover"));
     levelupimg = new createjs.Bitmap(queue.getResult("levelupimg"));
     pauseScreen = new createjs.Bitmap(queue.getResult("paused"));
+    //    bone = new createjs.Bitmap(queue.getResult("bone"));
 
     player._SpriteSheet = new createjs.SpriteSheet({
         images: [queue.getResult("skeltal_sheet")],
@@ -139,7 +152,6 @@ function loadComplete(evt) {
             shoot: 26
         }
     });
-
 
     stage.addChild(backgroundScreen);
     stage.addChild(titleScreen);

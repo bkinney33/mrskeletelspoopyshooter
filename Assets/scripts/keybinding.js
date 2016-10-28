@@ -2,10 +2,14 @@ function handleKeyDown(evt) {
     if (!evt) {
         var evt = window.event;
     } //browser compatibility
+    /*DEV TOOL*/
     switch (evt.keyCode) {
     case 192:
         secret = true;
         break;
+    case 220:
+        DEVMODE = true;
+    break;
     case KEYCODE_LEFT:
         if (!LEFT_DOWN) {
             LEFT_DOWN = true;

@@ -1,12 +1,5 @@
 var tempScore = 0;
 
-function lerp(p1, p2, scalar) {
-    var x = (1 - scalar) * p1.x + scalar * p2.x,
-        y = (1 - scalar) * p1.y + scalar * p2.y,
-        result = new Point(Math.round(x), Math.round(y));
-    return result;
-}
-
 function setup() {
     stage.removeChild(levelsign);
     levelupimg.visible = false;
@@ -127,9 +120,6 @@ function gameLoop() {
         stage.addChild(livesLabel);
 
         current_level = 0;
-        //current_level = 0;
-
-
 
         player.lives = 3;
         locker = true;
@@ -358,14 +348,6 @@ function gameLoop() {
             }
         }
         if (levelComplete) {
-            teardown();
-            levelupimg.visible = true;
-            levelsign = new createjs.Text("Level " + (current_level+1) + " complete!", "64px bonehead", "#F80");
-            var bnds = levelsign.getBounds();
-            levelsign.x = (WIDTH - bnds.width)/2;
-            levelsign.y = (HEIGHT - bnds.height)/2;
-            stage.addChild(levelsign);
-
             player.score = tempScore + 100 + ((!cheated) ? (player.bullets * 10) : 0);
             scoreLabel.text = "Score: " + tempScore;
             gamestate = LEVELUP;
@@ -375,8 +357,17 @@ function gameLoop() {
         break;
     case LEVELUP:
         //set delay, then execute
-        locker = true;
+        if( levelup_timer === Math.floor(levelup_delay * .33)){
+            teardown();
+            levelupimg.visible = true;
+            levelsign = new createjs.Text("Level " + (current_level+1) + " complete!", "64px bonehead", "#F80");
+            var bnds = levelsign.getBounds();
+            levelsign.x = (WIDTH - bnds.width)/2;
+            levelsign.y = (HEIGHT - bnds.height)/2;
+            stage.addChild(levelsign);
+        }
         if (levelup_timer === levelup_delay) {
+            locker = true;
             levelup_timer = 0;
             if (current_level + 1 === levels.length) {
                 gamestate = WIN;

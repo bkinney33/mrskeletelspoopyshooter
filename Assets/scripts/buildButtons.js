@@ -93,7 +93,8 @@ function addPlayButton() {
         instructionScreen.visible = false;
         back.visible = false;
         levels = (secret) ? secret_levels : main_levels;
-        secret = false;
+        current_level = ((DEVMODE)?levels.length-1:0);
+        DEVMODE = secret = false;
         //        //levels = secret_levels;
         //        levels = main_levels;
         gamestate = RUN;

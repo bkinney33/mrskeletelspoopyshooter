@@ -1,7 +1,4 @@
-function Point(x, y) {
-    this.x = x;
-    this.y = y;
-}
+//Point object definition is in vars.js
 
 function Wall(x, y, width, height) {
     this.obj = new createjs.Shape();
@@ -89,10 +86,7 @@ var main_levels = [
                 new Point(100, (HEIGHT * .5)), new Point(700, (HEIGHT * .5))
             ])
         ],
-        walls: [
-//            new Wall(0, 450, 350, 50),
-//            new Wall(450, 450, 350, 50)
-        ],
+        walls: [],
         labels: [
             {
                 obj: new createjs.Text("To complete each level, kill all ghosts", "24px arial", "#fff"),
@@ -131,9 +125,6 @@ var main_levels = [
         bullets: 6,
         ghosts: [
             new Ghost(2, false, [
-//                new Point((WIDTH * .3), (HEIGHT * .23)),
-//                new Point((WIDTH * .7), (HEIGHT * .23))
-
                 new Point((WIDTH * .3), (HEIGHT * .13)),
                 new Point((WIDTH * .4), (HEIGHT * .13)),
                 new Point((WIDTH * .4), (HEIGHT * .23)),
@@ -173,29 +164,104 @@ var main_levels = [
                 new Point((WIDTH * .25), 200)
             ]),
             new Ghost(2, true, [
-                /*line is .5 the WIDTH*/
                 new Point((WIDTH * .25), 350),
                 new Point((WIDTH * .75), 350)
-//                new Point((WIDTH * .25) + ((1 / 3) * (WIDTH * .5)), 300),
-//                new Point((WIDTH * .25) + ((2 / 3) * (WIDTH * .5)), 300),
-//                new Point((WIDTH * .25) + ((3 / 3) * (WIDTH * .5)), 300),
-//                new Point((WIDTH * .25) + ((2 / 3) * (WIDTH * .5)), 300),
-//                new Point((WIDTH * .25) + ((1 / 3) * (WIDTH * .5)), 300),
-//                new Point((WIDTH * .25) + ((0 / 3) * (WIDTH * .5)), 300)
                 ]),
             new Ghost(1, true, [
-                /*line is .5 the WIDTH*/
                 new Point((WIDTH * .75), 450),
                 new Point((WIDTH * .25), 450)
-//                new Point((WIDTH * .25) + ((2 / 3) * (WIDTH * .5)), 400),
-//                new Point((WIDTH * .25) + ((3 / 3) * (WIDTH * .5)), 400),
-//                new Point((WIDTH * .25) + ((2 / 3) * (WIDTH * .5)), 400),
-//                new Point((WIDTH * .25) + ((1 / 3) * (WIDTH * .5)), 400),
-//                new Point((WIDTH * .25) + ((0 / 3) * (WIDTH * .5)), 400),
-//                new Point((WIDTH * .25) + ((1 / 3) * (WIDTH * .5)), 400)
                 ])
         ],
         walls: [],
+        labels: []
+    },
+    {
+        bullets: 5,
+        ghosts: [
+            new Ghost(2, false, [
+                new Point((WIDTH * .1), (HEIGHT * .2)),
+                new Point((WIDTH * .9), (HEIGHT * .2))
+            ]),
+            new Ghost(2, false, [
+                new Point((WIDTH * .2), (HEIGHT * .45)),
+                new Point((WIDTH * .8), (HEIGHT * .45))
+            ]),
+            new Ghost(3, false, [
+                new Point((WIDTH * .9), (HEIGHT * .7)),
+                new Point((WIDTH * .1), (HEIGHT * .7))
+            ])
+        ],
+        walls: [
+            /*Splitting distance between two Y locations is ((y1 + y2) / 2) - (this.height / 2)*/
+            new Wall(25, (((HEIGHT * .2) + (HEIGHT * .45)) / 2) - 20, 300, 40),
+            new Wall(((WIDTH - 300)/2), (((HEIGHT * .45) + (HEIGHT * .7)) / 2) - 20, 300, 40)
+        ],
+        labels: []
+    },
+    {
+        bullets: 2,
+        ghosts: [
+            new Ghost(2, false, [
+                new Point((WIDTH * .15), (HEIGHT * .5)), 
+                new Point((WIDTH * .85), (HEIGHT * .5)),
+                new Point((WIDTH * .15), (HEIGHT * .5)),
+                new Point((WIDTH * .85), (HEIGHT * .5)),
+            ])
+        ],
+        walls: [
+            new Wall((WIDTH - 400) / 2, (HEIGHT * .6), 400, 50)
+        ],
+        labels: []
+    },
+    {
+        bullets: 5,
+        ghosts: [
+            new Ghost(2, false, [
+                new Point((WIDTH * .33), (HEIGHT * .125)),
+                new Point((WIDTH * .66), (HEIGHT * .125)),
+                new Point((WIDTH * .33), (HEIGHT * .125)),
+                new Point((WIDTH * .66), (HEIGHT * .125))
+            ]),
+            new Ghost(2, true, [
+                new Point(((WIDTH / 2)-50), (HEIGHT * .3) - 50),
+                new Point(((WIDTH / 2)-50), (((HEIGHT * .3) - 50) + ((HEIGHT * .3) + (HEIGHT * .3)) + 50)*.5),
+                new Point(((WIDTH / 2)-50), ((HEIGHT * .3) + (HEIGHT * .3)) + 50),
+                new Point(((WIDTH / 2)+50), ((HEIGHT * .3) + (HEIGHT * .3)) + 50),
+                new Point(((WIDTH / 2)+50), (((HEIGHT * .3) - 50) + ((HEIGHT * .3) + (HEIGHT * .3)) + 50)*.5),
+                new Point(((WIDTH / 2)+50), (HEIGHT * .3) - 50),
+            ]),
+            new Ghost(2, false, [
+                new Point((WIDTH * .66), (HEIGHT * .775)),
+                new Point((WIDTH * .33), (HEIGHT * .775)),
+                new Point((WIDTH * .66), (HEIGHT * .775)),
+                new Point((WIDTH * .33), (HEIGHT * .775))
+            ])
+        ],
+        walls: [
+            new Wall((WIDTH - 20)/2, (HEIGHT * .3), 20, (HEIGHT * .3))
+        ],
+        labels: []
+    },
+    {
+        bullets: 5,
+        ghosts: [
+            new Ghost(3, false, [
+                new Point((WIDTH * .1), (HEIGHT * .1)),
+                new Point((WIDTH * .9), (HEIGHT * .1))
+            ]),
+            new Ghost(2, false, [
+                new Point((WIDTH * .9), (HEIGHT * .8)),
+                new Point((WIDTH * .33), (HEIGHT * .8))
+            ]),
+            new Ghost(12, true, [
+                new Point((WIDTH * .1), (HEIGHT * .25)),
+                new Point((WIDTH * .9), (HEIGHT * .66))
+            ])
+        ],
+        walls: [
+            new Wall((WIDTH * .60), (HEIGHT * .25), (WIDTH * .33), 50),
+            new Wall((WIDTH * .09), (HEIGHT * .6), (WIDTH * .33), 50)
+        ],
         labels: []
     }
 ];
@@ -204,7 +270,6 @@ var demo_levels = [
     {
         bullets: 3,
         ghosts: [
-//            new Ghost(2, false, [new Point(50, (HEIGHT * .75)), new Point(WIDTH - 50, (HEIGHT * .75))])
             new Ghost(2, false, [new Point((WIDTH * .5), (HEIGHT * .75))])
         ],
         walls: [],

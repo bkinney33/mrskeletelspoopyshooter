@@ -30,6 +30,7 @@ function setup() {
     if (levels[current_level].labels.length > 0) {
         for (i = 0; i < levels[current_level].labels.length; i++) {
             var lab = levels[current_level].labels[i];
+            lab.obj.shadow = new createjs.Shadow("#000000", 0, 0, 3);
             stage.addChild(lab.obj);
             var bnd = lab.obj.getBounds();
             lab.obj.x = (WIDTH - bnd.width) * lab.x;
@@ -91,7 +92,7 @@ function teardown() {
 function gameLoop() {
     switch (gamestate) {
     case INIT:
-        console.error("INIT");
+        // console.error("INIT");
         player.score = 0;
         ground = new createjs.Shape();
         //turned off "grass"

@@ -199,6 +199,25 @@ var main_levels = [
         labels: []
     },
     {
+        bullets: 3,
+        ghosts: [
+            new Ghost(13, false, [new Point(WIDTH * .5, HEIGHT * .5)]),
+            new Ghost(2, false, [new Point(WIDTH * .33, HEIGHT * .66), new Point(WIDTH * .66, HEIGHT * .66)])
+        ],
+        walls: [],
+        labels: [
+            {
+                obj: new createjs.Text("If you lose a life, don't worry!", "32px Arial", "#fff"),
+                x: .5,
+                y: .15
+            },
+            {
+                obj: new createjs.Text("Some ghosts grant 1UP when shot before any other ghosts!", "32px Arial", "#fff"),
+                x: .5,
+                y: .20
+            }]
+    },
+    {
         bullets: 2,
         ghosts: [
             new Ghost(2, false, [

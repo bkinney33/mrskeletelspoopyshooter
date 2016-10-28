@@ -35,7 +35,7 @@ function setup() {
             var bnd = lab.obj.getBounds();
             lab.obj.x = (WIDTH - bnd.width) * lab.x;
             lab.obj.y = (HEIGHT - bnd.height) * lab.y;
-            
+
             var shadow = new createjs.Text(lab.obj.text, lab.obj.font, "#FFF");
 
             shadow.color = "#000";
@@ -77,11 +77,11 @@ function teardown() {
     labels = null;
     var i = 0;
 
-    for(i = 0; i < stage.getNumChildren(); i++){
+    for (i = 0; i < stage.getNumChildren(); i++) {
         console.log(stage.getChildAt(i));
     }
 
-    if(ghosts){
+    if (ghosts) {
         for (i = 0; i < ghosts.length; i++) {
             stage.removeChild(ghosts[i].obj);
             stage.removeChild(ghosts[i].path);
@@ -114,13 +114,15 @@ function gameLoop() {
         ground.visible = false;
 
         var size = 25;
-        player.obj = new createjs.Shape();
-        player.obj.graphics.beginFill("#FFF").drawRect(-(size/2), 0, size, size);
-        player.obj.setBounds(0, 0, size, size);
+        //        player.obj = new createjs.Shape();
+        //        player.obj.graphics.beginFill("#FFF").drawRect(-(size/2), 0, size, size);
+        //        player.obj.setBounds(0, 0, size, size);
+
+        player.obj = new createjs.Sprite(player._SpriteSheet);
+        player.obj.gotoAndPlay("idle");
         stage.addChild(player.obj);
         player.obj.x = WIDTH / 2;
-        player.obj.y = (HEIGHT - groundHeight) - (size);
-        player.obj.setBounds(0, 0, size, size);
+        player.obj.y = (HEIGHT - groundHeight);
         player.obj.visible = false;
         levelLabel = new createjs.Text("", "32px bonehead", "#F80");
         bulletLabel = new createjs.Text("", "24px bonehead", "#F80");
@@ -240,21 +242,37 @@ function gameLoop() {
         }
         var p_bnd = player.obj.getBounds();
         if ((A_DOWN || LEFT_DOWN) && !(D_DOWN || RIGHT_DOWN)) {
-            if (player.obj.x >= (p_bnd.width/2)) {
+            player.obj.scaleX = -1;
+            if (!player.moving) {
+                player.moving = true;
+                player.obj.gotoAndPlay("walk");
+            }
+            if (player.obj.x >= (p_bnd.width / 2)) {
                 player.obj.x -= player.movementSpeed;
             } else {
                 player.x = 0;
                 player.obj.x = 0;
             }
         } else if (!(A_DOWN || LEFT_DOWN) && (D_DOWN || RIGHT_DOWN)) {
-            if (player.obj.x < (WIDTH-(p_bnd.width/2 ))) {
+            player.obj.scaleX = 1;
+            if (!player.moving) {
+                player.moving = true;
+                player.obj.gotoAndPlay("walk");
+            }
+            if (player.obj.x < (WIDTH - (p_bnd.width / 2))) {
                 player.obj.x += player.movementSpeed;
             } else {
-                player.obj.x = (WIDTH-1);
+                player.obj.x = (WIDTH - 1);
             }
+        } else {
+            if (player.shootDelay < (DELAY_SHOT - 5)) {
+                player.obj.gotoAndPlay("idle");
+            }
+            player.moving = false;
         }
 
         if ((SPACE_DOWN || W_DOWN || UP_DOWN) && player.shootDelay === 0 && player.bullets > 0) {
+            player.obj.gotoAndPlay("shoot");
             var blt = new createjs.Shape();
             blt.graphics.beginFill('#a00').drawRect(0, 0, 6, 10);
             blt.setBounds(0, 0, 6, 10); //replaced when sprites and images implemented
@@ -354,12 +372,12 @@ function gameLoop() {
             gamestate = LEVELFAILED;
         }
 
-        if(paused){
+        if (paused) {
             gamestate = PAUSED;
             locker = true;
         }
 
-        if(DEVMODE){
+        if (DEVMODE) {
             gamestate = LEVELUP;
             teardown();
             levelup_timer = levelup_delay;
@@ -367,37 +385,37 @@ function gameLoop() {
         }
         break;
     case PAUSED:
-        if(locker){
+        if (locker) {
             pauseScreen.visible = true;
             mainMenu.visible = true;
             retry.visible = true;
             resume.visible = true;
-            stage.setChildIndex(pauseScreen, stage.getNumChildren()-1);
-            stage.setChildIndex(mainMenu, stage.getNumChildren()-1);
-            stage.setChildIndex(resume, stage.getNumChildren()-1);
-            stage.setChildIndex(retry, stage.getNumChildren()-1);
-            stage.setChildIndex(livesLabel, stage.getNumChildren()-1);
-            stage.setChildIndex(bulletLabel, stage.getNumChildren()-1);
-            stage.setChildIndex(scoreLabel, stage.getNumChildren()-1);
+            stage.setChildIndex(pauseScreen, stage.getNumChildren() - 1);
+            stage.setChildIndex(mainMenu, stage.getNumChildren() - 1);
+            stage.setChildIndex(resume, stage.getNumChildren() - 1);
+            stage.setChildIndex(retry, stage.getNumChildren() - 1);
+            stage.setChildIndex(livesLabel, stage.getNumChildren() - 1);
+            stage.setChildIndex(bulletLabel, stage.getNumChildren() - 1);
+            stage.setChildIndex(scoreLabel, stage.getNumChildren() - 1);
             locker = false;
         }
-        if(!paused){
+        if (!paused) {
             pauseScreen.visible = false;
             mainMenu.visible = false;
             retry.visible = false;
             resume.visible = false;
-            gamestate = RUN;   
+            gamestate = RUN;
         }
         break;
     case LEVELUP:
         //set delay, then execute
-        if(levelup_timer === Math.floor(levelup_delay * .33)){
+        if (levelup_timer === Math.floor(levelup_delay * .33)) {
             teardown();
             levelupimg.visible = true;
-            levelsign = new createjs.Text("Level " + (current_level+1) + " complete!", "64px bonehead", "#F80");
+            levelsign = new createjs.Text("Level " + (current_level + 1) + " complete!", "64px bonehead", "#F80");
             var bnds = levelsign.getBounds();
-            levelsign.x = (WIDTH - bnds.width)/2;
-            levelsign.y = (HEIGHT - bnds.height)/2;
+            levelsign.x = (WIDTH - bnds.width) / 2;
+            levelsign.y = (HEIGHT - bnds.height) / 2;
             stage.addChild(levelsign);
         }
         if (levelup_timer === levelup_delay) {

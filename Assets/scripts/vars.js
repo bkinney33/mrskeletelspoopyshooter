@@ -21,8 +21,10 @@ var secret = false,
     DEVMODE = false;
 
 var player = {
+    _SpriteSheet: null,
     score: 0,
     lives: 3,
+    moving: false,
     movementSpeed: 10,
     obj: null,
     bnd: null,

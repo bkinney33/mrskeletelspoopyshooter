@@ -62,9 +62,11 @@ function teardown() {
     player.obj.visible = false;
     ground.visible = false;
     var i = 0;
-    for (i = 0; i < ghosts.length; i++) {
-        stage.removeChild(ghosts[i].obj);
-        stage.removeChild(ghosts[i].path);
+    if(ghosts){
+        for (i = 0; i < ghosts.length; i++) {
+            stage.removeChild(ghosts[i].obj);
+            stage.removeChild(ghosts[i].path);
+        }
     }
     ghosts = null;
     for (i = 0; i < levels[current_level].walls.length; i++) {
@@ -109,7 +111,6 @@ function gameLoop() {
         player.obj.y = (HEIGHT - groundHeight) - (size);
         player.obj.setBounds(0, 0, size, size);
         player.obj.visible = false;
-
         levelLabel = new createjs.Text("", "32px bonehead", "#F80");
         bulletLabel = new createjs.Text("", "24px bonehead", "#F80");
         scoreLabel = new createjs.Text("", "24px bonehead", "#F80");
@@ -354,6 +355,34 @@ function gameLoop() {
         } else if (bullets.length === 0 && player.bullets === 0) {
             gamestate = LEVELFAILED;
         }
+
+        if(paused){
+            gamestate = PAUSED;
+            locker = true;
+        }
+        break;
+    case PAUSED:
+        if(locker){
+            pauseScreen.visible = true;
+            mainMenu.visible = true;
+            retry.visible = true;
+            resume.visible = true;
+            stage.setChildIndex(pauseScreen, stage.getNumChildren()-1);
+            stage.setChildIndex(mainMenu, stage.getNumChildren()-1);
+            stage.setChildIndex(resume, stage.getNumChildren()-1);
+            stage.setChildIndex(retry, stage.getNumChildren()-1);
+            stage.setChildIndex(livesLabel, stage.getNumChildren()-1);
+            stage.setChildIndex(bulletLabel, stage.getNumChildren()-1);
+            stage.setChildIndex(scoreLabel, stage.getNumChildren()-1);
+            locker = false;
+        }
+        if(!paused){
+            pauseScreen.visible = false;
+            mainMenu.visible = false;
+            retry.visible = false;
+            resume.visible = false;
+            gamestate = RUN;   
+        }
         break;
     case LEVELUP:
         //set delay, then execute
@@ -398,6 +427,9 @@ function gameLoop() {
         }
         break;
     case RETRYLEVEL:
+        pauseScreen.visible = false;
+        mainMenu.visible = false;
+        resume.visible = false;
         gameoverScreen.visible = false;
         mainMenu.visible = false;
         retry.visible = false;

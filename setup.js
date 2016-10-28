@@ -51,6 +51,10 @@ manifest = [
         id: "gameover"
     },
     {
+        src: "images/paused.jpg",
+        id: "paused"
+    },
+    {
         src: "sounds/loser.mp3",
         id: "loser"
     }
@@ -95,11 +99,14 @@ function loadComplete(evt) {
     instructionScreen = new createjs.Bitmap(queue.getResult("instructions"));
     gameoverScreen = new createjs.Bitmap(queue.getResult("gameover"));
     levelupimg = new createjs.Bitmap(queue.getResult("levelupimg"));
+    pauseScreen = new createjs.Bitmap(queue.getResult("paused"));
 
     stage.addChild(backgroundScreen);
     stage.addChild(titleScreen);
     stage.addChild(instructionScreen);
     stage.addChild(gameoverScreen);
+    stage.addChild(pauseScreen);
+    pauseScreen.visible = false;
     instructionScreen.visible = false;
     gameoverScreen.visible = false;
 

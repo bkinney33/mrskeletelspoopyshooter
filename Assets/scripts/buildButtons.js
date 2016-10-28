@@ -20,7 +20,7 @@ function addMainMenuButton() {
     mainMenu.setBounds(0, 0, wid, hei);
     var bnd = mainMenu.getBounds();
     mainMenu.x = (WIDTH - bnd.width) / 2;
-    mainMenu.y = 500;
+    mainMenu.y = (HEIGHT - bnd.height) * .75;
     mainMenu.addChild(btnMM, MMText);
 
     mainMenu.on("click", function (evt) {
@@ -33,6 +33,8 @@ function addMainMenuButton() {
         rules.visible = true;
         instructionScreen.visible = false;
         retry.visible = false;
+        resume.visible = false;
+        pauseScreen.visible = false;
         back.visible = false;
         stage.removeChild(scoreLabel);
         scoreLabel.visible = false;
@@ -40,6 +42,8 @@ function addMainMenuButton() {
         gameoverScreen.visible = false;
         mainMenu.visible = false;
         createjs.Sound.stop();
+        teardown();
+        paused = false;
     });
     mainMenu.on("mouseover", function (evt) {
         btnMM.graphics.beginFill('#444').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
@@ -117,6 +121,57 @@ function addPlayButton() {
     });
 
     stage.addChild(play);
+}
+
+function addResumeButton() {
+    /**********REPLACE THIS WITH A GROUP INSTEAD OF A RECT**********/
+
+    var padding = 25;
+    var wid = 150,
+        hei = 60;
+    var btnResume = new createjs.Shape();
+    btnResume.graphics.beginFill('#000').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
+
+    var resumeText = new createjs.Text("RESUME", "30px bonehead", "#F80");
+    var b = resumeText.getBounds();
+    resumeText.x = (wid - b.width) / 2;
+    resumeText.y = (hei - b.height) / 2;
+
+    resume = new createjs.Container();
+    resume.setBounds(0, 0, wid, hei);
+    var bnd = resume.getBounds();
+    resume.x = (WIDTH - bnd.width) / 2;
+    resume.y = (HEIGHT - bnd.height) *.45;
+    resume.addChild(btnResume, resumeText);
+
+    resume.on("click", function (evt) {
+        btnResume.graphics.beginFill('#444').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
+        resumeText.color = "#FFF";
+        paused = false;
+        pauseScreen.visible = false;
+        mainMenu.visible = false;
+        retry.visible = false;
+        resume.visible = false;
+        gamestate = RUN;
+        createjs.Sound.stop();
+    });
+    resume.on("mouseover", function (evt) {
+        btnResume.graphics.beginFill('#444').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
+        resumeText.color = "#FFF";
+        //console.log("Mouse Over");
+    });
+    resume.on("mouseout", function (evt) {
+        btnResume.graphics.beginFill('#000').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
+        resumeText.color = "#F80";
+        //console.log("Mouse Out");
+    });
+    resume.on("mousedown", function (evt) {
+        btnResume.graphics.beginFill('#777').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
+        resumeText.color = "#000";
+        //console.log("Mouse Down");
+    });
+
+    stage.addChild(resume);
 }
 
 function addRulesButton() {
@@ -230,7 +285,7 @@ function addRetryButton() {
     retry.setBounds(0, 0, wid, hei);
     var bnd = retry.getBounds();
     retry.x = (WIDTH - bnd.width) / 2;
-    retry.y = b1y;
+    retry.y = (HEIGHT - bnd.height) * .6;
     retry.addChild(btnPlay, retryText);
 
     retry.on("click", function (evt) {
@@ -243,6 +298,7 @@ function addRetryButton() {
         rules.visible = false;
         instructionScreen.visible = false;
         back.visible = false;
+        paused = false;
         gamestate = RETRYLEVEL;
         createjs.Sound.stop();
     });
@@ -362,6 +418,8 @@ function addButtons() {
     stage.enableMouseOver();
     addPlayButton();
     addRetryButton();
+    addResumeButton();
+    resume.visible = false;
     addRulesButton();
     addBackButton();
     back.visible = false;

@@ -2,10 +2,13 @@ var INIT = 100,
     HOLD = 200,
     RUN = 400,
     LEVELUP = 500,
-    LEVELFAILED = 600,
-    RETRYLEVEL = 700,
-    GAMEOVER = 900,
-    WIN = 1000;
+    PAUSED = 600,
+    LEVELFAILED = 800,
+    RETRYLEVEL = 900,
+    GAMEOVER = 2000,
+    WIN = 9999;
+
+var paused = false;
 
 var FPS = 30,
     groundHeight = 45,

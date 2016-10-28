@@ -457,8 +457,9 @@ function gameLoop() {
         mainMenu.visible = false;
         retry.visible = false;
         player.lives--;
-        //        locker = true;
-        setup();
+        locker = true;
+        teardown();
+        //setup();
         gamestate = RUN;
         break;
     case GAMEOVER:

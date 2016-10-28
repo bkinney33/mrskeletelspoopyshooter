@@ -219,7 +219,7 @@ function addRulesButton() {
         //console.log("Mouse Down");
     });
 
-    //stage.addChild(rules);
+    stage.addChild(rules);
 }
 
 function addBackButton() {

@@ -89,24 +89,29 @@ var main_levels = [
         walls: [],
         labels: [
             {
-                obj: new createjs.Text("To complete each level, kill all ghosts", "24px arial", "#fff"),
+                obj: new createjs.Text("To complete each level, kill all ghosts", "24px bonehead", "#ae00ff"),
                 x: .5,
                 y: .25
             },
             {
-                obj: new createjs.Text("Use A & D or the Arrow Keys to move Left and Right", "24px arial", "#fff"),
+                obj: new createjs.Text("Use A & D or the Arrow Keys to move Left and Right", "24px bonehead", "#ae00ff"),
                 x: .5,
                 y: .35
             },
             {
-                obj: new createjs.Text("Press SPACE to fire bullets", "24px arial", "#fff"),
+                obj: new createjs.Text("Press SPACE, W, or UP to fire bullets", "24px bonehead", "#ae00ff"),
                 x: .5,
                 y: .65
             },
             {
-                obj: new createjs.Text("(Be careful, you have a limited amount!)", "24px arial", "#fff"),
+                obj: new createjs.Text("Be careful, you have a limited amount!", "24px bonehead", "#ae00ff"),
                 x: .5,
-                y: .75
+                y: .72
+            },
+            {
+                obj: new createjs.Text("(Run out of bullets and you'll lose a life!)", "24px bonehead", "#f00"),
+                x: .5,
+                y: .78
             }
         ]
     },
@@ -202,25 +207,29 @@ var main_levels = [
         bullets: 3,
         ghosts: [
             new Ghost(13, false, [new Point(WIDTH * .5, HEIGHT * .5)]),
-            new Ghost(2, false, [new Point(WIDTH * .33, HEIGHT * .66), new Point(WIDTH * .66, HEIGHT * .66)])
+            new Ghost(2, false, [
+                new Point(WIDTH * .33, HEIGHT * .66), 
+                new Point(WIDTH * .66, HEIGHT * .66)
+            ])
         ],
         walls: [],
         labels: [
             {
-                obj: new createjs.Text("If you lose a life, don't worry!", "32px Arial", "#fff"),
+                obj: new createjs.Text("If you lose a life, don't worry!", "32px bonehead", "#ae00ff"),
                 x: .5,
                 y: .15
             },
             {
-                obj: new createjs.Text("Some ghosts grant 1UP when shot", "32px Arial", "#fff"),
+                obj: new createjs.Text("Some ghosts grant 1UP when shot", "32px bonehead", "#ae00ff"),
                 x: .5,
                 y: .20
             },
             {
-                obj: new createjs.Text("before any other ghosts!", "32px Arial", "#fff"),
+                obj: new createjs.Text("before any other ghosts!", "32px bonehead", "#ae00ff"),
                 x: .5,
                 y: .25
-            }]
+            }
+        ]
     },
     {
         bullets: 3,
@@ -313,7 +322,7 @@ var main_levels = [
         ],
         labels: [
             {
-                obj: new createjs.Text("Some Ghosts only move with you", "32px Arial", "#fff"),
+                obj: new createjs.Text("Some Ghosts only move with you", "32px bonehead", "#ae00ff"),
                 x: .5,
                 y: .15
             }]
@@ -329,22 +338,22 @@ var demo_levels = [
         walls: [],
         labels: [
             {
-                obj: new createjs.Text("Welcome to Mr Skeltal's Halloween Shooter", "32px arial", "#fff"),
+                obj: new createjs.Text("Welcome to Mr Skeltal's Halloween Shooter", "32px bonehead", "#ae00ff"),
                 x: .5,
                 y: .2
             },
             {
-                obj: new createjs.Text("To complete each level, kill all ghosts", "24px arial", "#fff"),
+                obj: new createjs.Text("To complete each level, kill all ghosts", "24px bonehead", "#ae00ff"),
                 x: .5,
                 y: .4
             },
             {
-                obj: new createjs.Text("without running out of bullets", "24px arial", "#fff"),
+                obj: new createjs.Text("without running out of bullets", "24px bonehead", "#ae00ff"),
                 x: .5,
                 y: .45
             },
             {
-                obj: new createjs.Text("(see bottom-left corner)", "24px arial", "#fff"),
+                obj: new createjs.Text("(see bottom-left corner)", "24px bonehead", "#ae00ff"),
                 x: .5,
                 y: .5
             }
@@ -360,7 +369,7 @@ var demo_levels = [
         walls: [],
         labels: [
             {
-                obj: new createjs.Text("Ghosts come in 3 different sizes, and move on tracks", "32px arial", "#fff"),
+                obj: new createjs.Text("Ghosts come in 3 different sizes, and move on tracks", "32px bonehead", "#ae00ff"),
                 x: .5,
                 y: .2
             }
@@ -376,7 +385,7 @@ var demo_levels = [
         walls: [],
         labels: [
             {
-                obj: new createjs.Text("Some tracks loop!", "32px arial", "#FFF"),
+                obj: new createjs.Text("Some tracks loop!", "32px bonehead", "#ae00ff"),
                 x: .5,
                 y: .5
             }
@@ -397,7 +406,7 @@ var demo_levels = [
         walls: [],
         labels: [
             {
-                obj: new createjs.Text("As you progress, tracks will get harder", "32px arial", "#FFF"),
+                obj: new createjs.Text("As you progress, tracks will get harder", "32px bonehead", "#ae00ff"),
                 x: .5,
                 y: .3
             }
@@ -415,12 +424,12 @@ var demo_levels = [
         ],
         labels: [
             {
-                obj: new createjs.Text("Some levels have walls which block your shots", "32px Arial", "#fff"),
+                obj: new createjs.Text("Some levels have walls which block your shots", "32px bonehead", "#ae00ff"),
                 x: .5,
                 y: .15
             },
             {
-                obj: new createjs.Text("be sure to plan ahead!", "32px Arial", "#fff"),
+                obj: new createjs.Text("be sure to plan ahead!", "32px bonehead", "#ae00ff"),
                 x: .5,
                 y: .20
             }
@@ -435,12 +444,12 @@ var demo_levels = [
         walls: [],
         labels: [
             {
-                obj: new createjs.Text("If you lost a life, don't worry!", "32px Arial", "#fff"),
+                obj: new createjs.Text("If you lost a life, don't worry!", "32px bonehead", "#ae00ff"),
                 x: .5,
                 y: .15
             },
             {
-                obj: new createjs.Text("Some ghosts grant 1UP when shot first!", "32px Arial", "#fff"),
+                obj: new createjs.Text("Some ghosts grant 1UP when shot first!", "32px bonehead", "#ae00ff"),
                 x: .5,
                 y: .20
             }]
@@ -454,7 +463,7 @@ var demo_levels = [
         walls: [],
         labels: [
             {
-                obj: new createjs.Text("Some ghosts take multiple shots to kill", "32px Arial", "#fff"),
+                obj: new createjs.Text("Some ghosts take multiple shots to kill", "32px bonehead", "#ae00ff"),
                 x: .5,
                 y: .15
             }]
@@ -469,7 +478,7 @@ var demo_levels = [
         ],
         labels: [
             {
-                obj: new createjs.Text("Others will move with you", "32px Arial", "#fff"),
+                obj: new createjs.Text("Others will move with you", "32px bonehead", "#ae00ff"),
                 x: .5,
                 y: .15
             }]

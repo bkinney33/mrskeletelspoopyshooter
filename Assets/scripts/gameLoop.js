@@ -1,6 +1,7 @@
 var tempScore = 0;
 
 function setup() {
+    console.log("setup");
     stage.removeChild(levelsign);
     levelupimg.visible = false;
     tempScore = player.score;
@@ -9,6 +10,7 @@ function setup() {
     cheated = false;
     firstHit = true;
     forward = true;
+    labels = new createjs.Container();
     p = 0;
     var i;
     ghosts = [];
@@ -30,12 +32,21 @@ function setup() {
     if (levels[current_level].labels.length > 0) {
         for (i = 0; i < levels[current_level].labels.length; i++) {
             var lab = levels[current_level].labels[i];
-            lab.obj.shadow = new createjs.Shadow("#000000", 0, 0, 5);
-            stage.addChild(lab.obj);
             var bnd = lab.obj.getBounds();
             lab.obj.x = (WIDTH - bnd.width) * lab.x;
             lab.obj.y = (HEIGHT - bnd.height) * lab.y;
+            
+            var shadow = new createjs.Text(lab.obj.text, lab.obj.font, "#FFF");
+
+            shadow.color = "#000";
+            shadow.outline = 5;
+            bnd = shadow.getBounds();
+            shadow.x = (WIDTH - bnd.width) * lab.x;
+            shadow.y = (HEIGHT - bnd.height) * lab.y;
+            labels.addChild(shadow);
+            labels.addChild(lab.obj);
         }
+        stage.addChild(labels);
     }
 
     player.bullets = levels[current_level].bullets;
@@ -62,7 +73,14 @@ function setup() {
 function teardown() {
     player.obj.visible = false;
     ground.visible = false;
+    stage.removeChild(labels);
+    labels = null;
     var i = 0;
+
+    for(i = 0; i < stage.getNumChildren(); i++){
+        console.log(stage.getChildAt(i));
+    }
+
     if(ghosts){
         for (i = 0; i < ghosts.length; i++) {
             stage.removeChild(ghosts[i].obj);
@@ -77,12 +95,6 @@ function teardown() {
         stage.removeChild(bullets[i]);
     }
 
-    if (levels[current_level].labels.length > 0) {
-        for (i = 0; i < levels[current_level].labels.length; i++) {
-            var lab = levels[current_level].labels[i];
-            stage.removeChild(lab.obj);
-        }
-    }
 
     bulletLabel.text = "";
     levelLabel.text = "";
@@ -92,13 +104,10 @@ function teardown() {
 function gameLoop() {
     switch (gamestate) {
     case INIT:
-        // console.error("INIT");
         player.score = 0;
         ground = new createjs.Shape();
-        //turned off "grass"
         var gWidth = (WIDTH * 1.5);
-        //.beginStroke("#060").setStrokeStyle(2)
-        ground.graphics.beginFill("#573c00").drawRect(0, 0, gWidth, (500));
+        ground.graphics.beginFill("#151515").drawRect(0, 0, gWidth, (500));
         ground.y = HEIGHT - groundHeight;
         ground.x = (WIDTH - (gWidth)) / 2;
         stage.addChild(ground);
@@ -183,17 +192,8 @@ function gameLoop() {
                             scaledP = (1 - p) * (ghost.points.length);
                         }
                         if (scaledP < (ghost.points.length - 1)) {
-                            //                        console.log({
-                            //                            i: Math.floor(scaledP),
-                            //                            p: (scaledP - Math.floor(scaledP))
-                            //                        });
                             r = lerp(ghost.points[Math.floor(scaledP)], ghost.points[Math.floor(scaledP + 1)], scaledP - Math.floor(scaledP));
                         } else if (scaledP < ghost.points.length) {
-                            //                        console.log({
-                            //                            i: Math.floor(scaledP),
-                            //                            p: (scaledP - Math.floor(scaledP)),
-                            //                            z: true
-                            //                        });
                             r = lerp(ghost.points[Math.floor(scaledP)], ghost.points[0], scaledP - Math.floor(scaledP));
                         }
                     } else {
@@ -225,8 +225,6 @@ function gameLoop() {
                 }
 
             }
-
-
         }
 
         if (J_DOWN && !cheated) {
@@ -256,7 +254,7 @@ function gameLoop() {
             }
         }
 
-        if (SPACE_DOWN && player.shootDelay === 0 && player.bullets > 0) {
+        if ((SPACE_DOWN || W_DOWN || UP_DOWN) && player.shootDelay === 0 && player.bullets > 0) {
             var blt = new createjs.Shape();
             blt.graphics.beginFill('#a00').drawRect(0, 0, 6, 10);
             blt.setBounds(0, 0, 6, 10); //replaced when sprites and images implemented
@@ -272,8 +270,6 @@ function gameLoop() {
         }
 
         player.shootDelay -= ((player.shootDelay === 0) ? 0 : 1);
-
-        /*don't forget bullets*/
 
         var b;
         for (b = 0; b < bullets.length; b++) {
@@ -362,6 +358,13 @@ function gameLoop() {
             gamestate = PAUSED;
             locker = true;
         }
+
+        if(DEVMODE){
+            gamestate = LEVELUP;
+            teardown();
+            levelup_timer = levelup_delay;
+            DEVMODE = false;
+        }
         break;
     case PAUSED:
         if(locker){
@@ -388,7 +391,7 @@ function gameLoop() {
         break;
     case LEVELUP:
         //set delay, then execute
-        if( levelup_timer === Math.floor(levelup_delay * .33)){
+        if(levelup_timer === Math.floor(levelup_delay * .33)){
             teardown();
             levelupimg.visible = true;
             levelsign = new createjs.Text("Level " + (current_level+1) + " complete!", "64px bonehead", "#F80");
@@ -403,9 +406,7 @@ function gameLoop() {
             if (current_level + 1 === levels.length) {
                 gamestate = WIN;
             } else {
-                // teardown();
                 current_level++;
-                setup();
                 gamestate = RUN;
             }
         } else {

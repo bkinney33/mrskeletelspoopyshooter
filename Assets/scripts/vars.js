@@ -45,7 +45,8 @@ var levelup_timer = 0,
 
 var bullets = [];
 var levels = [],
-    ghosts = [];
+    ghosts = [],
+    labels = [];
 
 var DELAY_SHOT = .5 * FPS,
     BULLET_VELOCITY = 15;

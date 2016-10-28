@@ -1,7 +1,4 @@
-function Point(x, y) {
-    this.x = x;
-    this.y = y;
-}
+//Point object definition is in vars.js
 
 function Wall(x, y, width, height) {
     this.obj = new createjs.Shape();
@@ -85,32 +82,36 @@ var main_levels = [
     {
         bullets: 3,
         ghosts: [
-            new Ghost(2, false, [new Point(100, (HEIGHT * .5)), new Point(700, (HEIGHT * .5))])
+            new Ghost(2, false, [
+                new Point(100, (HEIGHT * .5)), new Point(700, (HEIGHT * .5))
+            ])
         ],
-        walls: [
-//            new Wall(0, 450, 350, 50),
-//            new Wall(450, 450, 350, 50)
-        ],
+        walls: [],
         labels: [
             {
-                obj: new createjs.Text("To complete each level, kill all ghosts", "24px arial", "#fff"),
+                obj: new createjs.Text("To complete each level, kill all ghosts", "24px bonehead", "#ae00ff"),
                 x: .5,
                 y: .25
             },
             {
-                obj: new createjs.Text("Use A & D or the Arrow Keys to move Left and Right", "24px arial", "#fff"),
+                obj: new createjs.Text("Use A & D or the Arrow Keys to move Left and Right", "24px bonehead", "#ae00ff"),
                 x: .5,
                 y: .35
             },
             {
-                obj: new createjs.Text("Press SPACE to fire bullets", "24px arial", "#fff"),
+                obj: new createjs.Text("Press SPACE, W, or UP to fire bullets", "24px bonehead", "#ae00ff"),
                 x: .5,
                 y: .65
             },
             {
-                obj: new createjs.Text("(Be careful, you have a limited amount!)", "24px arial", "#fff"),
+                obj: new createjs.Text("Be careful, you have a limited amount!", "24px bonehead", "#ae00ff"),
                 x: .5,
-                y: .75
+                y: .72
+            },
+            {
+                obj: new createjs.Text("(Run out of bullets and you'll lose a life!)", "24px bonehead", "#f00"),
+                x: .5,
+                y: .78
             }
         ]
     },
@@ -129,9 +130,6 @@ var main_levels = [
         bullets: 6,
         ghosts: [
             new Ghost(2, false, [
-//                new Point((WIDTH * .3), (HEIGHT * .23)),
-//                new Point((WIDTH * .7), (HEIGHT * .23))
-
                 new Point((WIDTH * .3), (HEIGHT * .13)),
                 new Point((WIDTH * .4), (HEIGHT * .13)),
                 new Point((WIDTH * .4), (HEIGHT * .23)),
@@ -165,36 +163,183 @@ var main_levels = [
         bullets: 5,
         ghosts: [
             new Ghost(3, true, [
-                new Point((WIDTH * .5), 100),
-                new Point((WIDTH * .75), 100),
-                new Point((WIDTH * .5), 100),
-                new Point((WIDTH * .25), 100)
+                new Point((WIDTH * .5), 200),
+                new Point((WIDTH * .75), 200),
+                new Point((WIDTH * .5), 200),
+                new Point((WIDTH * .25), 200)
             ]),
             new Ghost(2, true, [
-                /*line is .5 the WIDTH*/
-                new Point((WIDTH * .25), 300),
-                new Point((WIDTH * .75), 300)
-//                new Point((WIDTH * .25) + ((1 / 3) * (WIDTH * .5)), 300),
-//                new Point((WIDTH * .25) + ((2 / 3) * (WIDTH * .5)), 300),
-//                new Point((WIDTH * .25) + ((3 / 3) * (WIDTH * .5)), 300),
-//                new Point((WIDTH * .25) + ((2 / 3) * (WIDTH * .5)), 300),
-//                new Point((WIDTH * .25) + ((1 / 3) * (WIDTH * .5)), 300),
-//                new Point((WIDTH * .25) + ((0 / 3) * (WIDTH * .5)), 300)
+                new Point((WIDTH * .25), 350),
+                new Point((WIDTH * .75), 350)
                 ]),
             new Ghost(1, true, [
-                /*line is .5 the WIDTH*/
-                new Point((WIDTH * .75), 400),
-                new Point((WIDTH * .25), 400)
-//                new Point((WIDTH * .25) + ((2 / 3) * (WIDTH * .5)), 400),
-//                new Point((WIDTH * .25) + ((3 / 3) * (WIDTH * .5)), 400),
-//                new Point((WIDTH * .25) + ((2 / 3) * (WIDTH * .5)), 400),
-//                new Point((WIDTH * .25) + ((1 / 3) * (WIDTH * .5)), 400),
-//                new Point((WIDTH * .25) + ((0 / 3) * (WIDTH * .5)), 400),
-//                new Point((WIDTH * .25) + ((1 / 3) * (WIDTH * .5)), 400)
+                new Point((WIDTH * .75), 450),
+                new Point((WIDTH * .25), 450)
                 ])
         ],
         walls: [],
         labels: []
+    },
+    {
+        bullets: 5,
+        ghosts: [
+            new Ghost(2, false, [
+                new Point((WIDTH * .1), (HEIGHT * .2)),
+                new Point((WIDTH * .9), (HEIGHT * .2))
+            ]),
+            new Ghost(2, false, [
+                new Point((WIDTH * .2), (HEIGHT * .45)),
+                new Point((WIDTH * .8), (HEIGHT * .45))
+            ]),
+            new Ghost(3, false, [
+                new Point((WIDTH * .9), (HEIGHT * .7)),
+                new Point((WIDTH * .1), (HEIGHT * .7))
+            ])
+        ],
+        walls: [
+            /*Splitting distance between two Y locations is ((y1 + y2) / 2) - (this.height / 2)*/
+            new Wall(25, (((HEIGHT * .2) + (HEIGHT * .45)) / 2) - 20, 300, 40),
+            new Wall(((WIDTH - 300)/2), (((HEIGHT * .45) + (HEIGHT * .7)) / 2) - 20, 300, 40)
+        ],
+        labels: []
+    },
+    {
+        bullets: 3,
+        ghosts: [
+            new Ghost(13, false, [new Point(WIDTH * .5, HEIGHT * .5)]),
+            new Ghost(2, false, [
+                new Point(WIDTH * .33, HEIGHT * .66), 
+                new Point(WIDTH * .66, HEIGHT * .66)
+            ])
+        ],
+        walls: [],
+        labels: [
+            {
+                obj: new createjs.Text("If you lose a life, don't worry!", "32px bonehead", "#ae00ff"),
+                x: .5,
+                y: .15
+            },
+            {
+                obj: new createjs.Text("Some ghosts grant 1UP when shot", "32px bonehead", "#ae00ff"),
+                x: .5,
+                y: .20
+            },
+            {
+                obj: new createjs.Text("before any other ghosts!", "32px bonehead", "#ae00ff"),
+                x: .5,
+                y: .25
+            }
+        ]
+    },
+    {
+        bullets: 3,
+        ghosts: [
+            new Ghost(2, false, [
+                new Point((WIDTH * .15), (HEIGHT * .5)), 
+                new Point((WIDTH * .85), (HEIGHT * .5)),
+                new Point((WIDTH * .15), (HEIGHT * .5)),
+                new Point((WIDTH * .85), (HEIGHT * .5)),
+            ])
+        ],
+        walls: [
+            new Wall((WIDTH - 400) / 2, (HEIGHT * .6), 400, 50)
+        ],
+        labels: []
+    },
+    {
+        bullets: 5,
+        ghosts: [
+            new Ghost(2, false, [
+                new Point((WIDTH * .33), (HEIGHT * .125)),
+                new Point((WIDTH * .66), (HEIGHT * .125)),
+                new Point((WIDTH * .33), (HEIGHT * .125)),
+                new Point((WIDTH * .66), (HEIGHT * .125))
+            ]),
+            new Ghost(2, true, [
+                new Point(((WIDTH / 2)-50), (HEIGHT * .3) - 50),
+                new Point(((WIDTH / 2)-50), (((HEIGHT * .3) - 50) + ((HEIGHT * .3) + (HEIGHT * .3)) + 50)*.5),
+                new Point(((WIDTH / 2)-50), ((HEIGHT * .3) + (HEIGHT * .3)) + 50),
+                new Point(((WIDTH / 2)+50), ((HEIGHT * .3) + (HEIGHT * .3)) + 50),
+                new Point(((WIDTH / 2)+50), (((HEIGHT * .3) - 50) + ((HEIGHT * .3) + (HEIGHT * .3)) + 50)*.5),
+                new Point(((WIDTH / 2)+50), (HEIGHT * .3) - 50),
+            ]),
+            new Ghost(2, false, [
+                new Point((WIDTH * .66), (HEIGHT * .775)),
+                new Point((WIDTH * .33), (HEIGHT * .775)),
+                new Point((WIDTH * .66), (HEIGHT * .775)),
+                new Point((WIDTH * .33), (HEIGHT * .775))
+            ])
+        ],
+        walls: [
+            new Wall((WIDTH - 20)/2, (HEIGHT * .3), 20, (HEIGHT * .3))
+        ],
+        labels: []
+    },
+    {
+        bullets: 5,
+        ghosts: [
+            new Ghost(3, false, [
+                new Point((WIDTH * .1), (HEIGHT * .1)),
+                new Point((WIDTH * .9), (HEIGHT * .1))
+            ]),
+            new Ghost(2, false, [
+                new Point((WIDTH * .9), (HEIGHT * .8)),
+                new Point((WIDTH * .33), (HEIGHT * .8))
+            ]),
+            new Ghost(12, true, [
+                new Point((WIDTH * .1), (HEIGHT * .25)),
+                new Point((WIDTH * .9), (HEIGHT * .66))
+            ])
+        ],
+        walls: [
+            new Wall((WIDTH * .60), (HEIGHT * .25), (WIDTH * .33), 50),
+            new Wall((WIDTH * .09), (HEIGHT * .6), (WIDTH * .33), 50)
+        ],
+        labels: []
+    },
+    {
+        bullets: 5,
+        ghosts: [
+            /*3 tracking ghosts, medium -> large -> small*/
+            new Ghost(5, false, [
+                new Point(1,           HEIGHT * .25),
+                new Point(WIDTH-1,   HEIGHT * .25)
+                ]),
+            new Ghost(6, false, [
+                new Point(1,           HEIGHT * .475),
+                new Point(WIDTH-1,   HEIGHT * .475)
+                ]),
+            new Ghost(14, false, [
+                new Point(1,           HEIGHT * .7),
+                new Point(WIDTH-1,   HEIGHT * .7)
+                ])
+        ],
+        walls: [
+            new Wall(0,                     (HEIGHT * .3625) - (25), (WIDTH * .45), 50),
+            new Wall(WIDTH - (WIDTH*.45),   (HEIGHT * .3625) - (25), (WIDTH * .45), 50),
+            new Wall(0,                     (HEIGHT * .5875) - (25), (WIDTH * .45), 50),
+            new Wall(WIDTH - (WIDTH*.45),   (HEIGHT * .5875) - (25), (WIDTH * .45), 50)
+        ],
+        labels: [
+            {
+                obj: new createjs.Text("Some Ghosts only move with you", "32px bonehead", "#ae00ff"),
+                x: .5,
+                y: .15
+            }]
+    },
+    {
+        bullets: 7,
+        ghosts: [
+            new Ghost(22, false, [new Point(WIDTH * .33, HEIGHT * .5)]),
+            new Ghost(32, false, [new Point(WIDTH * .66, HEIGHT * .5)])
+        ],
+        walls: [],
+        labels: [
+            {
+                obj: new createjs.Text("Some ghosts take multiple shots to kill", "32px bonehead", "#ae00ff"),
+                x: .5,
+                y: .15
+            }]
     }
 ];
 
@@ -202,28 +347,27 @@ var demo_levels = [
     {
         bullets: 3,
         ghosts: [
-//            new Ghost(2, false, [new Point(50, (HEIGHT * .75)), new Point(WIDTH - 50, (HEIGHT * .75))])
             new Ghost(2, false, [new Point((WIDTH * .5), (HEIGHT * .75))])
         ],
         walls: [],
         labels: [
             {
-                obj: new createjs.Text("Welcome to Mr Skeltal's Halloween Shooter", "32px arial", "#fff"),
+                obj: new createjs.Text("Welcome to Mr Skeltal's Halloween Shooter", "32px bonehead", "#ae00ff"),
                 x: .5,
                 y: .2
             },
             {
-                obj: new createjs.Text("To complete each level, kill all ghosts", "24px arial", "#fff"),
+                obj: new createjs.Text("To complete each level, kill all ghosts", "24px bonehead", "#ae00ff"),
                 x: .5,
                 y: .4
             },
             {
-                obj: new createjs.Text("without running out of bullets", "24px arial", "#fff"),
+                obj: new createjs.Text("without running out of bullets", "24px bonehead", "#ae00ff"),
                 x: .5,
                 y: .45
             },
             {
-                obj: new createjs.Text("(see bottom-left corner)", "24px arial", "#fff"),
+                obj: new createjs.Text("(see bottom-left corner)", "24px bonehead", "#ae00ff"),
                 x: .5,
                 y: .5
             }
@@ -239,7 +383,7 @@ var demo_levels = [
         walls: [],
         labels: [
             {
-                obj: new createjs.Text("Ghosts come in 3 different sizes, and move on tracks", "32px arial", "#fff"),
+                obj: new createjs.Text("Ghosts come in 3 different sizes, and move on tracks", "32px bonehead", "#ae00ff"),
                 x: .5,
                 y: .2
             }
@@ -255,7 +399,7 @@ var demo_levels = [
         walls: [],
         labels: [
             {
-                obj: new createjs.Text("Some tracks loop!", "32px arial", "#FFF"),
+                obj: new createjs.Text("Some tracks loop!", "32px bonehead", "#ae00ff"),
                 x: .5,
                 y: .5
             }
@@ -276,7 +420,7 @@ var demo_levels = [
         walls: [],
         labels: [
             {
-                obj: new createjs.Text("As you progress, tracks will get harder", "32px arial", "#FFF"),
+                obj: new createjs.Text("As you progress, tracks will get harder", "32px bonehead", "#ae00ff"),
                 x: .5,
                 y: .3
             }
@@ -287,7 +431,6 @@ var demo_levels = [
         ghosts: [
             new Ghost(1, false, [new Point(400, (HEIGHT * .3))]),
             new Ghost(3, false, [new Point(100, 350), new Point(700, 350)])
-//            new Ghost(3, false, [new Point(50, 100), new Point(50, 250), new Point(750, 250), new Point(750, 100)])
         ],
         walls: [
             new Wall(0, 450, 350, 50),
@@ -295,12 +438,12 @@ var demo_levels = [
         ],
         labels: [
             {
-                obj: new createjs.Text("Some levels have walls which block your shots", "32px Arial", "#fff"),
+                obj: new createjs.Text("Some levels have walls which block your shots", "32px bonehead", "#ae00ff"),
                 x: .5,
                 y: .15
             },
             {
-                obj: new createjs.Text("be sure to plan ahead!", "32px Arial", "#fff"),
+                obj: new createjs.Text("be sure to plan ahead!", "32px bonehead", "#ae00ff"),
                 x: .5,
                 y: .20
             }
@@ -315,12 +458,12 @@ var demo_levels = [
         walls: [],
         labels: [
             {
-                obj: new createjs.Text("If you lost a life, don't worry!", "32px Arial", "#fff"),
+                obj: new createjs.Text("If you lost a life, don't worry!", "32px bonehead", "#ae00ff"),
                 x: .5,
                 y: .15
             },
             {
-                obj: new createjs.Text("Some ghosts grant 1UP when shot first!", "32px Arial", "#fff"),
+                obj: new createjs.Text("Some ghosts grant 1UP when shot first!", "32px bonehead", "#ae00ff"),
                 x: .5,
                 y: .20
             }]
@@ -334,13 +477,13 @@ var demo_levels = [
         walls: [],
         labels: [
             {
-                obj: new createjs.Text("Some ghosts take multiple shots to kill", "32px Arial", "#fff"),
+                obj: new createjs.Text("Some ghosts take multiple shots to kill", "32px bonehead", "#ae00ff"),
                 x: .5,
                 y: .15
             }]
     },
     {
-        bullets: 5,
+        bullets: 2,
         ghosts: [
             new Ghost(15, false, [new Point(10, HEIGHT * .6), new Point(WIDTH - 10, HEIGHT * .6)])
         ],
@@ -349,7 +492,7 @@ var demo_levels = [
         ],
         labels: [
             {
-                obj: new createjs.Text("Others will move with you", "32px Arial", "#fff"),
+                obj: new createjs.Text("Others will move with you", "32px bonehead", "#ae00ff"),
                 x: .5,
                 y: .15
             }]

@@ -2,10 +2,15 @@ function handleKeyDown(evt) {
     if (!evt) {
         var evt = window.event;
     } //browser compatibility
+    /*DEV TOOL*/
+    // console.log(Keys[evt.keyCode] + " (" + evt.keyCode + ") down");
     switch (evt.keyCode) {
     case 192:
         secret = true;
         break;
+    case 220:
+        DEVMODE = true;
+    break;
     case KEYCODE_LEFT:
         if (!LEFT_DOWN) {
             LEFT_DOWN = true;
@@ -76,6 +81,7 @@ function handleKeyDown(evt) {
         if (!ESC_DOWN) {
             ESC_DOWN = true;
             //console.log(Keys[evt.keyCode] + " (" + evt.keyCode + ") down");
+            paused = !paused;
         }
         return false;
     case KEYCODE_L_SHIFT:

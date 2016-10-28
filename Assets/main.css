@@ -9,6 +9,23 @@
     text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
 }
 
+html {
+    height: 100vh;
+    background-color: #222;
+    background: url(images/jack.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: white;
+    min-width: 900px;
+}
+
+.spacer{
+    width: 1px;
+    height: 50px;
+    margin: 0 auto;
+}
+
 h1{
     font-size: 72px;
     text-align: center;
@@ -24,19 +41,12 @@ h1{
 }
 
 #game {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     border: 2px solid black;
     margin: 0 auto;
-}
-
-html {
-    height: 100vh;
-    background-color: #222;
-    background: url(images/jack.jpg);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: auto 100vh;
-    color: white;
-    min-width: 900px;
 }
 
 footer {

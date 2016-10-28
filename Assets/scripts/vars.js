@@ -2,10 +2,13 @@ var INIT = 100,
     HOLD = 200,
     RUN = 400,
     LEVELUP = 500,
-    LEVELFAILED = 600,
-    RETRYLEVEL = 700,
-    GAMEOVER = 900,
-    WIN = 1000;
+    PAUSED = 600,
+    LEVELFAILED = 800,
+    RETRYLEVEL = 900,
+    GAMEOVER = 2000,
+    WIN = 9999;
+
+var paused = false;
 
 var FPS = 30,
     groundHeight = 45,
@@ -14,11 +17,14 @@ var FPS = 30,
     gameTimer = 0,
     MAX_RUNTIME = 2 * 60; //runtime in seconds
 
-var secret = false;
+var secret = false,
+    DEVMODE = false;
 
 var player = {
+    _SpriteSheet: null,
     score: 0,
     lives: 3,
+    moving: false,
     movementSpeed: 10,
     obj: null,
     bnd: null,
@@ -30,17 +36,19 @@ var cheated;
 
 var ground,
     levelLabel,
+    levelsign,
     bulletLabel,
     scoreLabel,
     livesLabel,
     firstHit;
 
 var levelup_timer = 0,
-    levelup_delay = 2 * FPS;
+    levelup_delay = 3 * FPS;
 
 var bullets = [];
 var levels = [],
-    ghosts = [];
+    ghosts = [],
+    labels = [];
 
 var DELAY_SHOT = .5 * FPS,
     BULLET_VELOCITY = 15;
@@ -99,3 +107,15 @@ var locker = true,
 
 //var menuMusic = createjs.Sound.createInstance("menu");
 //    chase = createjs.Sound.createInstance("chase");
+
+function Point(x, y) {
+    this.x = x;
+    this.y = y;
+}
+
+function lerp(p1, p2, scalar) {
+    var x = (1 - scalar) * p1.x + scalar * p2.x,
+        y = (1 - scalar) * p1.y + scalar * p2.y,
+        result = new Point(Math.round(x), Math.round(y));
+    return result;
+}

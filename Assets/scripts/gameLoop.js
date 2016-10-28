@@ -1,19 +1,16 @@
 var tempScore = 0;
 
-function lerp(p1, p2, scalar) {
-    var x = (1 - scalar) * p1.x + scalar * p2.x,
-        y = (1 - scalar) * p1.y + scalar * p2.y,
-        result = new Point(Math.round(x), Math.round(y));
-    return result;
-}
-
 function setup() {
+    console.log("setup");
+    stage.removeChild(levelsign);
+    levelupimg.visible = false;
     tempScore = player.score;
     player.obj.visible = true;
     ground.visible = true;
     cheated = false;
     firstHit = true;
     forward = true;
+    labels = new createjs.Container();
     p = 0;
     var i;
     ghosts = [];
@@ -35,11 +32,21 @@ function setup() {
     if (levels[current_level].labels.length > 0) {
         for (i = 0; i < levels[current_level].labels.length; i++) {
             var lab = levels[current_level].labels[i];
-            stage.addChild(lab.obj);
             var bnd = lab.obj.getBounds();
             lab.obj.x = (WIDTH - bnd.width) * lab.x;
             lab.obj.y = (HEIGHT - bnd.height) * lab.y;
+
+            var shadow = new createjs.Text(lab.obj.text, lab.obj.font, "#FFF");
+
+            shadow.color = "#000";
+            shadow.outline = 5;
+            bnd = shadow.getBounds();
+            shadow.x = (WIDTH - bnd.width) * lab.x;
+            shadow.y = (HEIGHT - bnd.height) * lab.y;
+            labels.addChild(shadow);
+            labels.addChild(lab.obj);
         }
+        stage.addChild(labels);
     }
 
     player.bullets = levels[current_level].bullets;
@@ -66,10 +73,19 @@ function setup() {
 function teardown() {
     player.obj.visible = false;
     ground.visible = false;
+    stage.removeChild(labels);
+    labels = null;
     var i = 0;
-    for (i = 0; i < ghosts.length; i++) {
-        stage.removeChild(ghosts[i].obj);
-        stage.removeChild(ghosts[i].path);
+
+    for (i = 0; i < stage.getNumChildren(); i++) {
+        console.log(stage.getChildAt(i));
+    }
+
+    if (ghosts) {
+        for (i = 0; i < ghosts.length; i++) {
+            stage.removeChild(ghosts[i].obj);
+            stage.removeChild(ghosts[i].path);
+        }
     }
     ghosts = null;
     for (i = 0; i < levels[current_level].walls.length; i++) {
@@ -79,12 +95,6 @@ function teardown() {
         stage.removeChild(bullets[i]);
     }
 
-    if (levels[current_level].labels.length > 0) {
-        for (i = 0; i < levels[current_level].labels.length; i++) {
-            var lab = levels[current_level].labels[i];
-            stage.removeChild(lab.obj);
-        }
-    }
 
     bulletLabel.text = "";
     levelLabel.text = "";
@@ -94,27 +104,26 @@ function teardown() {
 function gameLoop() {
     switch (gamestate) {
     case INIT:
-        console.error("INIT");
         player.score = 0;
         ground = new createjs.Shape();
-        //turned off "grass"
         var gWidth = (WIDTH * 1.5);
-        //.beginStroke("#060").setStrokeStyle(2)
-        ground.graphics.beginFill("#573c00").drawRect(0, 0, gWidth, (500));
+        ground.graphics.beginFill("#151515").drawRect(0, 0, gWidth, (500));
         ground.y = HEIGHT - groundHeight;
         ground.x = (WIDTH - (gWidth)) / 2;
         stage.addChild(ground);
         ground.visible = false;
 
         var size = 25;
-        player.obj = new createjs.Shape();
-        player.obj.graphics.beginFill("#FFF").drawRect(0, 0, size, size);
-        stage.addChild(player.obj);
-        player.obj.x = (WIDTH - size) / 2;
-        player.obj.y = (HEIGHT - groundHeight) - (size);
-        player.obj.setBounds(0, 0, size, size);
-        player.obj.visible = false;
+        //        player.obj = new createjs.Shape();
+        //        player.obj.graphics.beginFill("#FFF").drawRect(-(size/2), 0, size, size);
+        //        player.obj.setBounds(0, 0, size, size);
 
+        player.obj = new createjs.Sprite(player._SpriteSheet);
+        player.obj.gotoAndPlay("idle");
+        stage.addChild(player.obj);
+        player.obj.x = WIDTH / 2;
+        player.obj.y = (HEIGHT - groundHeight);
+        player.obj.visible = false;
         levelLabel = new createjs.Text("", "32px bonehead", "#F80");
         bulletLabel = new createjs.Text("", "24px bonehead", "#F80");
         scoreLabel = new createjs.Text("", "24px bonehead", "#F80");
@@ -125,9 +134,6 @@ function gameLoop() {
         stage.addChild(livesLabel);
 
         current_level = 0;
-        //current_level = 0;
-
-
 
         player.lives = 3;
         locker = true;
@@ -188,17 +194,8 @@ function gameLoop() {
                             scaledP = (1 - p) * (ghost.points.length);
                         }
                         if (scaledP < (ghost.points.length - 1)) {
-                            //                        console.log({
-                            //                            i: Math.floor(scaledP),
-                            //                            p: (scaledP - Math.floor(scaledP))
-                            //                        });
                             r = lerp(ghost.points[Math.floor(scaledP)], ghost.points[Math.floor(scaledP + 1)], scaledP - Math.floor(scaledP));
                         } else if (scaledP < ghost.points.length) {
-                            //                        console.log({
-                            //                            i: Math.floor(scaledP),
-                            //                            p: (scaledP - Math.floor(scaledP)),
-                            //                            z: true
-                            //                        });
                             r = lerp(ghost.points[Math.floor(scaledP)], ghost.points[0], scaledP - Math.floor(scaledP));
                         }
                     } else {
@@ -230,8 +227,6 @@ function gameLoop() {
                 }
 
             }
-
-
         }
 
         if (J_DOWN && !cheated) {
@@ -245,29 +240,45 @@ function gameLoop() {
         } else {
             player.movementSpeed = 10;
         }
-
+        var p_bnd = player.obj.getBounds();
         if ((A_DOWN || LEFT_DOWN) && !(D_DOWN || RIGHT_DOWN)) {
-            if (player.obj.x >= 0) {
+            player.obj.scaleX = -1;
+            if (!player.moving) {
+                player.moving = true;
+                player.obj.gotoAndPlay("walk");
+            }
+            if (player.obj.x >= (p_bnd.width / 2)) {
                 player.obj.x -= player.movementSpeed;
             } else {
                 player.x = 0;
                 player.obj.x = 0;
             }
         } else if (!(A_DOWN || LEFT_DOWN) && (D_DOWN || RIGHT_DOWN)) {
-            if (player.obj.x < (WIDTH - 50)) {
+            player.obj.scaleX = 1;
+            if (!player.moving) {
+                player.moving = true;
+                player.obj.gotoAndPlay("walk");
+            }
+            if (player.obj.x < (WIDTH - (p_bnd.width / 2))) {
                 player.obj.x += player.movementSpeed;
             } else {
-                player.x = (WIDTH - 50);
-                player.obj.x = (WIDTH - 50);
+                player.obj.x = (WIDTH - 1);
             }
+        } else {
+            if (player.shootDelay < (DELAY_SHOT - 5)) {
+                player.obj.gotoAndPlay("idle");
+            }
+            player.moving = false;
         }
 
-        if (SPACE_DOWN && player.shootDelay === 0 && player.bullets > 0) {
+        if ((SPACE_DOWN || W_DOWN || UP_DOWN) && player.shootDelay === 0 && player.bullets > 0) {
+            player.obj.gotoAndPlay("shoot");
             var blt = new createjs.Shape();
             blt.graphics.beginFill('#a00').drawRect(0, 0, 6, 10);
             blt.setBounds(0, 0, 6, 10); //replaced when sprites and images implemented
             var bb = blt.getBounds();
-            blt.x = (player.obj.x + (player.obj.getBounds().width / 2) - (bb.width / 2));
+            // blt.x = (player.obj.x + (player.obj.getBounds().width / 2) - (bb.width / 2));
+            blt.x = player.obj.x - (bb.width / 2);
             blt.y = player.obj.y - 5;
             stage.addChild(blt);
             bullets.push(blt);
@@ -277,8 +288,6 @@ function gameLoop() {
         }
 
         player.shootDelay -= ((player.shootDelay === 0) ? 0 : 1);
-
-        /*don't forget bullets*/
 
         var b;
         for (b = 0; b < bullets.length; b++) {
@@ -362,19 +371,60 @@ function gameLoop() {
         } else if (bullets.length === 0 && player.bullets === 0) {
             gamestate = LEVELFAILED;
         }
+
+        if (paused) {
+            gamestate = PAUSED;
+            locker = true;
+        }
+
+        if (DEVMODE) {
+            gamestate = LEVELUP;
+            teardown();
+            levelup_timer = levelup_delay;
+            DEVMODE = false;
+        }
+        break;
+    case PAUSED:
+        if (locker) {
+            pauseScreen.visible = true;
+            mainMenu.visible = true;
+            retry.visible = true;
+            resume.visible = true;
+            stage.setChildIndex(pauseScreen, stage.getNumChildren() - 1);
+            stage.setChildIndex(mainMenu, stage.getNumChildren() - 1);
+            stage.setChildIndex(resume, stage.getNumChildren() - 1);
+            stage.setChildIndex(retry, stage.getNumChildren() - 1);
+            stage.setChildIndex(livesLabel, stage.getNumChildren() - 1);
+            stage.setChildIndex(bulletLabel, stage.getNumChildren() - 1);
+            stage.setChildIndex(scoreLabel, stage.getNumChildren() - 1);
+            locker = false;
+        }
+        if (!paused) {
+            pauseScreen.visible = false;
+            mainMenu.visible = false;
+            retry.visible = false;
+            resume.visible = false;
+            gamestate = RUN;
+        }
         break;
     case LEVELUP:
         //set delay, then execute
-        locker = true;
+        if (levelup_timer === Math.floor(levelup_delay * .33)) {
+            teardown();
+            levelupimg.visible = true;
+            levelsign = new createjs.Text("Level " + (current_level + 1) + " complete!", "64px bonehead", "#F80");
+            var bnds = levelsign.getBounds();
+            levelsign.x = (WIDTH - bnds.width) / 2;
+            levelsign.y = (HEIGHT - bnds.height) / 2;
+            stage.addChild(levelsign);
+        }
         if (levelup_timer === levelup_delay) {
+            locker = true;
             levelup_timer = 0;
             if (current_level + 1 === levels.length) {
-                teardown();
                 gamestate = WIN;
             } else {
-                teardown();
                 current_level++;
-                setup();
                 gamestate = RUN;
             }
         } else {
@@ -398,6 +448,9 @@ function gameLoop() {
         }
         break;
     case RETRYLEVEL:
+        pauseScreen.visible = false;
+        mainMenu.visible = false;
+        resume.visible = false;
         gameoverScreen.visible = false;
         mainMenu.visible = false;
         retry.visible = false;
@@ -423,6 +476,8 @@ function gameLoop() {
         //console.error("YOU WIN!");
         //        timer.text = "";
         //        gameTimer = 0;
+        stage.removeChild(levelsign);
+        levelupimg.visible = false;
         stage.removeChild(scoreLabel);
         scoreLabel = new createjs.Text("WINNER! Your Score was " + player.score + "!", "40px bonehead", "#F80");
         var b = scoreLabel.getBounds();

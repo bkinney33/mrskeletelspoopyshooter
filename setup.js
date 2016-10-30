@@ -27,6 +27,10 @@ manifest = [
         id: "s_bone"
     },
     {
+        src: "images/tombstone.png",
+        id: "tombstone"
+    },
+    {
         src: "images/boo1.png",
         id: "white_ghost"
     },

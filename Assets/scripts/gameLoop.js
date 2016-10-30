@@ -1,7 +1,6 @@
 var tempScore = 0;
 
 function setup() {
-    console.log("setup");
     stage.removeChild(levelsign);
     levelupimg.visible = false;
     tempScore = player.score;
@@ -72,6 +71,7 @@ function setup() {
 
 function teardown() {
     player.obj.visible = false;
+    player.laser.visible = false;
     ground.visible = false;
     stage.removeChild(labels);
     labels = null;
@@ -114,16 +114,17 @@ function gameLoop() {
         ground.visible = false;
 
         var size = 25;
-        //        player.obj = new createjs.Shape();
-        //        player.obj.graphics.beginFill("#FFF").drawRect(-(size/2), 0, size, size);
-        //        player.obj.setBounds(0, 0, size, size);
-
         player.obj = new createjs.Sprite(player._SpriteSheet);
         player.obj.gotoAndPlay("idle");
         stage.addChild(player.obj);
         player.obj.x = WIDTH / 2;
         player.obj.y = (HEIGHT - groundHeight);
         player.obj.visible = false;
+        player.laser = new createjs.Shape();
+        player.laser.graphics.beginFill("#f00").drawRect(-1, -HEIGHT, 2, HEIGHT);
+        player.laser.y = (player.obj.y - player.obj.getBounds().height) - 10;
+        player.laser.visible = false;
+        stage.addChild(player.laser);
         levelLabel = new createjs.Text("", "32px bonehead", "#F80");
         bulletLabel = new createjs.Text("", "24px bonehead", "#F80");
         scoreLabel = new createjs.Text("", "24px bonehead", "#F80");
@@ -240,6 +241,7 @@ function gameLoop() {
         } else {
             player.movementSpeed = 10;
         }
+
         var p_bnd = player.obj.getBounds();
         if ((A_DOWN || LEFT_DOWN) && !(D_DOWN || RIGHT_DOWN)) {
             player.obj.scaleX = -1;
@@ -271,13 +273,21 @@ function gameLoop() {
             player.moving = false;
         }
 
+
+        player.laser.x = player.obj.x;
+        if ((S_DOWN || DOWN_DOWN) && !player.laser.visible) {
+            console.log("Lazer beam!");
+            tempScore = (tempScore > 20) ? (tempScore - 20) : 0;
+            scoreLabel.text = "Score: " + tempScore;
+            player.laser.visible = true;
+        } else if (!(S_DOWN || DOWN_DOWN) && player.laser.visible) {
+            player.laser.visible = false;
+        }
+
         if ((SPACE_DOWN || W_DOWN || UP_DOWN) && player.shootDelay === 0 && player.bullets > 0) {
             player.obj.gotoAndPlay("shoot");
             var blt = doot.clone();
-            //            blt.graphics.beginFill('#a00').drawRect(0, 0, 6, 10);
-            //            blt.setBounds(0, 0, 6, 10); //replaced when sprites and images implemented
             var bb = blt.getBounds();
-            // blt.x = (player.obj.x + (player.obj.getBounds().width / 2) - (bb.width / 2));
             blt.x = player.obj.x - (bb.width / 2);
             blt.y = (player.obj.y - player.obj.getBounds().height) - 5;
             stage.addChild(blt);

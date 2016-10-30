@@ -33,7 +33,7 @@ GhostSpriteSheets = [
     })
 ];
 
-function Wall(x, y, width, height) {
+function Wall(x, y, width, height, use_tombstone) {
     if (width > (height * 5)) {
         this.obj = new createjs.Bitmap(queue.getResult("h_bone"));
         this.obj.scaleX = (width / this.obj.getBounds().width);
@@ -47,9 +47,9 @@ function Wall(x, y, width, height) {
         this.obj.x = x;
         this.obj.y = y;
     } else {
-        this.obj = new createjs.Bitmap(queue.getResult("s_bone"));
+        this.obj = new createjs.Bitmap((use_tombstone) ? queue.getResult("tombstone") : queue.getResult("s_bone"));
         this.obj.scaleX = (width / this.obj.getBounds().width);
-        this.obj.scaleY = (height / this.obj.getBounds().height);
+        this.obj.scaleY = (use_tombstone) ? (width / this.obj.getBounds().width) : (height / this.obj.getBounds().height);
         this.obj.x = x;
         this.obj.y = y;
     }
@@ -63,23 +63,6 @@ function Ghost(type, loop, points) {
     this.obj = new createjs.Shape();
     var size;
     var color = "#FFF";
-    //    switch (Math.floor(type / 10)) {
-    //    case 0:
-    //        color = "#FFF";
-    //        break;
-    //    case 1:
-    //        color = "#9fd3ff";
-    //        break;
-    //    case 2:
-    //        color = "#fffa82";
-    //        break;
-    //    case 3:
-    //        color = "#ffaa6d";
-    //        break;
-    //    default:
-    //        color = "#FFF";
-    //        break;
-    //    }
     this.obj = new createjs.Sprite(GhostSpriteSheets[Math.floor(type / 10)]);
     var bnd = this.obj.getBounds();
     this.obj.gotoAndPlay("idle");
@@ -89,10 +72,6 @@ function Ghost(type, loop, points) {
         break;
     case 1:
     case 4:
-        //this.obj.graphics.beginFill(color).drawRect(-12, -12, 24, 24);
-        //this.obj.setBounds(0, 0, 24, 24);
-        //this.obj.y = this.points[0].y;
-        //this.obj.x = this.points[0].x;
         this.obj.scaleX = (24 / bnd.width);
         this.obj.scaleY = (24 / bnd.width);
         break;
@@ -103,19 +82,10 @@ function Ghost(type, loop, points) {
         break;
     case 3:
     case 6:
-        //this.obj.graphics.beginFill(color).drawRect(-40, -25, 80, 50);
-        //this.obj.setBounds(0, 0, 80, 50);
-        //this.obj.y = this.points[0].y;
-        //this.obj.x = this.points[0].x;
         this.obj.scaleX = (80 / bnd.width);
         this.obj.scaleY = (50 / bnd.width);
         break;
     default:
-        //this.obj.graphics.beginFill(color).drawRect(-25, -25, 50, 50);
-        //this.obj.setBounds(0, 0, 50, 50);
-        //this.obj.y = this.points[0].y;
-        //this.obj.x = this.points[0].x;
-
         this.obj.scaleX = (50 / bnd.width);
         this.obj.scaleY = (50 / bnd.width);
         break;
@@ -216,7 +186,7 @@ var main_levels = [
         walls: [
             new Wall(0, 0, (WIDTH * .25), (HEIGHT - 100)),
             new Wall(3 * (WIDTH * .25), 0, (WIDTH * .25), (HEIGHT - 100)),
-            new Wall((WIDTH - 60) / 2, (HEIGHT * .66), 60, 60)
+            new Wall((WIDTH - 60) / 2, (HEIGHT * .66), 60, 60, true)
         ],
         labels: []
     },
@@ -265,13 +235,13 @@ var main_levels = [
         labels: []
     },
     {
-        bullets: 3,
+        bullets: 2,
         ghosts: [
             new Ghost(13, false, [new Point(WIDTH * .5, HEIGHT * .5)]),
-            new Ghost(2, false, [
-                new Point(WIDTH * .33, HEIGHT * .66),
-                new Point(WIDTH * .66, HEIGHT * .66)
-            ])
+//            new Ghost(2, false, [
+//                new Point(WIDTH * .33, HEIGHT * .66),
+//                new Point(WIDTH * .66, HEIGHT * .66)
+//            ])
         ],
         walls: [],
         labels: [
@@ -539,8 +509,10 @@ var demo_levels = [
     {
         bullets: 7,
         ghosts: [
-            new Ghost(32, false, [new Point(WIDTH * .33, HEIGHT * .66), new Point(WIDTH * .66, HEIGHT * .66)]),
-            new Ghost(23, false, [new Point(WIDTH * .5, HEIGHT * .5)])
+//            new Ghost(32, false, [new Point(WIDTH * .33, HEIGHT * .66), new Point(WIDTH * .66, HEIGHT * .66)]),
+//            new Ghost(23, false, [new Point(WIDTH * .5, HEIGHT * .5)])
+            new Ghost(22, false, [new Point(WIDTH * .33, HEIGHT * .5)]),
+            new Ghost(32, false, [new Point(WIDTH * .66, HEIGHT * .5)])
         ],
         walls: [],
         labels: [
@@ -634,6 +606,14 @@ var secret_levels = [
     ],
         walls: [],
         labels: []
-}
+    },
+    {
+        bullets: 50,
+        ghosts: [
+            new Ghost(2, false, [new Point(WIDTH * .4, HEIGHT * .7), new Point(WIDTH * .6, HEIGHT * .7)])
+        ],
+        walls: [],
+        labels: []
+    }
 ];
 //putting the level into an array makes it easier to go from one to the next, and storing all the level information in an object makes rendering the level easier

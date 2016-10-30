@@ -27,6 +27,7 @@ var player = {
     moving: false,
     movementSpeed: 10,
     obj: null,
+    laser: null,
     bnd: null,
     shootDelay: 0,
     bullets: -1

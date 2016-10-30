@@ -1,5 +1,9 @@
 var tempScore = 0;
 
+function toFixed(num, precision) {
+    return (+(Math.round(+(num + 'e' + precision)) + 'e' + -precision)).toFixed(precision);
+}
+
 function setup() {
     stage.removeChild(levelsign);
     levelupimg.visible = false;
@@ -163,24 +167,41 @@ function gameLoop() {
 
         /*Ghost Path Code*/
 
-        if (forward) {
-            if (p < .99) {
-                p += .01;
-            } else {
-                forward = false;
-            }
-        } else {
-            if (p > 0) {
-                p -= .01;
-            } else {
-                forward = true;
-            }
-        }
-        p = (Math.round(p * 100) / 100);
+        //        if (forward) {
+        //            if (p < .99) {
+        //                p += .01;
+        //            } else {
+        //                forward = false;
+        //            }
+        //        } else {
+        //            if (p > 0) {
+        //                p -= .01;
+        //            } else {
+        //                forward = true;
+        //            }
+        //        }
+        //        p = (Math.round(p * 100) / 100);
 
         var g;
         for (g = 0; g < ghosts.length; g++) {
             var ghost = ghosts[g];
+
+            if (ghost.forward) {
+                if (ghost.p < .99) {
+                    ghost.p += ghost.speed * .01;
+                } else {
+                    ghost.forward = false;
+                }
+            } else {
+                if (ghost.p > 0) {
+                    ghost.p -= ghost.speed * .01;
+                } else {
+                    ghost.forward = true;
+                }
+            }
+
+            ghost.p = parseFloat(toFixed(ghost.p, 3));
+
             if (ghost.type % 10 <= 3) {
                 if (ghost.points.length > 1) {
                     var scaledP,
@@ -189,10 +210,10 @@ function gameLoop() {
                             y: ghost.obj.y
                         };
                     if (ghost.loop) {
-                        if (forward) {
-                            scaledP = p * (ghost.points.length);
+                        if (ghost.forward) {
+                            scaledP = ghost.p * (ghost.points.length);
                         } else {
-                            scaledP = (1 - p) * (ghost.points.length);
+                            scaledP = (1 - ghost.p) * (ghost.points.length);
                         }
                         if (scaledP < (ghost.points.length - 1)) {
                             r = lerp(ghost.points[Math.floor(scaledP)], ghost.points[Math.floor(scaledP + 1)], scaledP - Math.floor(scaledP));
@@ -200,15 +221,13 @@ function gameLoop() {
                             r = lerp(ghost.points[Math.floor(scaledP)], ghost.points[0], scaledP - Math.floor(scaledP));
                         }
                     } else {
-                        var scaledP = p * (ghost.points.length - 1);
+                        var scaledP = ghost.p * (ghost.points.length - 1);
                         var a = ghost.points[Math.floor(scaledP)],
                             b = ghost.points[Math.floor(scaledP) + 1];
                         var scalar = scaledP - Math.floor(scaledP);
 
                         r = lerp(a, b, scalar);
                     }
-                    p = (Math.round(p * 100) / 100);
-
 
                     if (ghost.alive) {
                         ghost.obj.x = r.x;
@@ -355,13 +374,15 @@ function gameLoop() {
                                     ghosts[g] = replacement;
                                     break;
                                 }
+                                replacement.p = ghost.p;
+                                replacement.path = ghost.path;
+                                replacement.forward = ghost.forward;
+                                replacement.speed = ghost.speed;
                                 replacement.obj.x = ghost.obj.x;
                                 replacement.obj.y = ghost.obj.y;
-                                stage.addChild(replacement.path);
                                 stage.addChild(replacement.obj);
                                 replacement.obj.currentFrame = ghost.obj.currentFrame;
                                 stage.removeChild(ghost.obj);
-                                stage.removeChild(ghost.path);
                             }
                         }
                     }

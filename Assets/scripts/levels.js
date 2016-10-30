@@ -55,13 +55,16 @@ function Wall(x, y, width, height, use_tombstone) {
     }
 }
 
-function Ghost(type, loop, points) {
+function Ghost(type, loop, points, speed) {
     this.type = type;
     this.points = points;
     this.loop = loop;
-    this.scalar = 0;
+    this.forward = true;
     this.obj = new createjs.Shape();
     var size;
+    this.speed = ((speed === undefined) ? 1 : speed);
+    this.scalar = 0;
+    this.p = 0;
     var color = "#FFF";
     this.obj = new createjs.Sprite(GhostSpriteSheets[Math.floor(type / 10)]);
     var bnd = this.obj.getBounds();
@@ -610,7 +613,86 @@ var secret_levels = [
     {
         bullets: 50,
         ghosts: [
-            new Ghost(2, false, [new Point(WIDTH * .4, HEIGHT * .7), new Point(WIDTH * .6, HEIGHT * .7)])
+            new Ghost(31, true, [
+                new Point(WIDTH * .3, HEIGHT * .775),
+                new Point(WIDTH * .2, ((HEIGHT * .775) + (HEIGHT * .2)) / 2),
+                new Point(WIDTH * .3, HEIGHT * .2),
+                new Point(WIDTH * .5, HEIGHT * .2),
+                new Point(WIDTH * .7, HEIGHT * .2),
+                new Point(WIDTH * .8, ((HEIGHT * .775) + (HEIGHT * .2)) / 2),
+                new Point(WIDTH * .7, HEIGHT * .775),
+                new Point(WIDTH * .5, HEIGHT * .775),
+            ], .5),
+            new Ghost(31, true, [
+                new Point(WIDTH * .5, HEIGHT * .775),
+                new Point(WIDTH * .3, HEIGHT * .775),
+                new Point(WIDTH * .2, ((HEIGHT * .775) + (HEIGHT * .2)) / 2),
+                new Point(WIDTH * .3, HEIGHT * .2),
+                new Point(WIDTH * .5, HEIGHT * .2),
+                new Point(WIDTH * .7, HEIGHT * .2),
+                new Point(WIDTH * .8, ((HEIGHT * .775) + (HEIGHT * .2)) / 2),
+                new Point(WIDTH * .7, HEIGHT * .775),
+            ], .5),
+            new Ghost(31, true, [
+                new Point(WIDTH * .7, HEIGHT * .775),
+                new Point(WIDTH * .5, HEIGHT * .775),
+                new Point(WIDTH * .3, HEIGHT * .775),
+                new Point(WIDTH * .2, ((HEIGHT * .775) + (HEIGHT * .2)) / 2),
+                new Point(WIDTH * .3, HEIGHT * .2),
+                new Point(WIDTH * .5, HEIGHT * .2),
+                new Point(WIDTH * .7, HEIGHT * .2),
+                new Point(WIDTH * .8, ((HEIGHT * .775) + (HEIGHT * .2)) / 2),
+            ], .5),
+            new Ghost(31, true, [
+                new Point(WIDTH * .8, ((HEIGHT * .775) + (HEIGHT * .2)) / 2),
+                new Point(WIDTH * .7, HEIGHT * .775),
+                new Point(WIDTH * .5, HEIGHT * .775),
+                new Point(WIDTH * .3, HEIGHT * .775),
+                new Point(WIDTH * .2, ((HEIGHT * .775) + (HEIGHT * .2)) / 2),
+                new Point(WIDTH * .3, HEIGHT * .2),
+                new Point(WIDTH * .5, HEIGHT * .2),
+                new Point(WIDTH * .7, HEIGHT * .2),
+            ], .5),
+            new Ghost(31, true, [
+                new Point(WIDTH * .7, HEIGHT * .2),
+                new Point(WIDTH * .8, ((HEIGHT * .775) + (HEIGHT * .2)) / 2),
+                new Point(WIDTH * .7, HEIGHT * .775),
+                new Point(WIDTH * .5, HEIGHT * .775),
+                new Point(WIDTH * .3, HEIGHT * .775),
+                new Point(WIDTH * .2, ((HEIGHT * .775) + (HEIGHT * .2)) / 2),
+                new Point(WIDTH * .3, HEIGHT * .2),
+                new Point(WIDTH * .5, HEIGHT * .2),
+            ], .5),
+            new Ghost(31, true, [
+                new Point(WIDTH * .5, HEIGHT * .2),
+                new Point(WIDTH * .7, HEIGHT * .2),
+                new Point(WIDTH * .8, ((HEIGHT * .775) + (HEIGHT * .2)) / 2),
+                new Point(WIDTH * .7, HEIGHT * .775),
+                new Point(WIDTH * .5, HEIGHT * .775),
+                new Point(WIDTH * .3, HEIGHT * .775),
+                new Point(WIDTH * .2, ((HEIGHT * .775) + (HEIGHT * .2)) / 2),
+                new Point(WIDTH * .3, HEIGHT * .2),
+            ], .5),
+            new Ghost(31, true, [
+                new Point(WIDTH * .3, HEIGHT * .2),
+                new Point(WIDTH * .5, HEIGHT * .2),
+                new Point(WIDTH * .7, HEIGHT * .2),
+                new Point(WIDTH * .8, ((HEIGHT * .775) + (HEIGHT * .2)) / 2),
+                new Point(WIDTH * .7, HEIGHT * .775),
+                new Point(WIDTH * .5, HEIGHT * .775),
+                new Point(WIDTH * .3, HEIGHT * .775),
+                new Point(WIDTH * .2, ((HEIGHT * .775) + (HEIGHT * .2)) / 2),
+            ], .5),
+            new Ghost(31, true, [
+                new Point(WIDTH * .2, ((HEIGHT * .775) + (HEIGHT * .2)) / 2),
+                new Point(WIDTH * .3, HEIGHT * .2),
+                new Point(WIDTH * .5, HEIGHT * .2),
+                new Point(WIDTH * .7, HEIGHT * .2),
+                new Point(WIDTH * .8, ((HEIGHT * .775) + (HEIGHT * .2)) / 2),
+                new Point(WIDTH * .7, HEIGHT * .775),
+                new Point(WIDTH * .5, HEIGHT * .775),
+                new Point(WIDTH * .3, HEIGHT * .775),
+            ], .5),
         ],
         walls: [],
         labels: []

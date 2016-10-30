@@ -613,6 +613,7 @@ var secret_levels = [
     {
         bullets: 50,
         ghosts: [
+            new Ghost(11, false, [new Point(WIDTH * .15, HEIGHT * .18)]),
             new Ghost(31, true, [
                 new Point(WIDTH * .3, HEIGHT * .775),
                 new Point(WIDTH * .2, ((HEIGHT * .775) + (HEIGHT * .2)) / 2),
@@ -693,8 +694,44 @@ var secret_levels = [
                 new Point(WIDTH * .5, HEIGHT * .775),
                 new Point(WIDTH * .3, HEIGHT * .775),
             ], .5),
+            new Ghost(21, true, [
+                new Point(WIDTH * .35, HEIGHT * .4),
+                new Point(WIDTH * .4, HEIGHT * .3),
+                new Point(WIDTH * .45, HEIGHT * .4),
+            ]),
+            new Ghost(21, true, [
+                new Point(WIDTH * .65, HEIGHT * .4),
+                new Point(WIDTH * .6, HEIGHT * .3),
+                new Point(WIDTH * .55, HEIGHT * .4),
+            ]),
+            new Ghost(21, false, [
+                new Point(WIDTH * .35, HEIGHT * .55),
+                new Point(WIDTH * .4, HEIGHT * .6),
+                new Point(WIDTH * .45, HEIGHT * .55),
+                new Point(WIDTH * .5, HEIGHT * .6),
+                new Point(WIDTH * .55, HEIGHT * .55),
+                new Point(WIDTH * .6, HEIGHT * .6),
+                new Point(WIDTH * .65, HEIGHT * .55),
+            ]),
+            new Ghost(21, false, [
+                new Point(WIDTH * .65, HEIGHT * .7),
+                new Point(WIDTH * .6, HEIGHT * .65),
+                new Point(WIDTH * .55, HEIGHT * .7),
+                new Point(WIDTH * .5, HEIGHT * .65),
+                new Point(WIDTH * .45, HEIGHT * .7),
+                new Point(WIDTH * .4, HEIGHT * .65),
+                new Point(WIDTH * .35, HEIGHT * .7),
+            ]),
+            new Ghost(21, true, [
+                new Point(WIDTH * .5, HEIGHT * .4),
+                new Point(WIDTH * .45, HEIGHT * .5),
+                new Point(WIDTH * .5, HEIGHT * .4),
+                new Point(WIDTH * .55, HEIGHT * .5),
+            ])
         ],
-        walls: [],
+        walls: [
+            new Wall((WIDTH - 40) / 2, 35, 40, 55)
+        ],
         labels: []
     }
 ];

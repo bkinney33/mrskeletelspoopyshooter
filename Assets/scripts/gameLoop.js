@@ -5,6 +5,7 @@ function toFixed(num, precision) {
 }
 
 function setup() {
+    paused = false;
     stage.removeChild(levelsign);
     levelupimg.visible = false;
     tempScore = player.score;
@@ -38,6 +39,7 @@ function setup() {
     ghosts = [];
     for (i = 0; i < levels[current_level].ghosts.length; i++) {
         ghosts.push(levels[current_level].ghosts[i]);
+        ghosts[i].p = 0;
     }
     //draw paths first, so all ghosts will overlap any path
     for (i = 0; i < ghosts.length; i++) {
@@ -71,6 +73,8 @@ function setup() {
     bb = livesLabel.getBounds();
     livesLabel.x = (WIDTH - bb.width) * .8;
     livesLabel.y = (HEIGHT - (groundHeight / 2)) - (bb.height / 2);
+
+    stage.setChildIndex(muteButton, stage.getNumChildren() - 1);
 }
 
 function teardown() {
@@ -106,8 +110,17 @@ function teardown() {
 }
 
 function gameLoop() {
+    if (muted) {
+        createjs.Sound.volume = 0;
+    } else {
+        createjs.Sound.volume = 1;
+    }
     switch (gamestate) {
     case INIT:
+        console.log("INIT");
+        menuMusic.play({
+            loop: -1
+        });
         player.score = 0;
         ground = new createjs.Shape();
         var gWidth = (WIDTH * 1.5);
@@ -116,7 +129,6 @@ function gameLoop() {
         ground.x = (WIDTH - (gWidth)) / 2;
         stage.addChild(ground);
         ground.visible = false;
-
         var size = 25;
         player.obj = new createjs.Sprite(player._SpriteSheet);
         player.obj.gotoAndPlay("idle");
@@ -145,25 +157,25 @@ function gameLoop() {
         gamestate = HOLD;
         break;
     case HOLD:
-        //        if (muted) {
-        //            menuMusic.paused = true;
-        //        } else {
-        //            menuMusic.paused = false;
-        //        }
+        if (muted) {
+            menuMusic.paused = true;
+        } else {
+            menuMusic.paused = false;
+        }
         break;
     case RUN:
         if (locker) {
             setup();
-            //            chase.play({
-            //                loop: -1
-            //            });
+            loopMusic.play({
+                loop: -1
+            });
             locker = false;
         }
-        //        if (muted) {
-        //            chase.paused = true;
-        //        } else {
-        //            chase.paused = false;
-        //        }
+        if (muted) {
+            loopMusic.paused = true;
+        } else {
+            loopMusic.paused = false;
+        }
 
         /*Ghost Path Code*/
 
@@ -465,6 +477,10 @@ function gameLoop() {
         }
         break;
     case LEVELFAILED:
+        if (levelup_timer === 0) {
+            loopMusic.stop();
+            loser.play();
+        }
         if (levelup_timer === levelup_delay) {
             levelup_timer = 0;
             teardown();
@@ -490,11 +506,12 @@ function gameLoop() {
         player.lives--;
         locker = true;
         teardown();
-        //setup();
         gamestate = RUN;
         break;
     case GAMEOVER:
         //console.error("GAMEOVER");
+        loopMusic.stop();
+        loser.play();
         frameCount = 0;
         running = false;
         gameoverScreen.visible = true;
@@ -510,6 +527,8 @@ function gameLoop() {
         //console.error("YOU WIN!");
         //        timer.text = "";
         //        gameTimer = 0;
+        loopMusic.stop();
+        loser.play();
         stage.removeChild(levelsign);
         levelupimg.visible = false;
         stage.removeChild(scoreLabel);

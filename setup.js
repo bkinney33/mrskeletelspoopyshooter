@@ -47,6 +47,18 @@ manifest = [
         id: "orange_ghost"
     },
     {
+        src: "sounds/loser.wav",
+        id: "loser"
+    },
+    {
+        src: "sounds/main_menu.wav",
+        id: "main"
+    },
+    {
+        src: "sounds/loop.wav",
+        id: "loop_music"
+    },
+    {
         src: "scripts/levels" + jsEnd
     },
     {
@@ -90,8 +102,8 @@ manifest = [
         id: "paused"
     },
     {
-        src: "sounds/loser.mp3",
-        id: "loser"
+        src: "images/audiosprite.png",
+        id: "mutebutton"
     },
     /*Sprite Assets and JS below this line*/
     {
@@ -137,6 +149,10 @@ function loadComplete(evt) {
     levelupimg = new createjs.Bitmap(queue.getResult("levelupimg"));
     pauseScreen = new createjs.Bitmap(queue.getResult("paused"));
     doot = new createjs.Bitmap(queue.getResult("doot"));
+
+    menuMusic = createjs.Sound.createInstance("main");
+    loopMusic = createjs.Sound.createInstance("loop_music");
+    loser = createjs.Sound.createInstance("loser");
 
     player._SpriteSheet = new createjs.SpriteSheet({
         images: [queue.getResult("skeltal_sheet")],

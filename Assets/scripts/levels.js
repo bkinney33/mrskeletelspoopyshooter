@@ -393,7 +393,7 @@ var main_levels = [
 
     },
     {
-        bullets: 9,
+        bullets: 15,
         ghosts: [
             new Ghost(11, false, [
                 new Point(20, HEIGHT * .2),
@@ -499,10 +499,10 @@ var main_levels = [
                 ])
         ],
         walls: [
-            new Wall(0, (HEIGHT * .3625) - (25), (WIDTH * .45), 50),
-            new Wall(WIDTH - (WIDTH * .45), (HEIGHT * .3625) - (25), (WIDTH * .45), 50),
-            new Wall(0, (HEIGHT * .5875) - (25), (WIDTH * .45), 50),
-            new Wall(WIDTH - (WIDTH * .45), (HEIGHT * .5875) - (25), (WIDTH * .45), 50)
+            new Wall(0, (HEIGHT * .3625) - (25), (WIDTH * .4), 50),
+            new Wall(WIDTH - (WIDTH * .4), (HEIGHT * .3625) - (25), (WIDTH * .4), 50),
+            new Wall(0, (HEIGHT * .5875) - (25), (WIDTH * .4), 50),
+            new Wall(WIDTH - (WIDTH * .4), (HEIGHT * .5875) - (25), (WIDTH * .4), 50)
         ],
         labels: [
             {

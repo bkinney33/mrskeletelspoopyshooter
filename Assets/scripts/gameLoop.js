@@ -367,18 +367,20 @@ function gameLoop() {
                                 tempScore += 10;
                                 scoreLabel.text = "Score: " + tempScore;
                             }
+
+                            if (firstHit) {
+                                firstHit = false;
+                                if (Math.floor(ghost.type / 10) === 1) {
+                                    player.lives++;
+                                    livesLabel.text = "Lives Left: " + player.lives;
+                                }
+                            }
+
                             bullets.splice(b, 1);
                             if (ghost.type < 20 || ghost.type > 40) {
                                 ghost.alive = false;
                                 ghost.obj.gotoAndPlay("dead");
                                 ghost.obj.alpha = 0.5;
-                                if (firstHit) {
-                                    firstHit = false;
-                                    if (Math.floor(ghost.type / 10) === 1) {
-                                        player.lives++;
-                                        livesLabel.text = "Lives Left: " + player.lives;
-                                    }
-                                }
                             } else {
                                 var replacement = null;
                                 switch (Math.floor(ghost.type / 10)) {

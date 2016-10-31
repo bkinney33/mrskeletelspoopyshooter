@@ -341,8 +341,8 @@ function gameLoop() {
                 var w;
                 for (w = 0; w < levels[current_level].walls.length; w++) {
                     var wall = levels[current_level].walls[w];
-                    var pt = blt.localToLocal(3, 2, wall.obj);
-                    if (wall.obj.hitTest(pt.x, pt.y)) {
+                    //var pt = blt.localToLocal(3, 2, wall.obj);
+                    if (ndgmr.checkPixelCollision(blt, wall.obj, .5)) {
                         stage.removeChild(blt);
                         bullets.splice(b, 1);
                     }
@@ -352,11 +352,12 @@ function gameLoop() {
                     var g;
                     for (g = 0; g < ghosts.length; g++) {
                         var ghost = ghosts[g];
-                        var pt = blt.localToLocal(3, 2, ghost.obj);
+                        //var pt = blt.localToLocal(3, 2, ghost.obj);
 
-                        //console.log(ndgmr.checkPixelCollision(blt, ghost, .5, true));
+                        //console.log(ndgmr.checkPixelCollision(blt, ghost.obj, .5));
+                        //if (ghost.obj.hitTest(pt.x, pt.y)) {
 
-                        if (ghost.obj.hitTest(pt.x, pt.y)) {
+                        if (ndgmr.checkPixelCollision(blt, ghost.obj, .5)) {
                             stage.removeChild(blt);
                             if (ghost.alive) {
                                 tempScore += 10;

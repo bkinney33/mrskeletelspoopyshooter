@@ -38,8 +38,9 @@ function setup() {
     }
     ghosts = [];
     for (i = 0; i < levels[current_level].ghosts.length; i++) {
-        ghosts.push(levels[current_level].ghosts[i]);
-        ghosts[i].p = 0;
+        var g = levels[current_level].ghosts[i].clone();
+        ghosts.push(g);
+        ghosts[i].p = levels[current_level].ghosts[i].p;
     }
     //draw paths first, so all ghosts will overlap any path
     for (i = 0; i < ghosts.length; i++) {
@@ -117,7 +118,6 @@ function gameLoop() {
     }
     switch (gamestate) {
     case INIT:
-        console.log("INIT");
         menuMusic.play({
             loop: -1
         });
@@ -213,6 +213,8 @@ function gameLoop() {
             }
 
             ghost.p = parseFloat(toFixed(ghost.p, 3));
+            ghost.p = (ghost.p > .99) ? .99 : ghost.p;
+            ghost.p = (ghost.p < 0) ? 0 : ghost.p;
 
             if (ghost.type % 10 <= 3) {
                 if (ghost.points.length > 1) {

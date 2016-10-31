@@ -55,7 +55,7 @@ function Wall(x, y, width, height, use_tombstone) {
     }
 }
 
-function Ghost(type, loop, points, speed) {
+function Ghost(type, loop, points, speed, p) {
     this.type = type;
     this.points = points;
     this.loop = loop;
@@ -64,7 +64,7 @@ function Ghost(type, loop, points, speed) {
     var size;
     this.speed = ((speed === undefined) ? 1 : speed);
     this.scalar = 0;
-    this.p = 0;
+    this.p = ((p === undefined) ? 0 : p);
     var color = "#FFF";
     this.obj = new createjs.Sprite(GhostSpriteSheets[Math.floor(type / 10)]);
     var bnd = this.obj.getBounds();
@@ -110,6 +110,11 @@ function Ghost(type, loop, points, speed) {
             this.path.addChild(segment);
         }
     }
+
+    this.clone = function () {
+        var cln = new Ghost(this.type, this.loop, this.points, this.speed, this.p);
+        return cln;
+    }
 }
 
 var main_levels = [
@@ -153,8 +158,8 @@ var main_levels = [
         bullets: 6,
         ghosts: [
             new Ghost(2, false, [new Point((WIDTH * .75), 100), new Point((WIDTH * .25), 100)]),
-            new Ghost(2, false, [new Point((WIDTH * .25), 200), new Point((WIDTH * .75), 200)]),
             new Ghost(2, false, [new Point((WIDTH * .75), 300), new Point((WIDTH * .25), 300)]),
+            new Ghost(2, false, [new Point((WIDTH * .25), 200), new Point((WIDTH * .75), 200)]),
             new Ghost(2, false, [new Point((WIDTH * .25), 400), new Point((WIDTH * .75), 400)])
         ],
         walls: [],
@@ -196,12 +201,10 @@ var main_levels = [
     {
         bullets: 5,
         ghosts: [
-            new Ghost(3, true, [
-                new Point((WIDTH * .5), 200),
+            new Ghost(3, false, [
                 new Point((WIDTH * .75), 200),
-                new Point((WIDTH * .5), 200),
                 new Point((WIDTH * .25), 200)
-            ]),
+            ], 2, .5),
             new Ghost(2, true, [
                 new Point((WIDTH * .25), 350),
                 new Point((WIDTH * .75), 350)
@@ -220,7 +223,7 @@ var main_levels = [
             new Ghost(2, false, [
                 new Point((WIDTH * .1), (HEIGHT * .2)),
                 new Point((WIDTH * .9), (HEIGHT * .2))
-            ]),
+            ], 1, .66),
             new Ghost(2, false, [
                 new Point((WIDTH * .2), (HEIGHT * .45)),
                 new Point((WIDTH * .8), (HEIGHT * .45))
@@ -271,9 +274,7 @@ var main_levels = [
             new Ghost(2, false, [
                 new Point((WIDTH * .15), (HEIGHT * .5)),
                 new Point((WIDTH * .85), (HEIGHT * .5)),
-                new Point((WIDTH * .15), (HEIGHT * .5)),
-                new Point((WIDTH * .85), (HEIGHT * .5)),
-            ])
+            ], 2, .5)
         ],
         walls: [
             new Wall((WIDTH - 400) / 2, (HEIGHT * .6), 400, 50)
@@ -286,9 +287,9 @@ var main_levels = [
             new Ghost(2, false, [
                 new Point((WIDTH * .33), (HEIGHT * .125)),
                 new Point((WIDTH * .66), (HEIGHT * .125)),
-                new Point((WIDTH * .33), (HEIGHT * .125)),
-                new Point((WIDTH * .66), (HEIGHT * .125))
-            ]),
+//                new Point((WIDTH * .33), (HEIGHT * .125)),
+//                new Point((WIDTH * .66), (HEIGHT * .125))
+            ], 3),
             new Ghost(2, true, [
                 new Point(((WIDTH / 2) - 50), (HEIGHT * .3) - 50),
                 new Point(((WIDTH / 2) - 50), (((HEIGHT * .3) - 50) + ((HEIGHT * .3) + (HEIGHT * .3)) + 50) * .5),
@@ -300,9 +301,9 @@ var main_levels = [
             new Ghost(2, false, [
                 new Point((WIDTH * .66), (HEIGHT * .775)),
                 new Point((WIDTH * .33), (HEIGHT * .775)),
-                new Point((WIDTH * .66), (HEIGHT * .775)),
-                new Point((WIDTH * .33), (HEIGHT * .775))
-            ])
+//                new Point((WIDTH * .66), (HEIGHT * .775)),
+//                new Point((WIDTH * .33), (HEIGHT * .775))
+            ], 3)
         ],
         walls: [
             new Wall((WIDTH - 20) / 2, (HEIGHT * .3), 20, (HEIGHT * .3))
@@ -374,6 +375,116 @@ var main_levels = [
                 x: .5,
                 y: .15
             }]
+    },
+    {
+        bullets: 7,
+        ghosts: [
+            new Ghost(11, true, [
+//                new Point(WIDTH * .5, HEIGHT * .4),
+                new Point(WIDTH * .75, HEIGHT * .4),
+//                new Point(WIDTH * .5, HEIGHT * .4),
+                new Point(WIDTH * .25, HEIGHT * .4),
+            ], 1, .25),
+            new Ghost(22, false, [
+                new Point(WIDTH * .1, HEIGHT * .1),
+                new Point(WIDTH * .25, HEIGHT * .1),
+                new Point(WIDTH * .4, HEIGHT * .1),
+                new Point(WIDTH * .4, HEIGHT * .3),
+                new Point(WIDTH * .25, HEIGHT * .3),
+                new Point(WIDTH * .1, HEIGHT * .3),
+                new Point(WIDTH * .1, HEIGHT * .5),
+                new Point(WIDTH * .25, HEIGHT * .5),
+                new Point(WIDTH * .4, HEIGHT * .5),
+                new Point(WIDTH * .4, HEIGHT * .7),
+                new Point(WIDTH * .25, HEIGHT * .7),
+                new Point(WIDTH * .1, HEIGHT * .7),
+            ]),
+            new Ghost(22, false, [
+                new Point(WIDTH * .9, HEIGHT * .1),
+                new Point(WIDTH * .75, HEIGHT * .1),
+                new Point(WIDTH * .6, HEIGHT * .1),
+                new Point(WIDTH * .6, HEIGHT * .3),
+                new Point(WIDTH * .75, HEIGHT * .3),
+                new Point(WIDTH * .9, HEIGHT * .3),
+                new Point(WIDTH * .9, HEIGHT * .5),
+                new Point(WIDTH * .75, HEIGHT * .5),
+                new Point(WIDTH * .6, HEIGHT * .5),
+                new Point(WIDTH * .6, HEIGHT * .7),
+                new Point(WIDTH * .75, HEIGHT * .7),
+                new Point(WIDTH * .9, HEIGHT * .7),
+            ])
+        ],
+        walls: [
+            new Wall(WIDTH * .33, HEIGHT * .8, WIDTH * .33, 20),
+            new Wall(10, HEIGHT * .8, WIDTH * .2, 20),
+            new Wall((WIDTH * .8) - 10, HEIGHT * .8, WIDTH * .2, 20),
+        ],
+        labels: []
+    },
+    {
+        bullets: 9,
+        ghosts: [
+            new Ghost(11, false, [
+                new Point(20, HEIGHT * .2),
+                new Point((20 + (WIDTH * .5)) / 2, HEIGHT * .2),
+                new Point(WIDTH * .5, HEIGHT * .2),
+                new Point(WIDTH * .5, HEIGHT * .55),
+                new Point(WIDTH * .5, HEIGHT * .2),
+                new Point(((WIDTH - 20) + (WIDTH * .5)) / 2, HEIGHT * .2),
+                new Point(WIDTH - 20, HEIGHT * .2),
+            ], .5, .5),
+            new Ghost(21, true, [
+                new Point((WIDTH * .25) - 50, HEIGHT * .33),
+                new Point((WIDTH * .25) + 50, HEIGHT * .33),
+                new Point((WIDTH * .25) + 50, HEIGHT * .43),
+                new Point((WIDTH * .25) - 50, HEIGHT * .43),
+            ]),
+            new Ghost(21, true, [
+                new Point((WIDTH * .25) - 50, HEIGHT * .56),
+                new Point((WIDTH * .25) + 50, HEIGHT * .56),
+                new Point((WIDTH * .25) + 50, HEIGHT * .66),
+                new Point((WIDTH * .25) - 50, HEIGHT * .66),
+            ]),
+            new Ghost(21, true, [
+                new Point((WIDTH * .75) + 50, HEIGHT * .33),
+                new Point((WIDTH * .75) - 50, HEIGHT * .33),
+                new Point((WIDTH * .75) - 50, HEIGHT * .43),
+                new Point((WIDTH * .75) + 50, HEIGHT * .43),
+            ]),
+            new Ghost(21, true, [
+                new Point((WIDTH * .75) + 50, HEIGHT * .56),
+                new Point((WIDTH * .75) - 50, HEIGHT * .56),
+                new Point((WIDTH * .75) - 50, HEIGHT * .66),
+                new Point((WIDTH * .75) + 50, HEIGHT * .66),
+            ])
+        ],
+        walls: [
+            new Wall((WIDTH - 75) / 2, HEIGHT * .6, 75, 75, true),
+            new Wall((WIDTH * .25) - 25, (HEIGHT * .43) - 25, 50, 50),
+            new Wall((WIDTH * .25) - 25, (HEIGHT * .66) - 25, 50, 50),
+            new Wall((WIDTH * .75) - 25, (HEIGHT * .43) - 25, 50, 50),
+            new Wall((WIDTH * .75) - 25, (HEIGHT * .66) - 25, 50, 50),
+        ],
+        labels: []
+    },
+    {
+        bullets: 10,
+        ghosts: [
+            new Ghost(11, false, [
+                new Point(10, HEIGHT * .2),
+                new Point(WIDTH - 10, HEIGHT * .2),
+            ], .33, .33),
+            new Ghost(22, false, [
+                new Point(WIDTH - 10, HEIGHT * .4),
+                new Point(10, HEIGHT * .4),
+            ], 1, .33),
+            new Ghost(23, false, [
+                new Point(10, HEIGHT * .6),
+                new Point(WIDTH - 10, HEIGHT * .6),
+            ], 1, .33)
+        ],
+        walls: [],
+        labels: []
     }
 ];
 

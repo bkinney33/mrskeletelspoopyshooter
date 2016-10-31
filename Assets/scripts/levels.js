@@ -395,7 +395,7 @@ var main_levels = [
     {
         bullets: 15,
         ghosts: [
-            new Ghost(11, false, [
+            new Ghost(12, false, [
                 new Point(20, HEIGHT * .2),
                 new Point((20 + (WIDTH * .5)) / 2, HEIGHT * .2),
                 new Point(WIDTH * .5, HEIGHT * .2),

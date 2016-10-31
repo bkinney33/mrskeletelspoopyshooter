@@ -402,6 +402,10 @@ function gameLoop() {
                                 stage.addChild(replacement.obj);
                                 replacement.obj.currentFrame = ghost.obj.currentFrame;
                                 stage.removeChild(ghost.obj);
+                                var w;
+                                for (w = 0; w < levels[current_level].walls.length; w++) {
+                                    stage.setChildIndex(levels[current_level].walls[w].obj, stage.getNumChildren() - 1);
+                                }
                             }
                         }
                     }

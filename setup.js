@@ -12,6 +12,53 @@ manifest = [
         src: "scripts/vars" + jsEnd
     },
     {
+        src: "scripts/ndgmr.Collision" + jsEnd
+    },
+    {
+        src: "images/h_bone.png",
+        id: "h_bone"
+    },
+    {
+        src: "images/v_bone.png",
+        id: "v_bone"
+    },
+    {
+        src: "images/s_bone.png",
+        id: "s_bone"
+    },
+    {
+        src: "images/tombstone.png",
+        id: "tombstone"
+    },
+    {
+        src: "images/boo1.png",
+        id: "white_ghost"
+    },
+    {
+        src: "images/boo2.png",
+        id: "blue_ghost"
+    },
+    {
+        src: "images/boo3.png",
+        id: "yellow_ghost"
+    },
+    {
+        src: "images/boo4.png",
+        id: "orange_ghost"
+    },
+    {
+        src: "sounds/loser.wav",
+        id: "loser"
+    },
+    {
+        src: "sounds/main_menu.wav",
+        id: "main"
+    },
+    {
+        src: "sounds/loop.wav",
+        id: "loop_music"
+    },
+    {
         src: "scripts/levels" + jsEnd
     },
     {
@@ -55,13 +102,17 @@ manifest = [
         id: "paused"
     },
     {
-        src: "sounds/loser.mp3",
-        id: "loser"
+        src: "images/audiosprite.png",
+        id: "mutebutton"
     },
     /*Sprite Assets and JS below this line*/
     {
         src: "images/skeltal.png",
         id: "skeltal_sheet"
+    },
+    {
+        src: "images/doot.png",
+        id: "doot"
     }
 ];
 
@@ -84,10 +135,7 @@ function handleProgress() {
 }
 
 function handleComplete() {
-
-    backgroundImage = queue.getResult("background");
-    //    treesImage = queue.getResult("trees");
-    //    groundImage = queue.getResult("ground");
+    //    backgroundImage = queue.getResult("background");
     loadProgressLabel.text = "Loading complete click to start";
     stage.update();
 }
@@ -100,6 +148,11 @@ function loadComplete(evt) {
     gameoverScreen = new createjs.Bitmap(queue.getResult("gameover"));
     levelupimg = new createjs.Bitmap(queue.getResult("levelupimg"));
     pauseScreen = new createjs.Bitmap(queue.getResult("paused"));
+    doot = new createjs.Bitmap(queue.getResult("doot"));
+
+    menuMusic = createjs.Sound.createInstance("main");
+    loopMusic = createjs.Sound.createInstance("loop_music");
+    loser = createjs.Sound.createInstance("loser");
 
     player._SpriteSheet = new createjs.SpriteSheet({
         images: [queue.getResult("skeltal_sheet")],
@@ -139,7 +192,6 @@ function loadComplete(evt) {
             shoot: 26
         }
     });
-
 
     stage.addChild(backgroundScreen);
     stage.addChild(titleScreen);

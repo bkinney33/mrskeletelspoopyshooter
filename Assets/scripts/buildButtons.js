@@ -97,7 +97,7 @@ function addPlayButton() {
         instructionScreen.visible = false;
         back.visible = false;
         levels = (secret) ? secret_levels : main_levels;
-        current_level = ((DEVMODE)?levels.length-1:0);
+        current_level = ((DEVMODE) ? levels.length - 1 : 0);
         DEVMODE = secret = false;
         //        //levels = secret_levels;
         //        levels = main_levels;
@@ -141,7 +141,7 @@ function addResumeButton() {
     resume.setBounds(0, 0, wid, hei);
     var bnd = resume.getBounds();
     resume.x = (WIDTH - bnd.width) / 2;
-    resume.y = (HEIGHT - bnd.height) *.45;
+    resume.y = (HEIGHT - bnd.height) * .45;
     resume.addChild(btnResume, resumeText);
 
     resume.on("click", function (evt) {
@@ -237,7 +237,7 @@ function addBackButton() {
     back.setBounds(0, 0, wid, hei);
     var bnd = back.getBounds();
     back.x = (WIDTH - bnd.width) / 2;
-    back.y = b3y;
+    back.y = (HEIGHT - bnd.height) - 10;
     back.addChild(btnBack, BackText);
 
     back.on("click", function (evt) {
@@ -385,32 +385,36 @@ function addTutorialButton() {
 }
 
 function addMuteSprite() {
-    //    var data = {
-    //        images: ["Assets/images/audiosprite.png"],
-    //        frames: {width: 50, height: 50},
-    //        animations: {
-    //            playing: 0,
-    //            muted: 1
-    //        }
-    //    };
-    //    var spriteSheet = new createjs.SpriteSheet(data);
-    //    var muteButton = new createjs.Sprite(spriteSheet, "playing");
-    //    
-    //    //replace sprite with image(s)
-    //    
-    //    stage.addChild(muteButton);
-    //    
-    //    muteButton.x = 50;
-    //    muteButton.y = 520;
-    //    
-    //    muteButton.addEventListener("click", function(){
-    //        muted = !muted;
-    //        if(muted){
-    //            muteButton.gotoAndPlay("muted");
-    //        } else {
-    //            muteButton.gotoAndPlay("playing");
-    //        }
-    //    });
+    var data = {
+        images: [queue.getResult("mutebutton")],
+        frames: {
+            width: 250,
+            height: 250
+        },
+        animations: {
+            playing: 0,
+            muted: 1
+        }
+    };
+    var spriteSheet = new createjs.SpriteSheet(data);
+    muteButton = new createjs.Sprite(spriteSheet, "playing");
+    var size = 35;
+    muteButton.scaleX = (size / muteButton.getBounds().width);
+    muteButton.scaleY = (size / muteButton.getBounds().height);
+    //replace sprite with image(s)
+
+    stage.addChild(muteButton);
+    muteButton.x = 50;
+    muteButton.y = (HEIGHT - size) - 5;
+
+    muteButton.addEventListener("click", function () {
+        muted = !muted;
+        if (muted) {
+            muteButton.gotoAndPlay("muted");
+        } else {
+            muteButton.gotoAndPlay("playing");
+        }
+    });
 }
 
 function addButtons() {

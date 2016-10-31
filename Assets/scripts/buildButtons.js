@@ -389,7 +389,9 @@ function addMuteSprite() {
         images: [queue.getResult("mutebutton")],
         frames: {
             width: 250,
-            height: 250
+            height: 250,
+            regX: 125,
+            regY: 125
         },
         animations: {
             playing: 0,

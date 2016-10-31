@@ -17,7 +17,7 @@ function setup() {
     labels = new createjs.Container();
     p = 0;
     var i;
-    if (levels[current_level].labels.length > 0) {
+    if (!(levels[current_level].labels === undefined)) {
         for (i = 0; i < levels[current_level].labels.length; i++) {
             var lab = levels[current_level].labels[i];
             var bnd = lab.obj.getBounds();
@@ -128,6 +128,8 @@ function gameLoop() {
         ground.y = HEIGHT - groundHeight;
         ground.x = (WIDTH - (gWidth)) / 2;
         stage.addChild(ground);
+        //muteButton.y = (HEIGHT - groundHeight);
+        muteButton.y = HEIGHT - (groundHeight / 2);
         ground.visible = false;
         var size = 25;
         player.obj = new createjs.Sprite(player._SpriteSheet);

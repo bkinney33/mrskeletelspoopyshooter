@@ -162,8 +162,7 @@ var main_levels = [
             new Ghost(2, false, [new Point((WIDTH * .25), 200), new Point((WIDTH * .75), 200)]),
             new Ghost(2, false, [new Point((WIDTH * .25), 400), new Point((WIDTH * .75), 400)])
         ],
-        walls: [],
-        labels: []
+        walls: []
     },
     {
         bullets: 6,
@@ -196,7 +195,7 @@ var main_levels = [
             new Wall(3 * (WIDTH * .25), 0, (WIDTH * .25), (HEIGHT - 100)),
             new Wall((WIDTH - 60) / 2, (HEIGHT * .66), 60, 60, true)
         ],
-        labels: []
+
     },
     {
         bullets: 5,
@@ -215,7 +214,7 @@ var main_levels = [
                 ])
         ],
         walls: [],
-        labels: []
+
     },
     {
         bullets: 5,
@@ -238,7 +237,7 @@ var main_levels = [
             new Wall(25, (((HEIGHT * .2) + (HEIGHT * .45)) / 2) - 20, 300, 40),
             new Wall(((WIDTH - 300) / 2), (((HEIGHT * .45) + (HEIGHT * .7)) / 2) - 20, 300, 40)
         ],
-        labels: []
+
     },
     {
         bullets: 2,
@@ -279,7 +278,7 @@ var main_levels = [
         walls: [
             new Wall((WIDTH - 400) / 2, (HEIGHT * .6), 400, 50)
         ],
-        labels: []
+
     },
     {
         bullets: 5,
@@ -308,7 +307,7 @@ var main_levels = [
         walls: [
             new Wall((WIDTH - 20) / 2, (HEIGHT * .3), 20, (HEIGHT * .3))
         ],
-        labels: []
+
     },
     {
         bullets: 5,
@@ -330,7 +329,7 @@ var main_levels = [
             new Wall((WIDTH * .60), (HEIGHT * .25), (WIDTH * .33), 50),
             new Wall((WIDTH * .09), (HEIGHT * .6), (WIDTH * .33), 50)
         ],
-        labels: []
+
     },
     {
         bullets: 5,
@@ -419,7 +418,7 @@ var main_levels = [
             new Wall(10, HEIGHT * .8, WIDTH * .2, 20),
             new Wall((WIDTH * .8) - 10, HEIGHT * .8, WIDTH * .2, 20),
         ],
-        labels: []
+
     },
     {
         bullets: 9,
@@ -465,7 +464,7 @@ var main_levels = [
             new Wall((WIDTH * .75) - 25, (HEIGHT * .43) - 25, 50, 50),
             new Wall((WIDTH * .75) - 25, (HEIGHT * .66) - 25, 50, 50),
         ],
-        labels: []
+
     },
     {
         bullets: 10,
@@ -484,7 +483,13 @@ var main_levels = [
             ], 1, .33)
         ],
         walls: [],
-        labels: []
+
+    },
+    {
+        bullets: 25,
+        ghosts: [],
+        walls: [],
+
     }
 ];
 
@@ -719,7 +724,7 @@ var secret_levels = [
             ])
     ],
         walls: [],
-        labels: []
+
     },
     {
         bullets: 50,
@@ -843,7 +848,7 @@ var secret_levels = [
         walls: [
             new Wall((WIDTH - 40) / 2, 35, 40, 55)
         ],
-        labels: []
+
     }
 ];
 //putting the level into an array makes it easier to go from one to the next, and storing all the level information in an object makes rendering the level easier

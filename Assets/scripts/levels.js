@@ -93,6 +93,7 @@ function Ghost(type, loop, points, speed, p) {
         this.obj.scaleY = (50 / bnd.width);
         break;
     }
+    this.loop = ((this.type % 10 <= 3) ? this.loop : false);
     this.obj.y = this.points[0].y;
     this.obj.x = this.points[0].x;
     this.alive = true;
@@ -273,7 +274,7 @@ var main_levels = [
             new Ghost(2, false, [
                 new Point((WIDTH * .15), (HEIGHT * .5)),
                 new Point((WIDTH * .85), (HEIGHT * .5)),
-            ], 2, .5)
+            ], 4, .5)
         ],
         walls: [
             new Wall((WIDTH - 400) / 2, (HEIGHT * .6), 400, 50)
@@ -332,40 +333,11 @@ var main_levels = [
 
     },
     {
-        bullets: 5,
-        ghosts: [
-            /*3 tracking ghosts, medium -> large -> small*/
-            new Ghost(5, false, [
-                new Point(1, HEIGHT * .25),
-                new Point(WIDTH - 1, HEIGHT * .25)
-                ]),
-            new Ghost(6, false, [
-                new Point(1, HEIGHT * .475),
-                new Point(WIDTH - 1, HEIGHT * .475)
-                ]),
-            new Ghost(14, false, [
-                new Point(1, HEIGHT * .7),
-                new Point(WIDTH - 1, HEIGHT * .7)
-                ])
-        ],
-        walls: [
-            new Wall(0, (HEIGHT * .3625) - (25), (WIDTH * .45), 50),
-            new Wall(WIDTH - (WIDTH * .45), (HEIGHT * .3625) - (25), (WIDTH * .45), 50),
-            new Wall(0, (HEIGHT * .5875) - (25), (WIDTH * .45), 50),
-            new Wall(WIDTH - (WIDTH * .45), (HEIGHT * .5875) - (25), (WIDTH * .45), 50)
-        ],
-        labels: [
-            {
-                obj: new createjs.Text("Some Ghosts only move with you", "32px bonehead", "#ae00ff"),
-                x: .5,
-                y: .15
-            }]
-    },
-    {
         bullets: 7,
         ghosts: [
             new Ghost(22, false, [new Point(WIDTH * .33, HEIGHT * .5)]),
-            new Ghost(32, false, [new Point(WIDTH * .66, HEIGHT * .5)])
+            new Ghost(11, false, [new Point(WIDTH * .5, HEIGHT * .5)]),
+            new Ghost(32, false, [new Point(WIDTH * .66, HEIGHT * .5)]),
         ],
         walls: [],
         labels: [
@@ -473,7 +445,7 @@ var main_levels = [
                 new Point(10, HEIGHT * .2),
                 new Point(WIDTH - 10, HEIGHT * .2),
             ], .33, .33),
-            new Ghost(22, false, [
+            new Ghost(32, false, [
                 new Point(WIDTH - 10, HEIGHT * .4),
                 new Point(10, HEIGHT * .4),
             ], 1, .33),
@@ -486,11 +458,59 @@ var main_levels = [
 
     },
     {
-        bullets: 25,
-        ghosts: [],
+        bullets: 8,
+        ghosts: [
+            new Ghost(1, true, [
+                new Point(WIDTH * .45, (HEIGHT * .55) - (HEIGHT * .1)),
+                new Point(WIDTH * .55, (HEIGHT * .55) - (HEIGHT * .1)),
+                new Point(WIDTH * .55, (HEIGHT * .45) - (HEIGHT * .1)),
+                new Point(WIDTH * .45, (HEIGHT * .45) - (HEIGHT * .1)),
+            ], 1, .5 * .25),
+            new Ghost(32, true, [
+                new Point(WIDTH * .35, (HEIGHT * .65) - (HEIGHT * .1)),
+                new Point(WIDTH * .65, (HEIGHT * .65) - (HEIGHT * .1)),
+                new Point(WIDTH * .65, (HEIGHT * .35) - (HEIGHT * .1)),
+                new Point(WIDTH * .35, (HEIGHT * .35) - (HEIGHT * .1)),
+            ], 1.5, .5 * .25),
+            new Ghost(22, true, [
+                new Point(WIDTH * .2, (HEIGHT * .8) - (HEIGHT * .1)),
+                new Point(WIDTH * .8, (HEIGHT * .8) - (HEIGHT * .1)),
+                new Point(WIDTH * .8, (HEIGHT * .2) - (HEIGHT * .1)),
+                new Point(WIDTH * .2, (HEIGHT * .2) - (HEIGHT * .1)),
+            ], 2, .5 * .25)
+        ],
         walls: [],
 
-    }
+    },
+    {
+        bullets: 7,
+        ghosts: [
+            new Ghost(5, false, [
+                new Point(1, HEIGHT * .25),
+                new Point(WIDTH - 1, HEIGHT * .25)
+                ]),
+            new Ghost(26, false, [
+                new Point(1, HEIGHT * .475),
+                new Point(WIDTH - 1, HEIGHT * .475)
+                ]),
+            new Ghost(14, false, [
+                new Point(1, HEIGHT * .7),
+                new Point(WIDTH - 1, HEIGHT * .7)
+                ])
+        ],
+        walls: [
+            new Wall(0, (HEIGHT * .3625) - (25), (WIDTH * .45), 50),
+            new Wall(WIDTH - (WIDTH * .45), (HEIGHT * .3625) - (25), (WIDTH * .45), 50),
+            new Wall(0, (HEIGHT * .5875) - (25), (WIDTH * .45), 50),
+            new Wall(WIDTH - (WIDTH * .45), (HEIGHT * .5875) - (25), (WIDTH * .45), 50)
+        ],
+        labels: [
+            {
+                obj: new createjs.Text("Some Ghosts only move with you", "32px bonehead", "#ae00ff"),
+                x: .5,
+                y: .15
+            }]
+    },
 ];
 
 var demo_levels = [

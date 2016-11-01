@@ -60,7 +60,7 @@ function setup() {
     var b = levelLabel.getBounds();
     levelLabel.x = (WIDTH - b.width) / 2;
 
-    bulletLabel.text = "Bullets Left: " + player.bullets;
+    bulletLabel.text = "Doots Left: " + player.bullets;
     var bb = bulletLabel.getBounds();
     bulletLabel.x = (WIDTH - bb.width) * .2;
     bulletLabel.y = (HEIGHT - (groundHeight / 2)) - (bb.height / 2);
@@ -268,7 +268,7 @@ function gameLoop() {
         if (J_DOWN && !cheated) {
             cheated = true;
             player.bullets = 100;
-            bulletLabel.text = "Bullets Left: " + player.bullets;
+            bulletLabel.text = "Doots Left: " + player.bullets;
         }
 
         if (L_SHIFT_DOWN) {
@@ -322,14 +322,15 @@ function gameLoop() {
         if ((SPACE_DOWN || W_DOWN || UP_DOWN) && player.shootDelay === 0 && player.bullets > 0) {
             player.obj.gotoAndPlay("shoot");
             var blt = doot.clone();
+            blt.gotoAndPlay("run");
             var bb = blt.getBounds();
-            blt.x = player.obj.x - (bb.width / 2);
+            blt.x = player.obj.x - blt.scaleX * (bb.width / 2);
             blt.y = (player.obj.y - player.obj.getBounds().height) - 5;
             stage.addChild(blt);
             bullets.push(blt);
             player.shootDelay = DELAY_SHOT;
             player.bullets--;
-            bulletLabel.text = "Bullets Left: " + player.bullets;
+            bulletLabel.text = "Doots Left: " + player.bullets;
         }
 
         player.shootDelay -= ((player.shootDelay === 0) ? 0 : 1);

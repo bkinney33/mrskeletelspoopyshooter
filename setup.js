@@ -1,6 +1,6 @@
 var date = new Date();
-var cacheVersion = date.getTime();
-//var cacheVersion = 1;
+//var cacheVersion = date.getTime();
+var cacheVersion = "1.0.0";
 //replace date.getTime() above with the version number when ready to upload. This will prevent caching during development but will allow it for a particular version number when uploaded.
 var jsEnd = ".js?a=" + cacheVersion;
 var stage;

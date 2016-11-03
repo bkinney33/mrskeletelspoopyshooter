@@ -321,6 +321,7 @@ function gameLoop() {
 
         if ((SPACE_DOWN || W_DOWN || UP_DOWN) && player.shootDelay === 0 && player.bullets > 0) {
             player.obj.gotoAndPlay("shoot");
+            dootFX.play();
             var blt = doot.clone();
             blt.gotoAndPlay("run");
             var bb = blt.getBounds();
@@ -367,6 +368,39 @@ function gameLoop() {
                             if (ghost.alive) {
                                 tempScore += 10;
                                 scoreLabel.text = "Score: " + tempScore;
+
+                                if (ghost.type < 20 || ghost.type > 40) {
+                                    deathFX.play();
+                                    ghost.alive = false;
+                                    ghost.obj.gotoAndPlay("dead");
+                                    ghost.obj.alpha = 0.5;
+                                } else {
+                                    hitFX.play();
+                                    var replacement = null;
+                                    switch (Math.floor(ghost.type / 10)) {
+                                    case 2:
+                                        replacement = new Ghost(ghost.type - 20, ghost.loop, ghost.points);
+                                        ghosts[g] = replacement;
+                                        break;
+                                    case 3:
+                                        replacement = new Ghost(ghost.type - 10, ghost.loop, ghost.points);
+                                        ghosts[g] = replacement;
+                                        break;
+                                    }
+                                    replacement.p = ghost.p;
+                                    replacement.path = ghost.path;
+                                    replacement.forward = ghost.forward;
+                                    replacement.speed = ghost.speed;
+                                    replacement.obj.x = ghost.obj.x;
+                                    replacement.obj.y = ghost.obj.y;
+                                    stage.addChild(replacement.obj);
+                                    replacement.obj.currentFrame = ghost.obj.currentFrame;
+                                    stage.removeChild(ghost.obj);
+                                    var w;
+                                    for (w = 0; w < levels[current_level].walls.length; w++) {
+                                        stage.setChildIndex(levels[current_level].walls[w].obj, stage.getNumChildren() - 1);
+                                    }
+                                }
                             }
 
                             if (firstHit) {
@@ -378,36 +412,6 @@ function gameLoop() {
                             }
 
                             bullets.splice(b, 1);
-                            if (ghost.type < 20 || ghost.type > 40) {
-                                ghost.alive = false;
-                                ghost.obj.gotoAndPlay("dead");
-                                ghost.obj.alpha = 0.5;
-                            } else {
-                                var replacement = null;
-                                switch (Math.floor(ghost.type / 10)) {
-                                case 2:
-                                    replacement = new Ghost(ghost.type - 20, ghost.loop, ghost.points);
-                                    ghosts[g] = replacement;
-                                    break;
-                                case 3:
-                                    replacement = new Ghost(ghost.type - 10, ghost.loop, ghost.points);
-                                    ghosts[g] = replacement;
-                                    break;
-                                }
-                                replacement.p = ghost.p;
-                                replacement.path = ghost.path;
-                                replacement.forward = ghost.forward;
-                                replacement.speed = ghost.speed;
-                                replacement.obj.x = ghost.obj.x;
-                                replacement.obj.y = ghost.obj.y;
-                                stage.addChild(replacement.obj);
-                                replacement.obj.currentFrame = ghost.obj.currentFrame;
-                                stage.removeChild(ghost.obj);
-                                var w;
-                                for (w = 0; w < levels[current_level].walls.length; w++) {
-                                    stage.setChildIndex(levels[current_level].walls[w].obj, stage.getNumChildren() - 1);
-                                }
-                            }
                         }
                     }
                 }

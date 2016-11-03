@@ -59,6 +59,18 @@ manifest = [
         id: "loop_music"
     },
     {
+        src: "sounds/doot.wav",
+        id: "dootFX"
+    },
+    {
+        src: "sounds/death.wav",
+        id: "deathFX"
+    },
+    {
+        src: "sounds/hit.wav",
+        id: "hitFX"
+    },
+    {
         src: "scripts/levels" + jsEnd
     },
     {
@@ -182,6 +194,9 @@ function loadComplete(evt) {
     menuMusic = createjs.Sound.createInstance("main");
     loopMusic = createjs.Sound.createInstance("loop_music");
     loser = createjs.Sound.createInstance("loser");
+    dootFX = createjs.Sound.createInstance("dootFX");
+    deathFX = createjs.Sound.createInstance("deathFX");
+    hitFX = createjs.Sound.createInstance("hitFX");
 
     player._SpriteSheet = new createjs.SpriteSheet({
         images: [queue.getResult("skeltal_sheet")],
@@ -254,7 +269,7 @@ function createLoadingBar() {
     loadingBarContainer.x = Math.round(WIDTH / 2 - loadingBarWidth / 2);
     loadingBarContainer.y = (HEIGHT / 2) - (loadingBarHeight / 2);
     stage.addChild(loadingBarContainer);
-    loadProgressLabel = new createjs.Text("", "18px Verdana", "#777");
+    loadProgressLabel = new createjs.Text("", "18px Verdana", "#F80");
     loadProgressLabel.lineWidth = 200;
     loadProgressLabel.textAlign = "center";
     loadProgressLabel.x = WIDTH / 2;

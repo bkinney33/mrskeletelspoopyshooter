@@ -259,7 +259,7 @@ function createLoadingBar() {
     loadingBarContainer = new createjs.Container();
     loadingBarHeight = 50;
     loadingBarWidth = 450;
-    LoadingBarColor = createjs.Graphics.getRGB(0, 0, 0);
+    LoadingBarColor = createjs.Graphics.getRGB(50, 50, 50);
     loadingBar = new createjs.Shape();
     loadingBar.graphics.beginFill(LoadingBarColor).drawRect(0, 0, 1, loadingBarHeight).endFill();
     frame = new createjs.Shape();

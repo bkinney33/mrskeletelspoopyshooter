@@ -34,6 +34,7 @@ function addMainMenuButton() {
         instructionScreen.visible = false;
         retry.visible = false;
         resume.visible = false;
+        creditsContainer.visible = true;
         pauseScreen.visible = false;
         back.visible = false;
         stage.removeChild(scoreLabel);
@@ -95,6 +96,7 @@ function addPlayButton() {
         tutorial.visible = false;
         rules.visible = false;
         instructionScreen.visible = false;
+        creditsContainer.visible = false;
         back.visible = false;
         levels = (secret) ? secret_levels : main_levels;
         current_level = ((DEVMODE) ? levels.length - 1 : 0);
@@ -175,7 +177,6 @@ function addResumeButton() {
 }
 
 function addRulesButton() {
-
     var padding = 5;
     var wid = 100,
         hei = 40;
@@ -199,6 +200,7 @@ function addRulesButton() {
         //console.log("Clicked");
         back.visible = true;
         play.visible = false;
+        creditsContainer.visible = false;
         rules.visible = false;
         tutorial.visible = false;
         instructionScreen.visible = true;
@@ -246,6 +248,8 @@ function addBackButton() {
         //console.log("Clicked");
         back.visible = false;
         play.visible = true;
+        creditsContainer.visible = true;
+        credits.visible = false;
         rules.visible = true;
         tutorial.visible = true;
         instructionScreen.visible = false;
@@ -361,6 +365,7 @@ function addTutorialButton() {
         tutorial.visible = false;
         rules.visible = false;
         instructionScreen.visible = false;
+        creditsContainer.visible = false;
         back.visible = false;
         gamestate = RUN;
         createjs.Sound.stop();
@@ -382,6 +387,54 @@ function addTutorialButton() {
     });
 
     //    tutorial.visible = false;
+}
+
+function addCreditsButton() {
+    var padding = 5;
+    var wid = 100,
+        hei = 40;
+    var btnCredits = new createjs.Shape();
+    btnCredits.graphics.beginFill('#000').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
+    var creditsText = new createjs.Text("Credits", "24px bonehead", "#F80");
+    var b = creditsText.getBounds();
+    creditsText.x = (wid - b.width) / 2;
+    creditsText.y = (hei - b.height) / 2;
+
+    creditsContainer = new createjs.Container();
+    creditsContainer.setBounds(0, 0, wid, hei);
+    var bnd = creditsContainer.getBounds();
+    creditsContainer.x = (WIDTH - bnd.width) * .95;
+    creditsContainer.y = (HEIGHT - bnd.height) * .95;
+    creditsContainer.addChild(btnCredits, creditsText);
+
+    creditsContainer.on("click", function (evt) {
+        btnCredits.graphics.beginFill('#444').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
+        creditsText.color = "#FFF";
+        //console.log("Clicked");
+        back.visible = true;
+        rules.visible = false;
+        play.visible = false;
+        creditsContainer.visible = false;
+        tutorial.visible = false;
+        credits.visible = true;
+    });
+    creditsContainer.on("mouseover", function (evt) {
+        btnCredits.graphics.beginFill('#444').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
+        creditsText.color = "#FFF";
+        //console.log("Mouse Over");
+    });
+    creditsContainer.on("mouseout", function (evt) {
+        btnCredits.graphics.beginFill('#000').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
+        creditsText.color = "#F80";
+        //console.log("Mouse Out");
+    });
+    creditsContainer.on("mousedown", function (evt) {
+        btnCredits.graphics.beginFill('#ccc').beginStroke("#868686").setStrokeStyle(3, "round").drawRoundRect(0, 0, wid, hei, roundness);
+        creditsText.color = "#000";
+        //console.log("Mouse Down");
+    });
+
+    stage.addChild(creditsContainer);
 }
 
 function addMuteSprite() {
@@ -425,6 +478,7 @@ function addButtons() {
     addPlayButton();
     addRetryButton();
     addResumeButton();
+    addCreditsButton();
     resume.visible = false;
     addRulesButton();
     addBackButton();

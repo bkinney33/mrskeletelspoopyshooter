@@ -1,6 +1,6 @@
 var date = new Date();
-//var cacheVersion = date.getTime();
-var cacheVersion = "1.0.0";
+var cacheVersion = date.getTime();
+//var cacheVersion = "1.0.0";
 //replace date.getTime() above with the version number when ready to upload. This will prevent caching during development but will allow it for a particular version number when uploaded.
 var jsEnd = ".js?a=" + cacheVersion;
 var stage;
@@ -45,6 +45,10 @@ manifest = [
     {
         src: "images/boo4.png",
         id: "orange_ghost"
+    },
+    {
+        src: "images/Credits.jpg",
+        id: "credits"
     },
     {
         src: "sounds/loser.wav",
@@ -164,6 +168,7 @@ function loadComplete(evt) {
     gameoverScreen = new createjs.Bitmap(queue.getResult("gameover"));
     levelupimg = new createjs.Bitmap(queue.getResult("levelupimg"));
     pauseScreen = new createjs.Bitmap(queue.getResult("paused"));
+    credits = new createjs.Bitmap(queue.getResult("credits"));
     //    doot = new createjs.Bitmap(queue.getResult("doot"));
     doot = new createjs.Sprite(new createjs.SpriteSheet({
         images: [queue.getResult("doot")],
@@ -239,9 +244,11 @@ function loadComplete(evt) {
 
     stage.addChild(backgroundScreen);
     stage.addChild(titleScreen);
+    stage.addChild(credits);
     stage.addChild(instructionScreen);
     stage.addChild(gameoverScreen);
     stage.addChild(pauseScreen);
+    credits.visible = false;
     pauseScreen.visible = false;
     instructionScreen.visible = false;
     gameoverScreen.visible = false;
